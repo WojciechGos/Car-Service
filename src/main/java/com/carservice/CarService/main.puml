@@ -1,0 +1,113 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Producent {
+
+}
+
+class Store {
+
+    List<SparePart> parts
+
+    find()
+    createOrder()
+
+}
+
+
+class SparePart {
+    Long id
+    String producerName
+    String name
+    double price
+
+    removePart()
+    update()
+
+}
+
+class CostEstimate {
+    Long id
+    String name
+    Vehicle vehicle
+    List<SpareParts> parts
+
+    Double price
+}
+
+
+
+
+class Commission {
+    Long id
+    Date createDate
+    Date endDate
+    Worker worker
+
+
+
+    finish()
+}
+
+class Vehicle {
+    Long id
+    String brand
+    String model
+    String vin
+    String registrationNumber
+    String productionYear
+    String description
+}
+
+
+enum WorkerRole {
+    MECHANIC
+    MANAGER
+    RECEPTIONIST
+    WAREHOUSEMAN
+}
+
+class Worker {
+    WorkerRole role
+
+}
+
+class Order {
+
+}
+
+class Client {
+}
+
+
+
+
+
+'
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+
+
+
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml
