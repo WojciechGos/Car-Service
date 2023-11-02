@@ -1,5 +1,43 @@
 @startuml
 'https://plantuml.com/class-diagram
+class Order {
+    - Long id
+    - Worker worker
+    - LocalDate orderDate
+    - LocalDate receiveDate
+    - BigDecimal cost
+    - List<OrderItem> orderItem
+    - OrderStatus status
+    - Supplier supplier
+
+    'For warehouseman to set status COMPLETED
+    receiveOrder()
+    addSparePart()
+    deleteSparePart()
+    modifyAmountOfSpareParts()
+}
+
+class Commission {
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    'pokrywa sie z podnosnikami
+    - LocalDate dateOfWork
+    - Worker worker
+    - Client client
+    - CostEstimate costEstimate
+    - CommissionStatus status
+    - BigDecimal actualCost
+    - Vehicle vehicle
+    - String description
+    - WorkStation station
+    - List<SparePart> usedSpareParts
+
+
+    updateStatus()
+    finish()
+
+}
 
 
 class Producent {
@@ -13,7 +51,6 @@ class Supplier {
     - Long id
     - String name
 }
-
 
 
 class CostEstimate {
@@ -36,23 +73,12 @@ enum CommissionStatus{
     CANCELED
 }
 
-class Commission {
-    - Long id
-    - LocalDate createDate
-    - LocalDate endDate
-    'pokrywa sie z podnosnikami
-    - LocalDate dateOfWork
-    - Worker worker
-    - Client client
-    - CostEstimate costEstimate
-    - CommissionStatus status
-    - BigDecimal actualCost
-    - Vehicle vehicle
-    - String description
-
-    updateStatus()
-    finish()
+'car lift station
+class WorkStation {
+    - Integer positionNumber
 }
+
+
 
 class Vehicle {
     Long id
@@ -112,22 +138,6 @@ class SparePart extends Item {
     decreaseStock()
 }
 
-class Order {
-    - Long id
-    - Worker worker
-    - LocalDate orderDate
-    - LocalDate receiveDate
-    - BigDecimal cost
-    - List<OrderItem> orderItem
-    - OrderStatus status
-    - Supplier supplier
-
-    'For warehouseman to set status COMPLETED
-    receiveOrder()
-    addSparePart()
-    deleteSparePart()
-    modifyAmountOfSpareParts()
-}
 
 
 
@@ -150,6 +160,8 @@ Commission *-- Worker
 Commission *-- Vehicle
 Commission *-- CostEstimate
 Commission *-- CommissionStatus
+Commission o-- WorkStation
+Commission o-- Order
 
 Client --* Vehicle
 
