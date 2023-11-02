@@ -62,6 +62,7 @@ class Vehicle {
     String registrationNumber
     String productionYear
     String description
+    Client client
 }
 
 
@@ -119,6 +120,7 @@ class Order {
     - BigDecimal cost
     - List<OrderItem> orderItem
     - OrderStatus status
+    - Supplier supplier
 
     'For warehouseman to set status COMPLETED
     receiveOrder()
@@ -135,9 +137,7 @@ class Client {
     - String surname
     - String email
     - String phoneNumber
-    - List<Vehicle> vehicles
 
-    addVehicle()
 }
 
 
@@ -148,8 +148,21 @@ Item *-- Producent
 Commission *-- Client
 Commission *-- Worker
 Commission *-- Vehicle
+Commission *-- CostEstimate
+Commission *-- CommissionStatus
 
-Client *-- Vehicle
+Client --* Vehicle
+
+CostEstimate o-- SparePart
+
+Order *-- OrderItem
+Order *-- OrderStatus
+Order *-- Supplier
+
+Worker *-- WorkerRole
+
+
+Warehouse o-- SparePart
 
 'abstract class AbstractList
 'abstract AbstractCollection
