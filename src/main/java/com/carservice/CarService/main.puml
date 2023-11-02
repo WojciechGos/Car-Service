@@ -3,50 +3,54 @@
 
 
 class Producent {
+    - Long id
+    - String name
 
+    getProductsList()
 }
 
-class Store {
-
-    List<SparePart> parts
-
-    find()
-    createOrder()
-
+class Supplier {
+    - Long id
+    - String name
 }
 
 
-class SparePart {
-    Long id
-    String producerName
-    String name
-    double price
-
-    removePart()
-    update()
-
-}
 
 class CostEstimate {
-    Long id
-    String name
-    Vehicle vehicle
-    List<SpareParts> parts
+    - Long id
+    - String name
+    - LocalDate createDate
+    - List<SpareParts> parts
+    - BigDecimal laborPrice
+    - BigDecimal totalCost
 
-    Double price
+    calculateSparePartsCost()
+    calculateTotalCost()
 }
 
 
-
+enum CommissionStatus{
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
 
 class Commission {
-    Long id
-    Date createDate
-    Date endDate
-    Worker worker
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    'pokrywa sie z podnosnikami
+    - LocalDate dateOfWork
+    - Worker worker
+    - Client client
+    - CostEstimate costEstimate
+    - CommissionStatus status
+    - BigDecimal actualCost
+    - Vehicle vehicle
+    - String description
 
-
-
+    updateStatus()
     finish()
 }
 
@@ -70,44 +74,100 @@ enum WorkerRole {
 
 class Worker {
     WorkerRole role
+}
 
+enum OrderStatus {
+    CREATING
+    NEW
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
+
+'Our warehouse
+class Warehouse {
+    - Long id
+    - List<SparePart> parts
+
+    find()
+    createOrder()
+}
+
+abstract class Item {
+    - Long id
+    - String name
+    - BigDecimal price
+    - Integer quantity
+    - Producent producent
+}
+'Spare part that is not in warehouse
+class OrderItem extends Item {
+    moveToWarehouse()
+}
+'Spare part that is actually in warehouse
+class SparePart extends Item {
+    removePart()
+    increaseStock()
+    decreaseStock()
 }
 
 class Order {
+    - Long id
+    - Worker worker
+    - LocalDate orderDate
+    - LocalDate receiveDate
+    - BigDecimal cost
+    - List<OrderItem> orderItem
+    - OrderStatus status
 
+    'For warehouseman to set status COMPLETED
+    receiveOrder()
+    addSparePart()
+    deleteSparePart()
+    modifyAmountOfSpareParts()
 }
+
+
 
 class Client {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
+    - List<Vehicle> vehicles
+
+    addVehicle()
 }
 
 
 
 
+Item *-- Producent
 
-'
+Commission *-- Client
+Commission *-- Worker
+Commission *-- Vehicle
+
+Client *-- Vehicle
+
 'abstract class AbstractList
 'abstract AbstractCollection
 'interface List
 'interface Collection
-
-
-
+'
+'
+'
 'List <|-- AbstractList
 'Collection <|-- AbstractCollection
-
+'
 'Collection <|- List
 'AbstractCollection <|- AbstractList
 'AbstractList <|-- ArrayList
-
+'
 'class ArrayList {
 'Object[] elementData
 'size()
-'}
-
-'enum TimeUnit {
-'DAYS
-'HOURS
-'MINUTES
 '}
 
 @enduml
