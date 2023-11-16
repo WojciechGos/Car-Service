@@ -1,4 +1,4 @@
-@startuml
+ @startuml
 'https://plantuml.com/class-diagram
 class Order {
     - Long id
@@ -162,6 +162,7 @@ Commission *-- CostEstimate
 Commission *-- CommissionStatus
 Commission o-- WorkStation
 Commission o-- Order
+Commission o-- SparePart
 
 Client --* Vehicle
 
@@ -172,7 +173,6 @@ Order *-- OrderStatus
 Order *-- Supplier
 
 Worker *-- WorkerRole
-
 
 Warehouse o-- SparePart
 

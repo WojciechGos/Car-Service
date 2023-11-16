@@ -1,0 +1,87 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Worker extends Human{
+    - List<Commission> commissions
+}
+
+class Commission {
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    - Vehicle vehicle
+    - Client client
+
+}
+
+
+class Warehouse{
+    - Long id
+    - List<SparePart> parts
+}
+
+class SparePart {
+    removePart()
+    increaseStock()
+    decreaseStock()
+}
+
+abstract class Human {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
+}
+
+
+
+class Client  extends Human{
+
+}
+
+class Vehicle {
+    - Long id
+    - String brand
+    - String model
+    - String vin
+    - String registrationNumber
+    - String productionYear
+    - String description
+    - Client client
+}
+
+
+
+enum CommissionStatus{
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    RECEIVED
+    CANCELED
+}
+
+enum WorkerRole {
+    MECHANIC
+    MANAGER
+    RECEPTIONIST
+    WAREHOUSEMAN
+}
+
+
+
+
+Commission --o Worker
+Commission *-- Client
+Commission *-- Vehicle
+Commission *-- CommissionStatus
+Worker --> Warehouse
+
+Client --* Vehicle
+
+Worker *-- WorkerRole
+
+Warehouse *-- SparePart
+SparePart --o Commission
+
+@enduml
