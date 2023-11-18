@@ -8,19 +8,33 @@ abstract class PersonalData {
     - String email
     - String phoneNumber
 }
-
+class Client  extends PersonalData{
+    List<Commission> commissions
+}
 abstract class Worker extends PersonalData{
     WorkerRole role
 }
 
-
 class Receptionist extends Worker{
-    createClient()
-    createVehicle()
-    createCommission()
+     createClient()
+     createVehicle()
+     createCommission()
 
+ }
+
+
+
+class Warehouse{
+    - List<SparePart, int> partStock
 }
-class Manager extends Worker {
+
+class SparePart {
+    removePart()
+    increaseStock()
+    decreaseStock()
+}
+
+class Warehouseman extends Worker {
 
 }
 
@@ -29,13 +43,16 @@ class Contractor extends Worker {
 
 }
 
-class Warehouseman extends Worker {
+class Manager extends Worker {
 
 }
 
-class Client  extends PersonalData{
-    List<Commission> commissions
-}
+
+
+
+
+
+
 
 
 
@@ -54,15 +71,6 @@ class Commission {
 
 
 
-class Warehouse{
-    - List<SparePart, int> partStock
-}
-
-class SparePart {
-    removePart()
-    increaseStock()
-    decreaseStock()
-}
 
 
 
@@ -74,7 +82,6 @@ class Vehicle {
     - String vin
     - String registrationNumber
     - String productionYear
-    - String description
 }
 
 
@@ -117,6 +124,7 @@ Commission *-- CommissionStatus
 Warehouseman --> Warehouse : "add spare parts"
 
 Receptionist --> Commission : "creates"
+
 Manager --> Commission : "assign"
 Worker *-- WorkerRole
 
