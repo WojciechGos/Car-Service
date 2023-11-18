@@ -35,6 +35,8 @@ class SparePart {
 }
 
 class Warehouseman extends Worker {
+    updateStock()
+    addSpareParts()
 
 }
 
@@ -44,16 +46,8 @@ class Contractor extends Worker {
 }
 
 class Manager extends Worker {
-
+    assignCommissionToWorker()
 }
-
-
-
-
-
-
-
-
 
 
 class Commission {
@@ -62,17 +56,13 @@ class Commission {
     - LocalDate endDate
     - Vehicle vehicle
     - Client client
+    - Contractor contractor
     - Cost costEstimate
     - Cost totalCost
     - String description
 
     updateStatus()
 }
-
-
-
-
-
 
 
 class Vehicle {
@@ -121,14 +111,14 @@ Cost --* Commission
 Commission *-- Client
 Commission *-- Vehicle
 Commission *-- CommissionStatus
-Warehouseman --> Warehouse : "add spare parts"
+Warehouseman --> Warehouse : "manage"
 
 Receptionist --> Commission : "creates"
 
 Manager --> Commission : "assign"
 Worker *-- WorkerRole
 
-
+Contractor o-o Commission
 Contractor --> Commission : "performs"
 
 
