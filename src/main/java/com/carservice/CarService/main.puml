@@ -5,7 +5,7 @@ class Order {
     - Worker worker
     - LocalDate orderDate
     - LocalDate receiveDate
-    - BigDecimal cost
+    - BigDecimal costasd
     - List<OrderItem> orderItem
     - OrderStatus status
     - Supplier supplier
