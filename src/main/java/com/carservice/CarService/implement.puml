@@ -1,9 +1,43 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class Worker extends Human{
-    - List<Commission> commissions
+abstract class PersonalData {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
 }
+
+abstract class Worker extends PersonalData{
+    WorkerRole role
+}
+
+
+class Receptionist extends Worker{
+    createClient()
+    createVehicle()
+    createCommission()
+
+}
+class Manager extends Worker {
+
+}
+
+class Contractor extends Worker {
+    List<Commission> commissions
+
+}
+
+class Warehouseman extends Worker {
+
+}
+
+class Client  extends PersonalData{
+    List<Commission> commissions
+}
+
+
 
 class Commission {
     - Long id
@@ -11,13 +45,17 @@ class Commission {
     - LocalDate endDate
     - Vehicle vehicle
     - Client client
+    - Cost costEstimate
+    - Cost totalCost
+    - String description
 
+    updateStatus()
 }
 
 
+
 class Warehouse{
-    - Long id
-    - List<SparePart> parts
+    - List<SparePart, int> partStock
 }
 
 class SparePart {
@@ -26,19 +64,8 @@ class SparePart {
     decreaseStock()
 }
 
-abstract class Human {
-    - Long id
-    - String name
-    - String surname
-    - String email
-    - String phoneNumber
-}
 
 
-
-class Client  extends Human{
-
-}
 
 class Vehicle {
     - Long id
@@ -48,7 +75,6 @@ class Vehicle {
     - String registrationNumber
     - String productionYear
     - String description
-    - Client client
 }
 
 
@@ -61,6 +87,18 @@ enum CommissionStatus{
     CANCELED
 }
 
+class Cost {
+    - Long id
+    - String name
+    - LocalDate createDate
+    - List<SpareParts> parts
+    - BigDecimal laborPrice
+    - BigDecimal totalCost
+
+    calculateSparePartsCost()
+    calculateTotalCost()
+}
+
 enum WorkerRole {
     MECHANIC
     MANAGER
@@ -69,19 +107,22 @@ enum WorkerRole {
 }
 
 
+Warehouse *-- SparePart
+SparePart --o Cost
+Cost --* Commission
 
-
-Commission --o Worker
 Commission *-- Client
 Commission *-- Vehicle
 Commission *-- CommissionStatus
-Worker --> Warehouse
+Warehouseman --> Warehouse : "add spare parts"
 
-Client --* Vehicle
-
+Receptionist --> Commission : "creates"
+Manager --> Commission : "assign"
 Worker *-- WorkerRole
 
-Warehouse *-- SparePart
-SparePart --o Commission
+
+Contractor --> Commission : "performs"
+
+
 
 @enduml
