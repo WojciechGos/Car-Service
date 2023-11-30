@@ -13,6 +13,11 @@ class Client  extends PersonalData{
 }
 abstract class Worker extends PersonalData{
     - BigDecimal salaryPerHour
+    - WorkSchedule schedule
+}
+
+class WorkSchedule {
+    - List<LocalDate> workDays
 }
 
 class Receptionist extends Worker{
@@ -45,7 +50,7 @@ class SparePart extends Item {
 }
 
 class Warehouseman extends Worker {
-    orderPalette()
+    issueSparePart(SparePart sp)
 }
 
 'Mechanic/Vanisher/Elecrtician
@@ -144,21 +149,37 @@ enum OrderStatus {
     CANCELLED
 }
 
+enum PaymentStatus{
+    INCOMPLETE
+    EXPIRED
+    FAILED
+    CANCELED
+    SUCCEEDED
+    REFUNDED
+    PARTIALLY_REFUNDED
+    PENDING
+    VOID
+    CHARGEBACK
+}
+
 class Payment {
     - Long id
     - BigDecimal payment
     - Client client
+    - PaymentStatus status
     payUsingCard()
     payUsingCash()
     payUsingBlik()
 }
 
 Client --> Payment : "Pay"
+PaymentStatus --* Payment
 
 Warehouse *-- SparePart
 SparePart --o Cost
 Cost --* Commission
 
+Manager --> WorkSchedule : "manage"
 
 SparePartState --* SparePart
 Item *-- Producent
@@ -179,6 +200,8 @@ Order --o Warehouse
 Contractor o-o Commission
 Contractor --> Commission : "performs"
 Order *-- OrderItem
+
+Worker *-- WorkSchedule
 
 
 @enduml
