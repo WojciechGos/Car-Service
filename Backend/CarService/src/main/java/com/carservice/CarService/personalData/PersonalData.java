@@ -8,20 +8,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@MappedSuperclass
 @NoArgsConstructor
-@Entity
 public abstract class PersonalData {
-    @SequenceGenerator(
-            name = "client_sequence",
-            sequenceName = "client_sequence",
-            allocationSize = 1
-    )
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "client_sequence"
-    )
-    private Long id;
     @NotBlank
     private String name;
     @NotBlank
@@ -31,9 +20,12 @@ public abstract class PersonalData {
     )
     private String email;
     private String phoneNumber;
-
-    public PersonalData(Long id, String name, String surname, String email, String phoneNumber) {
-        this.id = id;
+    public PersonalData(
+            String name,
+            String surname,
+            String email,
+            String phoneNumber
+    ) {
         this.name = name;
         this.surname = surname;
         this.email = email;
