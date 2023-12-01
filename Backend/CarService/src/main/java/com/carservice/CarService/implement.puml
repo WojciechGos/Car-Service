@@ -1,0 +1,126 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class PersonalData {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
+}
+class Client  extends PersonalData{
+    List<Commission> commissions
+}
+abstract class Worker extends PersonalData{
+    WorkerRole role
+}
+
+class Receptionist extends Worker{
+     createClient()
+     createVehicle()
+     createCommission()
+
+ }
+
+
+
+class Warehouse{
+    - List<SparePart, int> partStock
+}
+
+class SparePart {
+    removePart()
+    increaseStock()
+    decreaseStock()
+}
+
+class Warehouseman extends Worker {
+    updateStock()
+    addSpareParts()
+
+}
+
+class Contractor extends Worker {
+    List<Commission> commissions
+
+}
+
+class Manager extends Worker {
+    assignCommissionToWorker()
+}
+
+
+class Commission {
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    - Vehicle vehicle
+    - Client client
+    - Contractor contractor
+    - Cost costEstimate
+    - Cost totalCost
+    - String description
+
+    updateStatus()
+}
+
+
+class Vehicle {
+    - Long id
+    - String brand
+    - String model
+    - String vin
+    - String registrationNumber
+    - String productionYear
+}
+
+
+
+enum CommissionStatus{
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    RECEIVED
+    CANCELED
+}
+
+class Cost {
+    - Long id
+    - String name
+    - LocalDate createDate
+    - List<SpareParts> parts
+    - BigDecimal laborPrice
+    - BigDecimal totalCost
+
+    calculateSparePartsCost()
+    calculateTotalCost()
+}
+
+enum WorkerRole {
+    MECHANIC
+    MANAGER
+    RECEPTIONIST
+    WAREHOUSEMAN
+}
+
+
+Warehouse *-- SparePart
+SparePart --o Cost
+Cost --* Commission
+
+Commission *-- Client
+Commission *-- Vehicle
+Commission *-- CommissionStatus
+Warehouseman --> Warehouse : "manage"
+
+Receptionist --> Commission : "creates"
+
+Manager --> Commission : "assign"
+Worker *-- WorkerRole
+
+Contractor o-o Commission
+Contractor --> Commission : "performs"
+
+
+
+@enduml
