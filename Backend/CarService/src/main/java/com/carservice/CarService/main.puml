@@ -1,0 +1,194 @@
+@startuml
+'https://plantuml.com/class-diagram
+class Order {
+    - Long id
+    - Worker worker
+    - LocalDate orderDate
+    - LocalDate receiveDate
+    - BigDecimal cost
+    - List<OrderItem> orderItem
+    - OrderStatus status
+    - Supplier supplier
+
+    'For warehouseman to set status COMPLETED
+    receiveOrder()
+    addSparePart()
+    deleteSparePart()
+    modifyAmountOfSpareParts()
+}
+
+class Commission {
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    'pokrywa sie z podnosnikami
+    - LocalDate dateOfWork
+    - Worker worker
+    - Client client
+    - CostEstimate costEstimate
+    - CommissionStatus status
+    - BigDecimal actualCost
+    - Vehicle vehicle
+    - String description
+    - WorkStation station
+    - List<SparePart> usedSpareParts
+
+
+    updateStatus()
+    finish()
+
+}
+
+
+class Producent {
+    - Long id
+    - String name
+}
+
+class Supplier {
+    - Long id
+    - String name
+}
+
+
+class CostEstimate {
+    - Long id
+    - String name
+    - LocalDate createDate
+    - List<SpareParts> parts
+    - BigDecimal laborPrice
+    - BigDecimal totalCost
+
+    calculateSparePartsCost()
+    calculateTotalCost()
+}
+
+
+enum CommissionStatus{
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
+
+'car lift station
+class WorkStation {
+    - Integer positionNumber
+}
+
+
+
+class Vehicle {
+    Long id
+    String brand
+    String model
+    String vin
+    String registrationNumber
+    String productionYear
+    String description
+    Client client
+}
+
+
+enum WorkerRole {
+    MECHANIC
+    MANAGER
+    RECEPTIONIST
+    WAREHOUSEMAN
+}
+
+class Worker {
+    WorkerRole role
+}
+
+enum OrderStatus {
+    CREATING
+    NEW
+    IN_PROGRESS
+    COMPLETED
+    CANCELED
+}
+
+'Our warehouse
+class Warehouse {
+    - Long id
+    - List<SparePart> parts
+
+    find()
+    createOrder()
+}
+
+abstract class Item {
+    - Long id
+    - String name
+    - BigDecimal price
+    - Integer quantity
+    - Producent producent
+}
+'Spare part that is not in warehouse
+class OrderItem extends Item {
+    moveToWarehouse()
+}
+'Spare part that is actually in warehouse
+class SparePart extends Item {
+    removePart()
+    increaseStock()
+    decreaseStock()
+}
+
+
+
+
+class Client {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
+
+}
+
+
+
+
+Item *-- Producent
+
+Commission *-- Client
+Commission *-- Worker
+Commission *-- Vehicle
+Commission *-- CostEstimate
+Commission *-- CommissionStatus
+
+Client --* Vehicle
+
+CostEstimate o-- SparePart
+
+Order *-- OrderItem
+Order *-- OrderStatus
+Order *-- Supplier
+
+Worker *-- WorkerRole
+
+
+Warehouse o-- SparePart
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <|- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+
+@enduml
