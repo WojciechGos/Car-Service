@@ -1,0 +1,207 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class PersonalData {
+    - Long id
+    - String name
+    - String surname
+    - String email
+    - String phoneNumber
+}
+class Client  extends PersonalData{
+    List<Commission> commissions
+}
+abstract class Worker extends PersonalData{
+    - BigDecimal salaryPerHour
+    - WorkSchedule schedule
+}
+
+class WorkSchedule {
+    - List<LocalDate> workDays
+}
+
+class Receptionist extends Worker{
+     createClient()
+     createVehicle()
+     createCommission()
+     editClient(Client c)
+     editVehicle(Vehicle v)
+     editCommission(Commission c)
+ }
+
+class Warehouse{
+    - List<SparePart, int> partStock
+    - List<Order> orders
+
+    receiveOrder(Order o)
+    removeSparePart(SparePart sp)
+    increaseStock(SparePart sp, int number)
+    decreaseStock(SparePart sp, int number)
+    checkStockAvailability(SparePart sp)
+}
+enum SparePartState{
+    DAMAGED,
+    WHOLE,
+    MISS
+}
+
+class SparePart extends Item {
+    SparePartState sps
+}
+
+class Warehouseman extends Worker {
+    issueSparePart(SparePart sp)
+}
+
+'Mechanic/Vanisher/Elecrtician
+class Contractor extends Worker {
+    List<Commission> commissions
+
+}
+
+class Manager extends Worker {
+    assignCommissionToWorker(Worker w, Commission c)
+}
+
+
+class Commission {
+    - Long id
+    - LocalDate createDate
+    - LocalDate endDate
+    - Vehicle vehicle
+    - Client client
+    - Contractor contractor
+    - Cost costEstimate
+    - Cost totalCost
+    - String description
+
+    updateStatus()
+}
+
+
+class Vehicle {
+    - Long id
+    - String brand
+    - String model
+    - String vin
+    - String registrationNumber
+    - String productionYear
+}
+
+
+
+enum CommissionStatus{
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    RECEIVED
+    CANCELED
+}
+
+class Cost {
+    - Long id
+    - String name
+    - LocalDate createDate
+    - List<SpareParts> parts
+    - BigDecimal laborPrice
+    - BigDecimal totalCost
+
+    calculateSparePartsCost()
+    calculateTotalCost()
+    calculateLaborCost()
+}
+
+class OrderItem extends Item{
+    - Double discount
+}
+class Order {
+    - Long id
+    - Worker worker
+    - LocalDate orderDate
+    - LocalDate receiveDate
+    - BigDecimal cost
+    - List<OrderItem> orderItem
+    - OrderStatus status
+    - Supplier supplier
+   - List<Commission> commissions
+    'For warehouseman to set status COMPLETED
+
+    addOrderItem(Order o)
+    deleteOrderItem(Order o)
+    modifyAmountOfOrderItem(Order o, int newQuantity)
+}
+abstract class Item {
+    - Long id
+    - String name
+    - BigDecimal price
+    - Integer quantity
+    - Producent producent
+}
+class Producent {
+    - Long id
+    - String name
+}
+enum OrderStatus {
+    CREATING
+    NEW
+    IN_PROGRESS
+    COMPLETED
+    CANCELLED
+}
+
+enum PaymentStatus{
+    INCOMPLETE
+    EXPIRED
+    FAILED
+    CANCELED
+    SUCCEEDED
+    REFUNDED
+    PARTIALLY_REFUNDED
+    PENDING
+    VOID
+    CHARGEBACK
+}
+
+class Payment {
+    - Long id
+    - BigDecimal payment
+    - Client client
+    - PaymentStatus status
+    payUsingCard()
+    payUsingCash()
+    payUsingBlik()
+}
+
+Client --> Payment : "Pay"
+PaymentStatus --* Payment
+
+Warehouse *-- SparePart
+SparePart --o Cost
+Cost --* Commission
+
+Manager --> WorkSchedule : "manage"
+
+SparePartState --* SparePart
+Item *-- Producent
+Order *-- OrderStatus
+Commission *-- Client
+Commission *-- Vehicle
+Commission --o Order
+Commission *-- CommissionStatus
+Commission --* Payment
+Warehouseman --> Warehouse : "manage"
+
+Receptionist --> Commission : "creates"
+
+Manager --> Commission : "assign"
+Manager --> Order : "order"
+Order --o Warehouse
+
+Contractor o-o Commission
+Contractor --> Commission : "performs"
+Order *-- OrderItem
+
+Worker *-- WorkSchedule
+
+
+@enduml
