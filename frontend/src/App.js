@@ -6,7 +6,7 @@ import { Route, Routes, Navigate } from "react-router-dom"
 import PATH from './paths';
 import Login from './pages/Authentication/Login';
 import Panel from './pages/Panel';
-
+import 'bootstrap/dist/css/bootstrap.css';
 function App() {
   return (
     <Routes>
