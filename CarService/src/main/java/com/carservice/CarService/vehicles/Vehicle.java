@@ -2,9 +2,15 @@ package com.carservice.CarService.vehicles;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Vehicle {
     @Id
@@ -22,12 +28,10 @@ public class Vehicle {
     private String model;
     private String vin;
     private String registrationNumber;
-    private Date registrationDate;
+    private String registrationDate;
 
-    public Vehicle() {
-    }
 
-    public Vehicle(Long id, String brand, String model, String vin, String registrationNumber, Date registrationDate) {
+    public Vehicle(Long id, String brand, String model, String vin, String registrationNumber, String registrationDate) {
         this.id = id;
         this.brand = brand;
         this.model = model;
@@ -35,7 +39,13 @@ public class Vehicle {
         this.registrationNumber = registrationNumber;
         this.registrationDate = registrationDate;
     }
-
+    public Vehicle(String brand, String model, String vin, String registrationNumber, String registrationDate) {
+        this.brand = brand;
+        this.model = model;
+        this.vin = vin;
+        this.registrationNumber = registrationNumber;
+        this.registrationDate = registrationDate;
+    }
 
 
 }

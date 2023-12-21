@@ -32,4 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-Backend/CarService/src/main/resources/application.properties
+src/main/resources/application.properties
