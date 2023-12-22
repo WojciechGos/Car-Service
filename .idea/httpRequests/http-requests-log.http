@@ -1,0 +1,18 @@
+GET http://localhost:5001/api/v1/vehicles
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8.1)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-21T231406.200.json
+
+###
+
+GET http://localhost:5001/api/v1/clients
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.8.1)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-12-21T231354.200.json
+
+###
+

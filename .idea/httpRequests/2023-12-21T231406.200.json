@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "brand": "opel",
+    "model": "astra",
+    "vin": "123123",
+    "registrationNumber": "TKI 5VF5",
+    "registrationDate": "2001"
+  },
+  {
+    "id": 2,
+    "brand": "bmw",
+    "model": "idk",
+    "vin": "1231234",
+    "registrationNumber": "KLI 20639",
+    "registrationDate": "2007"
+  }
+]
