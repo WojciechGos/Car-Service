@@ -8,7 +8,7 @@ import java.util.List;
 
 @Configuration
 public class ClientConfig {
-    @Bean
+    /*@Bean
     CommandLineRunner commandLineRunner(ClientRepository clientRepository){
         return args -> {
             Client wojtek = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");
@@ -18,5 +18,5 @@ public class ClientConfig {
                     List.of(wojtek, alex)
             );
         };
-    }
+    }*/
 }
