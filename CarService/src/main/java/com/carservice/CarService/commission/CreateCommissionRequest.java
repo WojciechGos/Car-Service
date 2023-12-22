@@ -1,11 +1,11 @@
 package com.carservice.CarService.commission;
 
 
-public record CreateCommissionRequest (
-    Long vehicle_id,
-    Long client_id,
-    Long worker_id,
-    String description
-){
+public record CreateCommissionRequest(
+        Long vehicleId,
+        Long clientId,
+        Long workerId,
+        String description
+) {
 
 }
