@@ -1,6 +1,7 @@
 package com.carservice.CarService.client;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
+import com.carservice.CarService.vehicles.Vehicle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,10 @@ public class ClientService {
 
     public void deleteClient(Long clientId) {
         clientRepository.deleteById(clientId);
+    }
+
+
+    public Client getClientEntityById(Long clientId){
+        return clientRepository.findById(clientId).orElseThrow(()-> new ResourceNotFoundException("Client with id [%s] not found".formatted(clientId)));
     }
 }
