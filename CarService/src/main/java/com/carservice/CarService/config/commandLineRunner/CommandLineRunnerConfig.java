@@ -7,6 +7,9 @@ import com.carservice.CarService.commission.CommissionBuilder;
 import com.carservice.CarService.commission.CommissionRepository;
 import com.carservice.CarService.cost.Cost;
 import com.carservice.CarService.cost.CostRepository;
+import com.carservice.CarService.payment.Payment;
+import com.carservice.CarService.payment.PaymentRepository;
+import com.carservice.CarService.payment.PaymentStatus;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerRepository;
 import com.carservice.CarService.sparePart.SparePart;
@@ -35,7 +38,8 @@ public class CommandLineRunnerConfig {
             VehicleRepository vehicleRepository,
             SparePartRepository sparePartRepository,
             CostRepository costRepository,
-            CommissionRepository commissionRepository
+            CommissionRepository commissionRepository,
+            PaymentRepository paymentRepository
             ){
         return args -> {
             addClients(clientRepository);
@@ -45,6 +49,7 @@ public class CommandLineRunnerConfig {
             addSpareParts(sparePartRepository, producerRepository);
             addCosts(costRepository, sparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
+            addPayments(paymentRepository, clientRepository);
         };
     }
 
@@ -202,5 +207,24 @@ public class CommandLineRunnerConfig {
                 .build();
 
         commissionRepository.saveAll(List.of(commission1, commission2));
+    }
+
+    private void addPayments(
+            PaymentRepository paymentRepository,
+            ClientRepository clientRepository
+    ) {
+        List<Client> clients = clientRepository.findAll();
+
+        Payment payment1 = new Payment();
+        payment1.setAmount(new BigDecimal("50.00"));
+        payment1.setClient(clients.get(0));
+        payment1.setPaymentStatus(PaymentStatus.PENDING);
+
+        Payment payment2 = new Payment();
+        payment2.setAmount(new BigDecimal("30.00"));
+        payment2.setClient(clients.get(1));
+        payment2.setPaymentStatus(PaymentStatus.EXPIRED);
+
+        paymentRepository.saveAll(List.of(payment1, payment2));
     }
 }
