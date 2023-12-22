@@ -53,6 +53,6 @@ public class ClientService {
 
 
     public Client getClientEntityById(Long clientId){
-        return clientRepository.findById(clientId).orElseThrow(()-> new ResourceNotFoundException("Vehicle with id [%s] not found".formatted(clientId)));
+        return clientRepository.findById(clientId).orElseThrow(()-> new ResourceNotFoundException("Client with id [%s] not found".formatted(clientId)));
     }
 }

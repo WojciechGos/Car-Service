@@ -25,15 +25,15 @@ public class CommissionService {
     }
 
     public Long createCommission(CreateCommissionRequest createCommissionRequest){
-
+        System.out.println("createCommission: "+ createCommissionRequest.vehicle_id());
         Vehicle vehicle = vehicleService.getVehicleEntityById(createCommissionRequest.vehicle_id());
         Client client = clientService.getClientEntityById(createCommissionRequest.client_id());
-        Worker contractor = workerService.getWorkerEntityById(createCommissionRequest.contractor_id());
+        Worker worker = workerService.getWorkerEntityById(createCommissionRequest.worker_id());
 
         Commission commission = CommissionBuilder.getBase()
                 .buildVehicle(vehicle)
                 .buildClient(client)
-                .buildWorker(contractor)
+                .buildWorker(worker)
                 .build();
 
         Commission savedCommission = commissionRepository.save(commission);

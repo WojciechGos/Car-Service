@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b80c578-2988-4371-b3a1-57e21b7011e4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/Commission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CreateCommissionRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/worker/WorkerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/client/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/client/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CommissionStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CreateCommissionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/commission/CreateCommissionRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/worker/WorkerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CarService/src/main/java/com/carservice/CarService/worker/WorkerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +25,7 @@
         <option value="UML Class" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -120,10 +117,10 @@
     <configuration name="generated-requests | #12" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="12" requestIdentifier="#12" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" requestIdentifier="#7" runType="Run single request">
+    <configuration name="generated-requests | #13" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="13" requestIdentifier="#13" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" requestIdentifier="#9" runType="Run single request">
+    <configuration name="generated-requests | #7" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="7" requestIdentifier="#7" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
@@ -149,11 +146,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.generated-requests | #7" />
+        <item itemvalue="HTTP Request.generated-requests | #13" />
         <item itemvalue="HTTP Request.generated-requests | #12" />
+        <item itemvalue="HTTP Request.generated-requests | #7" />
         <item itemvalue="HTTP Request.generated-requests | #11" />
         <item itemvalue="HTTP Request.generated-requests | #10" />
-        <item itemvalue="HTTP Request.generated-requests | #9" />
       </list>
     </recent_temporary>
   </component>
@@ -305,7 +302,15 @@
       <option name="project" value="LOCAL" />
       <updated>1703233484752</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="add: commission (create, get)">
+      <option name="closed" value="true" />
+      <created>1703248231955</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1703248231955</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,6 +347,7 @@
     <MESSAGE value="in progress: vehicle" />
     <MESSAGE value="add: vehicle controller" />
     <MESSAGE value="remove: application properties from gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove: application properties from gitignore" />
+    <MESSAGE value="add: commission (create, get)" />
+    <option name="LAST_COMMIT_MESSAGE" value="add: commission (create, get)" />
   </component>
 </project>

@@ -11,6 +11,6 @@ public class WorkerService {
     private final WorkerRepository workerRepository;
 
     public Worker getWorkerEntityById(Long workerId){
-        return workerRepository.findById(workerId).orElseThrow(()-> new ResourceNotFoundException("Vehicle with id [%s] not found".formatted(workerId)));
+        return workerRepository.findById(workerId).orElseThrow(()-> new ResourceNotFoundException("Worker with id [%s] not found".formatted(workerId)));
     }
 }

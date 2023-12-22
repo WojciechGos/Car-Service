@@ -47,7 +47,10 @@ public class VehicleService {
     }
 
     public Vehicle getVehicleEntityById(Long vehicleId){
-        return vehicleRepository.findById(vehicleId).orElseThrow(()-> new ResourceNotFoundException("Vehicle with id [%s] not found".formatted(vehicleId)));
+        System.out.println(vehicleId);
+        return vehicleRepository.findById(vehicleId).orElseThrow(()->
+            new ResourceNotFoundException("Vehicle with id [%s] not found".formatted(vehicleId))
+        );
     }
 
 
