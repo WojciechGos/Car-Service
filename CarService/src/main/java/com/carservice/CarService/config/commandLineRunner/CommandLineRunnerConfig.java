@@ -2,6 +2,8 @@ package com.carservice.CarService.config.commandLineRunner;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
+import com.carservice.CarService.cost.Cost;
+import com.carservice.CarService.cost.CostRepository;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerRepository;
 import com.carservice.CarService.sparePart.SparePart;
@@ -17,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Configuration
@@ -27,7 +30,8 @@ public class CommandLineRunnerConfig {
             ProducerRepository producerRepository,
             WorkerRepository workerRepository,
             VehicleRepository vehicleRepository,
-            SparePartRepository sparePartRepository
+            SparePartRepository sparePartRepository,
+            CostRepository costRepository
             ){
         return args -> {
             addClients(clientRepository);
@@ -35,6 +39,7 @@ public class CommandLineRunnerConfig {
             addVehicles(vehicleRepository);
             addWorkers(workerRepository);
             addSpareParts(sparePartRepository, producerRepository);
+            addCosts(costRepository, sparePartRepository);
         };
     }
 
@@ -141,4 +146,30 @@ public class CommandLineRunnerConfig {
                 List.of(brakePad, oilFilter, sparkPlug)
         );
     }
+
+    private void addCosts(
+            CostRepository costRepository,
+            SparePartRepository sparePartRepository
+    ) {
+        List<SparePart> spareParts = sparePartRepository.findAll();
+
+        Cost cost1 = new Cost(
+                "Cost 1",
+                LocalDate.now(),
+                spareParts.subList(0, 2),
+                new BigDecimal("50.00"),
+                new BigDecimal("0.00")
+        );
+
+        Cost cost2 = new Cost(
+                "Cost 2",
+                LocalDate.now(),
+                spareParts.subList(2, 3),
+                new BigDecimal("30.00"),
+                new BigDecimal("0.00")
+        );
+
+        costRepository.saveAll(List.of(cost1, cost2));
+    }
+
 }
