@@ -4,33 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b80c578-2988-4371-b3a1-57e21b7011e4" name="Changes" comment="add: vehicle controller">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/CarServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/client/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/client/ClientConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/client/ClientController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/client/ClientRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/client/ClientService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/exception/ResourceNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/implement.puml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/main.puml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/personalData/PersonalData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/scifi.puml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/vehicles/Vehicle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/java/com/carservice/CarService/vehicles/VehicleService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/CarService/src/test/java/com/carservice/CarService/CarServiceApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/cos" beforeDir="false" />
-    </list>
+    <list default="true" id="5b80c578-2988-4371-b3a1-57e21b7011e4" name="Changes" comment="add: vehicle controller" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,6 +34,13 @@
     &quot;assignee&quot;: &quot;WojciechGos&quot;
   }
 }</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="master" />
+      </list>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -92,7 +73,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/vehicles",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/Wojtek/Documents/java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -129,7 +110,20 @@
     <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" requestIdentifier="#9" runType="Run single request">
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CarServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="CarService" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.carservice.CarService.CarServiceApplication" />
