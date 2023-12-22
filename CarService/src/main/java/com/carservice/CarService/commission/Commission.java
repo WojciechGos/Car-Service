@@ -1,6 +1,7 @@
 package com.carservice.CarService.commission;
 
 import com.carservice.CarService.client.Client;
+import com.carservice.CarService.cost.Cost;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.worker.Worker;
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,16 +27,24 @@ public class Commission {
             generator = "commission_sequence"
     )
     private Long id;
-    private LocalDate createDate;
-    private LocalDate endDate;
+    private LocalDateTime createDate;
+    private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @JoinColumn(name = "vehicleId", nullable = false)
     private Vehicle vehicle;
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "clientId", nullable = false)
     private Client client;
     @ManyToOne
-    @JoinColumn(name = "worker_id", nullable = false)
+    @JoinColumn(name = "workerId", nullable = false)
     private Worker contractor;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private CommissionStatus commissionStatus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cost_estimate_id")
+    private Cost costEstimate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "total_cost_id")
+    private Cost totalCost;
 }

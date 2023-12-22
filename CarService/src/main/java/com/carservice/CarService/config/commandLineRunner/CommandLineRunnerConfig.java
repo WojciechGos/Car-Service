@@ -2,6 +2,9 @@ package com.carservice.CarService.config.commandLineRunner;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionBuilder;
+import com.carservice.CarService.commission.CommissionRepository;
 import com.carservice.CarService.cost.Cost;
 import com.carservice.CarService.cost.CostRepository;
 import com.carservice.CarService.producer.Producer;
@@ -31,7 +34,8 @@ public class CommandLineRunnerConfig {
             WorkerRepository workerRepository,
             VehicleRepository vehicleRepository,
             SparePartRepository sparePartRepository,
-            CostRepository costRepository
+            CostRepository costRepository,
+            CommissionRepository commissionRepository
             ){
         return args -> {
             addClients(clientRepository);
@@ -40,6 +44,7 @@ public class CommandLineRunnerConfig {
             addWorkers(workerRepository);
             addSpareParts(sparePartRepository, producerRepository);
             addCosts(costRepository, sparePartRepository);
+            addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
         };
     }
 
@@ -172,4 +177,30 @@ public class CommandLineRunnerConfig {
         costRepository.saveAll(List.of(cost1, cost2));
     }
 
+    public void addCommissions(
+            CommissionRepository commissionRepository,
+            VehicleRepository vehicleRepository,
+            ClientRepository clientRepository,
+            WorkerRepository workerRepository
+    ) {
+        List<Vehicle> vehicles = vehicleRepository.findAll();
+        List<Client> clients = clientRepository.findAll();
+        List<Worker> workers = workerRepository.findAll();
+
+        Commission commission1 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(0))
+                .buildClient(clients.get(0))
+                .buildWorker(workers.get(0))
+                .buildDescription("Commission 1")
+                .build();
+
+        Commission commission2 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(1))
+                .buildClient(clients.get(1))
+                .buildWorker(workers.get(1))
+                .buildDescription("Commission 2")
+                .build();
+
+        commissionRepository.saveAll(List.of(commission1, commission2));
+    }
 }

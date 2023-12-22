@@ -2,6 +2,7 @@ package com.carservice.CarService.commission;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientService;
+import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleService;
 import com.carservice.CarService.worker.Worker;
@@ -24,11 +25,17 @@ public class CommissionService {
         return commissionRepository.findAll();
     }
 
+    public Commission getCommissionById(Long commissionId) {
+        return commissionRepository.findById(commissionId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Commission with id [%s] not found.".formatted(commissionId)
+                ));
+    }
+
     public Long createCommission(CreateCommissionRequest createCommissionRequest){
-        System.out.println("createCommission: "+ createCommissionRequest.vehicle_id());
-        Vehicle vehicle = vehicleService.getVehicleEntityById(createCommissionRequest.vehicle_id());
-        Client client = clientService.getClientEntityById(createCommissionRequest.client_id());
-        Worker worker = workerService.getWorkerEntityById(createCommissionRequest.worker_id());
+        Vehicle vehicle = vehicleService.getVehicleEntityById(createCommissionRequest.vehicleId());
+        Client client = clientService.getClientEntityById(createCommissionRequest.clientId());
+        Worker worker = workerService.getWorkerEntityById(createCommissionRequest.workerId());
 
         Commission commission = CommissionBuilder.getBase()
                 .buildVehicle(vehicle)
@@ -41,4 +48,39 @@ public class CommissionService {
         return savedCommission.getId();
     }
 
+    public void updateCommission(Long commissionId, UpdateCommissionRequest updateCommissionRequest) {
+        Commission updatedCommission = commissionRepository.findById(commissionId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Commission with id [%s] not found.".formatted(commissionId)
+                ));
+
+        if(updateCommissionRequest.vehicleId() != null) {
+            Vehicle vehicle = vehicleService.getVehicleEntityById(updateCommissionRequest.vehicleId());
+            updatedCommission.setVehicle(vehicle);
+        }
+
+        if(updateCommissionRequest.clientId() != null) {
+            Client client = clientService.getClientEntityById(updateCommissionRequest.clientId());
+            updatedCommission.setClient(client);
+        }
+
+        if(updateCommissionRequest.workerId() != null) {
+            Worker worker = workerService.getWorkerEntityById(updateCommissionRequest.workerId());
+            updatedCommission.setContractor(worker);
+        }
+
+        if(updateCommissionRequest.description() != null) {
+            updatedCommission.setDescription(updateCommissionRequest.description());
+        }
+
+        if(updateCommissionRequest.commissionStatus() != null) {
+            updatedCommission.setCommissionStatus(updateCommissionRequest.commissionStatus());
+        }
+
+        commissionRepository.save(updatedCommission);
+    }
+
+    public void deleteCommission(Long commissionId) {
+        commissionRepository.deleteById(commissionId);
+    }
 }
