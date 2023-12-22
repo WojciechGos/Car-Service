@@ -16,9 +16,7 @@ import java.math.BigDecimal;
 public abstract class Item {
     @NotBlank
     private String name;
-    @NotBlank
     private BigDecimal price;
-    @NotBlank
     private Integer quantity;
     @ManyToOne
     @JoinColumn(name = "producer_id")

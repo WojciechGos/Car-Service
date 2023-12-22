@@ -4,6 +4,9 @@ import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerRepository;
+import com.carservice.CarService.sparePart.SparePart;
+import com.carservice.CarService.sparePart.SparePartRepository;
+import com.carservice.CarService.sparePart.SparePartState;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleRepository;
 import com.carservice.CarService.worker.Worker;
@@ -23,13 +26,15 @@ public class CommandLineRunnerConfig {
             ClientRepository clientRepository,
             ProducerRepository producerRepository,
             WorkerRepository workerRepository,
-            VehicleRepository vehicleRepository
+            VehicleRepository vehicleRepository,
+            SparePartRepository sparePartRepository
             ){
         return args -> {
             addClients(clientRepository);
             addProducers(producerRepository);
             addVehicles(vehicleRepository);
             addWorkers(workerRepository);
+            addSpareParts(sparePartRepository, producerRepository);
         };
     }
 
@@ -106,6 +111,34 @@ public class CommandLineRunnerConfig {
 
         workerRepository.saveAll(
                 List.of(jan, piotr, karol, maciej)
+        );
+    }
+
+    private void addSpareParts(SparePartRepository sparePartRepository, ProducerRepository producerRepository) {
+        SparePart brakePad = new SparePart(
+                "Brake Pad",
+                new BigDecimal("30.00"),
+                10,
+                producerRepository.findById(1L).orElse(null),
+                SparePartState.WHOLE
+        );
+        SparePart oilFilter = new SparePart(
+                "Oil Filter",
+                new BigDecimal("8.50"),
+                20,
+                producerRepository.findById(2L).orElse(null),
+                SparePartState.DAMAGED
+        );
+        SparePart sparkPlug = new SparePart(
+                "Spark Plug",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.MISS
+        );
+
+        sparePartRepository.saveAll(
+                List.of(brakePad, oilFilter, sparkPlug)
         );
     }
 }
