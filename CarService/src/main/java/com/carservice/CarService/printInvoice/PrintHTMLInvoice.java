@@ -18,6 +18,7 @@ public class PrintHTMLInvoice implements PrintInvoice {
             outputStream.write(htmlContent.getBytes());
 
             return outputStream.toByteArray();
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;
