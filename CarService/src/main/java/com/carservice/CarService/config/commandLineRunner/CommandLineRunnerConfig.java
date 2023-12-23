@@ -168,7 +168,7 @@ public class CommandLineRunnerConfig {
                 LocalDate.now(),
                 spareParts.subList(0, 2),
                 new BigDecimal("50.00"),
-                new BigDecimal("0.00")
+                new BigDecimal("70.00")
         );
 
         Cost cost2 = new Cost(
@@ -176,7 +176,7 @@ public class CommandLineRunnerConfig {
                 LocalDate.now(),
                 spareParts.subList(2, 3),
                 new BigDecimal("30.00"),
-                new BigDecimal("0.00")
+                new BigDecimal("80.00")
         );
 
         costRepository.saveAll(List.of(cost1, cost2));
