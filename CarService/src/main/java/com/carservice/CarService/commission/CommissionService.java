@@ -2,6 +2,8 @@ package com.carservice.CarService.commission;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientService;
+import com.carservice.CarService.cost.Cost;
+import com.carservice.CarService.cost.CostService;
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleService;
@@ -20,6 +22,7 @@ public class CommissionService {
     private final VehicleService vehicleService;
     private final ClientService clientService;
     private final WorkerService workerService;
+    private final CostService costService;
 
     public List<Commission> getAllCommissions(){
         return commissionRepository.findAll();
@@ -75,6 +78,16 @@ public class CommissionService {
 
         if(updateCommissionRequest.commissionStatus() != null) {
             updatedCommission.setCommissionStatus(updateCommissionRequest.commissionStatus());
+        }
+
+        if(updateCommissionRequest.costEstimateId() != null) {
+            Cost cost = costService.getCostById(updateCommissionRequest.costEstimateId());
+            updatedCommission.setCostEstimate(cost);
+        }
+
+        if(updateCommissionRequest.totalCostId() != null) {
+            Cost cost = costService.getCostById(updateCommissionRequest.totalCostId());
+            updatedCommission.setTotalCost(cost);
         }
 
         commissionRepository.save(updatedCommission);
