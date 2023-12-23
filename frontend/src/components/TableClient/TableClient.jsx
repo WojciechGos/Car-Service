@@ -1,18 +1,18 @@
 import React from "react"
 import Table from 'react-bootstrap/Table';
 
-const ClientTable = ()=>{
+const TableClient = ()=>{
 
     return (
 
-            <Table className="grayTable" bordered hover variant="secondary">
+      <Table className="grayTable" bordered hover variant="secondary" style={{ marginTop: "10px" }}>
       <thead>
         <tr>
-          <th>id</th>
-          <th>Name</th>
-          <th>Surname</th>
-          <th>E-mail</th>
-          <th>Phone</th>
+        <th>id</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>E-mail</th>
+            <th>Phone</th>
         </tr>
       </thead>
       <tbody>
@@ -39,9 +39,8 @@ const ClientTable = ()=>{
         </tr>
       </tbody>
     </Table>
-
        
     )
  
 }
-export default ClientTable
+export default TableClient

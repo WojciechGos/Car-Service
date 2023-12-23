@@ -8,6 +8,8 @@ import Login from './pages/Authentication/Login';
 import Client from './pages/Client';
 import Warehouse from './pages/Warehouse';
 import Commission from './pages/Commission';
+import Vehicle from './pages/Vehicle';
+import Order from './pages/Order';
 
 import 'bootstrap/dist/css/bootstrap.css';
 function App() {
@@ -17,7 +19,8 @@ function App() {
       <Route path={PATH.CLIENT} element={<Client />} />
       <Route path={PATH.WAREHOUSE} element={<Warehouse/>} />
       <Route path={PATH.COMMISSION} element={<Commission/>}/>
-
+      <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
+      <Route path={PATH.ORDER} element={<Order/>}/>
 
       <Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
     </Routes>

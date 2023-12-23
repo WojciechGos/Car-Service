@@ -1,6 +1,6 @@
 import Sidebar from "../components/Sidebar/SideBar"
-import Header from "../components/Header/Header"
-import ClientTable from "../components/ClientTable/ClientTable"
+import TableCommission from "../components/TableCommission/TableCommission"
+import HeaderCommission from "../components/HeaderCommission/HeaderCommission"
 
 const Commission = ()=>{
     return (
@@ -8,14 +8,11 @@ const Commission = ()=>{
             <Sidebar />
             
             <div>
-            <Header />
-           <ClientTable />
-           
+           <HeaderCommission />
+           <TableCommission />
            </div>
-        </div>
-       
-           
-            
+
+        </div> 
     )
 }
 

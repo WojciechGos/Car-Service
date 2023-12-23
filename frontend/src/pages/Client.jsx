@@ -1,6 +1,6 @@
 import Sidebar from "../components/Sidebar/SideBar"
-import Header from "../components/Header/Header"
-import ClientTable from "../components/ClientTable/ClientTable"
+import HeaderClient from "../components/HeaderClient/HeaderClient"
+import TableClient from "../components/TableClient/TableClient"
 
 const Client = ()=>{
     return (
@@ -8,8 +8,8 @@ const Client = ()=>{
             <Sidebar />
             
             <div>
-            <Header />
-           <ClientTable />
+            <HeaderClient />
+           <TableClient />
            
            </div>
         </div>
