@@ -12,7 +12,6 @@ import java.util.List;
 @RequestMapping(path="api/v1/commissions")
 public class CommissionController {
     private final CommissionService commissionService;
-
     @GetMapping
     public ResponseEntity<List<Commission>> getAllCommissions(){
         List<Commission> commissions = commissionService.getAllCommissions();
