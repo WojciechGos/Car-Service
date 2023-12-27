@@ -18,7 +18,7 @@ public abstract class PersonalData {
     @Column(
             unique = true
     )
-    private String email;
+    protected String email;
     private String phoneNumber;
     public PersonalData(
             String name,

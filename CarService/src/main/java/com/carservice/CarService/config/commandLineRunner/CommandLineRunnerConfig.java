@@ -23,6 +23,7 @@ import com.carservice.CarService.worker.WorkerRole;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -39,13 +40,14 @@ public class CommandLineRunnerConfig {
             SparePartRepository sparePartRepository,
             CostRepository costRepository,
             CommissionRepository commissionRepository,
-            PaymentRepository paymentRepository
+            PaymentRepository paymentRepository,
+            PasswordEncoder passwordEncoder
             ){
         return args -> {
             addClients(clientRepository);
             addProducers(producerRepository);
             addVehicles(vehicleRepository);
-            addWorkers(workerRepository);
+            addWorkers(workerRepository, passwordEncoder);
             addSpareParts(sparePartRepository, producerRepository);
             addCosts(costRepository, sparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
@@ -90,14 +92,15 @@ public class CommandLineRunnerConfig {
         );
     }
 
-    private void addWorkers(WorkerRepository workerRepository) {
+    private void addWorkers(WorkerRepository workerRepository, PasswordEncoder passwordEncoder) {
         Worker jan = new Worker(
                 "Jan",
                 "Marzec",
                 "jan@gmail.com",
                 "555666777",
                 new BigDecimal("20.50"),
-                WorkerRole.RECEPTIONIST
+                WorkerRole.ROLE_RECEPTIONIST,
+                passwordEncoder.encode("password1")
         );
         Worker piotr = new Worker(
                 "Piotr",
@@ -105,7 +108,8 @@ public class CommandLineRunnerConfig {
                 "piotr@gmail.com",
                 "111567345",
                 new BigDecimal("27.50"),
-                WorkerRole.MANAGER
+                WorkerRole.ROLE_MANAGER,
+                passwordEncoder.encode("password2")
         );
         Worker karol = new Worker(
                 "Karol",
@@ -113,7 +117,8 @@ public class CommandLineRunnerConfig {
                 "karol@gmail.com",
                 "333445554",
                 new BigDecimal("25.50"),
-                WorkerRole.CONTRACTOR
+                WorkerRole.ROLE_CONTRACTOR,
+                passwordEncoder.encode("password3")
         );
         Worker maciej = new Worker(
                 "Maciej",
@@ -121,7 +126,8 @@ public class CommandLineRunnerConfig {
                 "maciej@gmail.com",
                 "231453675",
                 new BigDecimal("24.50"),
-                WorkerRole.WAREHOUSEMAN
+                WorkerRole.ROLE_WAREHOUSEMAN,
+                passwordEncoder.encode("password4")
         );
 
         workerRepository.saveAll(
