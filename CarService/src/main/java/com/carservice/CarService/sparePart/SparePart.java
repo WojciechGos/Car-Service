@@ -39,4 +39,5 @@ public class SparePart extends Item {
         super(name, price, quantity, producer);
         this.sparePartState = sparePartState;
     }
+
 }

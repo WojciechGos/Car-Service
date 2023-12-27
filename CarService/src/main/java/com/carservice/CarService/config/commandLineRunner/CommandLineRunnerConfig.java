@@ -11,6 +11,7 @@ import com.carservice.CarService.sparePart.SparePartRepository;
 import com.carservice.CarService.sparePart.SparePartState;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleRepository;
+import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerRepository;
 import com.carservice.CarService.worker.WorkerRole;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Configuration
 public class CommandLineRunnerConfig {
+
     @Bean
     CommandLineRunner commandLineRunner(
             ClientRepository clientRepository,
@@ -140,6 +142,28 @@ public class CommandLineRunnerConfig {
                 50,
                 producerRepository.findById(3L).orElse(null),
                 SparePartState.MISS
+        );
+        SparePart sparkPlug2 = new SparePart(
+                "Spark Plug",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
+        );
+
+        SparePart sparePart1 = new SparePart(
+                "Engine",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
+        );
+        SparePart sparePart2 = new SparePart(
+                "Tire",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
         );
 
         sparePartRepository.saveAll(

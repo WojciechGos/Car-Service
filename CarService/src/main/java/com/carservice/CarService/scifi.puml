@@ -103,7 +103,6 @@ enum SparePartState{
     DAMAGED,
     WHOLE,
     MISS,
-    OK
 }
 
 
@@ -157,7 +156,7 @@ class WholesalerIPARTS {
 
 class WholesalerAdapterIPARTS extends WholesalerIPARTS implements WholesalerAdapter{
     getOrderItemList()
-    orderItem()
+    orderItem(Integer id)
 }
 
 class WholesalerSTARTHURT {
@@ -167,7 +166,7 @@ class WholesalerSTARTHURT {
 
 class WholesalerAdapterSTARTHURT extends WholesalerSTARTHURT implements WholesalerAdapter{
     getOrderItemList()
-    orderItem()
+    orderItem(Integer id)
 }
 
 WholesalerAdapter o-- OrderItem
@@ -214,13 +213,18 @@ class Payment {
     payUsingBlik()
 }
 
+class OrderSparePart {
+    - SparePart sparePart
+    - Integer quantity
+}
+
 Client --> Payment : "Pay"
 PaymentStatus --* Payment
 
 Warehouse <-- ExternalOrder : "communicate"
 Warehouse <-- LocalOrder : "communicate"
 
-SparePart --o Cost
+OrderSparePart --o Cost
 Cost --* Commission
 
 SparePartState --* SparePart
@@ -244,6 +248,8 @@ Worker *-- WorkSchedule
 
 Invoice o-- PrintInvoice
 Commission --* Invoice
+
+SparePart --o OrderSparePart
 
 
 @enduml
