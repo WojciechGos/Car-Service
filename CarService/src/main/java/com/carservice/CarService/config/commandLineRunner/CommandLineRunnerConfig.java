@@ -2,8 +2,14 @@ package com.carservice.CarService.config.commandLineRunner;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionBuilder;
+import com.carservice.CarService.commission.CommissionRepository;
 import com.carservice.CarService.cost.Cost;
 import com.carservice.CarService.cost.CostRepository;
+import com.carservice.CarService.payment.Payment;
+import com.carservice.CarService.payment.PaymentRepository;
+import com.carservice.CarService.payment.PaymentStatus;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerRepository;
 import com.carservice.CarService.sparePart.SparePart;
@@ -18,6 +24,7 @@ import com.carservice.CarService.worker.WorkerRole;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -33,15 +40,20 @@ public class CommandLineRunnerConfig {
             WorkerRepository workerRepository,
             VehicleRepository vehicleRepository,
             SparePartRepository sparePartRepository,
-            CostRepository costRepository
+            CostRepository costRepository,
+            CommissionRepository commissionRepository,
+            PaymentRepository paymentRepository,
+            PasswordEncoder passwordEncoder
             ){
         return args -> {
             addClients(clientRepository);
             addProducers(producerRepository);
             addVehicles(vehicleRepository);
-            addWorkers(workerRepository);
+            addWorkers(workerRepository, passwordEncoder);
             addSpareParts(sparePartRepository, producerRepository);
             addCosts(costRepository, sparePartRepository);
+            addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
+            addPayments(paymentRepository, clientRepository);
         };
     }
 
@@ -82,14 +94,15 @@ public class CommandLineRunnerConfig {
         );
     }
 
-    private void addWorkers(WorkerRepository workerRepository) {
+    private void addWorkers(WorkerRepository workerRepository, PasswordEncoder passwordEncoder) {
         Worker jan = new Worker(
                 "Jan",
                 "Marzec",
                 "jan@gmail.com",
                 "555666777",
                 new BigDecimal("20.50"),
-                WorkerRole.RECEPTIONIST
+                WorkerRole.ROLE_RECEPTIONIST,
+                passwordEncoder.encode("password1")
         );
         Worker piotr = new Worker(
                 "Piotr",
@@ -97,7 +110,8 @@ public class CommandLineRunnerConfig {
                 "piotr@gmail.com",
                 "111567345",
                 new BigDecimal("27.50"),
-                WorkerRole.MANAGER
+                WorkerRole.ROLE_MANAGER,
+                passwordEncoder.encode("password2")
         );
         Worker karol = new Worker(
                 "Karol",
@@ -105,7 +119,8 @@ public class CommandLineRunnerConfig {
                 "karol@gmail.com",
                 "333445554",
                 new BigDecimal("25.50"),
-                WorkerRole.CONTRACTOR
+                WorkerRole.ROLE_CONTRACTOR,
+                passwordEncoder.encode("password3")
         );
         Worker maciej = new Worker(
                 "Maciej",
@@ -113,7 +128,8 @@ public class CommandLineRunnerConfig {
                 "maciej@gmail.com",
                 "231453675",
                 new BigDecimal("24.50"),
-                WorkerRole.WAREHOUSEMAN
+                WorkerRole.ROLE_WAREHOUSEMAN,
+                passwordEncoder.encode("password4")
         );
 
         workerRepository.saveAll(
@@ -182,7 +198,7 @@ public class CommandLineRunnerConfig {
                 LocalDate.now(),
                 spareParts.subList(0, 2),
                 new BigDecimal("50.00"),
-                new BigDecimal("0.00")
+                new BigDecimal("70.00")
         );
 
         Cost cost2 = new Cost(
@@ -190,10 +206,55 @@ public class CommandLineRunnerConfig {
                 LocalDate.now(),
                 spareParts.subList(2, 3),
                 new BigDecimal("30.00"),
-                new BigDecimal("0.00")
+                new BigDecimal("80.00")
         );
 
         costRepository.saveAll(List.of(cost1, cost2));
     }
 
+    public void addCommissions(
+            CommissionRepository commissionRepository,
+            VehicleRepository vehicleRepository,
+            ClientRepository clientRepository,
+            WorkerRepository workerRepository
+    ) {
+        List<Vehicle> vehicles = vehicleRepository.findAll();
+        List<Client> clients = clientRepository.findAll();
+        List<Worker> workers = workerRepository.findAll();
+
+        Commission commission1 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(0))
+                .buildClient(clients.get(0))
+                .buildWorker(workers.get(0))
+                .buildDescription("Commission 1")
+                .build();
+
+        Commission commission2 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(1))
+                .buildClient(clients.get(1))
+                .buildWorker(workers.get(1))
+                .buildDescription("Commission 2")
+                .build();
+
+        commissionRepository.saveAll(List.of(commission1, commission2));
+    }
+
+    private void addPayments(
+            PaymentRepository paymentRepository,
+            ClientRepository clientRepository
+    ) {
+        List<Client> clients = clientRepository.findAll();
+
+        Payment payment1 = new Payment();
+        payment1.setAmount(new BigDecimal("50.00"));
+        payment1.setClient(clients.get(0));
+        payment1.setPaymentStatus(PaymentStatus.PENDING);
+
+        Payment payment2 = new Payment();
+        payment2.setAmount(new BigDecimal("30.00"));
+        payment2.setClient(clients.get(1));
+        payment2.setPaymentStatus(PaymentStatus.EXPIRED);
+
+        paymentRepository.saveAll(List.of(payment1, payment2));
+    }
 }
