@@ -3,3 +3,32 @@
   display: flex;
   justify-content: center;
 }
+.whiteWritings{
+  text-align: center;
+  color: white;
+}
+.slideBarContainer{
+  background-image: url('../src/components/Sidebar/tlo.png');
+  background-size: cover;
+  background-position: left; 
+  height: 100vh;
+  padding: 10px;
+  width: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  margin-right: 10vh;
+}
+.grayTable{
+  background-color: gray;
+}
+.grayTable th, .grayTable td {
+  border-color: grey; 
+  
+}
+.inputSearch{
+margin-top: 20px;
+max-width: 350px;
+border: 3px solid gray;
+border-radius: 10px;
+}
