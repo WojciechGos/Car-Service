@@ -48,7 +48,6 @@ abstract class Invoice {
 
     GenerateInvoice(Commission c)
 
-
 }
 class VatInvoice extends Invoice {
 }
@@ -65,11 +64,6 @@ class PrintPDFInvoice implements PrintInvoice {
 
 class PrintHTMLInvoice implements PrintInvoice {
 }
-
-
-
-
-
 
 
 
@@ -120,7 +114,7 @@ class Cost {
 }
 
 class OrderItem extends Item{
-    - Double discount
+    - String wholesaler
 }
 abstract class Order {
     - Worker worker
@@ -137,11 +131,13 @@ abstract class Order {
 
 class LocalOrder extends Order {
     - Long id
+    - List<OrderSparePart> orderSparePartList
     - List<Commission> commissions
 }
 class ExternalOrder extends Order {
     - Long id
     - BigDecimal cost
+    - List<OrderItem> orderItemList
 }
 
 interface WholesalerAdapter {
@@ -250,6 +246,8 @@ Invoice o-- PrintInvoice
 Commission --* Invoice
 
 SparePart --o OrderSparePart
-
+OrderItem --o ExternalOrder
+OrderSparePart --o LocalOrder
+Warehouse --> SparePart : "update"
 
 @enduml
