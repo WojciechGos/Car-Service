@@ -236,7 +236,7 @@ public class CommandLineRunnerConfig {
                 .buildDescription("Commission 2")
                 .build();
 
-        commissionRepository.saveAll(List.of(commission1, commission2));
+//        commissionRepository.saveAll(List.of(commission1, commission2));
     }
 
     private void addPayments(
