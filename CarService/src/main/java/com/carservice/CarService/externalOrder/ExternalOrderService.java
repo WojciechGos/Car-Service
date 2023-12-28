@@ -2,6 +2,7 @@ package com.carservice.CarService.externalOrder;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.orderItem.OrderItem;
+import com.carservice.CarService.orderItem.OrderItemDTO;
 import com.carservice.CarService.orderItem.OrderItemService;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerService;
@@ -62,7 +63,9 @@ public class ExternalOrderService {
         return saved;
     }
 
-    public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest) {
+
+    // TODO change 'add item functionality' if workes has open order with status NEW, just add item to it without providing externalOrderId
+    public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest, OrderItemDTO orderItemDTO) {
         System.out.println("addItemToExternalOrder: " + externalOrderRequest);
         ExternalOrder externalOrder;
         if (externalOrderRequest.externalOrderId() == null) {
@@ -74,17 +77,18 @@ public class ExternalOrderService {
         }
 
         List<OrderItem> tmpList = externalOrder.getItems();
-
-        Producer producer = producerService.getProducerById(externalOrderRequest.producerId());
+        Producer producer = null;
+        if(orderItemDTO.producerId() != null)
+            producer = producerService.getProducerById(orderItemDTO.producerId());
 
         // TODO change it to warehouse orderItem call or smt
         OrderItem orderItem = orderItemService.createOrderItem(
                 new OrderItem(
-                    externalOrderRequest.itemName(),
-                    externalOrderRequest.price(),
-                    externalOrderRequest.quantity(),
+                    orderItemDTO.sparePartName(),
+                    orderItemDTO.price(),
+                    orderItemDTO.quantity(),
                     producer,
-                    externalOrderRequest.wholesalerName()
+                    orderItemDTO.wholesaler()
                 )
         );
 //        OrderItem orderSparePart = orderSparePartService.createOrderSparePart(sparePart, externalOrderRequest.quantity());

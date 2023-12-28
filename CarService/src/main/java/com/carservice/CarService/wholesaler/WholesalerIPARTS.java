@@ -2,6 +2,7 @@ package com.carservice.CarService.wholesaler;
 
 import com.carservice.CarService.orderItem.OrderItemDTO;
 import com.carservice.CarService.requestItem.RequestItemDTO;
+import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -146,10 +147,28 @@ public class WholesalerIPARTS {
                 "Wysokość [mm]\t550\n" +
                 "Szerokość [mm]\t400", "Chłodnica", new BigDecimal(179.00), 7));
     }
+    // this method simulates the work done on the IPART server side
+    private RequestItemDTO findItemById(Long targetId) throws ChangeSetPersister.NotFoundException {
+        for (RequestItemDTO item : requestItemDTOList) {
+            if (item.id().equals(targetId)) {
+                RequestItemDTO tmp = item;
+                requestItemDTOList.remove(item);
+                return tmp;
+            }
+        }
+        throw new ChangeSetPersister.NotFoundException();
+    }
 
-    public boolean post(){
+    // This code simulates API response from IPART wholesaler
+    public RequestItemDTO post(Long id){
 
-        return false;
+        try {
+            RequestItemDTO requestItemDTO = findItemById(id);
+            return requestItemDTO;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    return null;
     }
 
     // This code simulates API response from IPART wholesaler

@@ -20,11 +20,11 @@ public class ExternalOrderController {
         return new ResponseEntity<>(externalOrders, HttpStatus.OK);
     }
 
-    @PostMapping("/item")
-    public ResponseEntity<Long> addItemToExternalOrder(
-            @RequestBody CreateExternalOrderRequest externalOrderRequest
-    ){
-        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest );
-        return new ResponseEntity<>(saved, HttpStatus.CREATED );
-    }
+//    @PostMapping("/item")
+//    public ResponseEntity<Long> addItemToExternalOrder(
+//            @RequestBody CreateExternalOrderRequest externalOrderRequest
+//    ){
+//        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest );
+//        return new ResponseEntity<>(saved, HttpStatus.CREATED );
+//    }
 }

@@ -17,6 +17,7 @@ public class ProducerService {
     }
 
     public Producer getProducerById(Long producerId) {
+
         return producerRepository.findById(producerId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Producer with id [%s] not found.".formatted(producerId)

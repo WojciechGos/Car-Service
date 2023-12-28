@@ -16,13 +16,23 @@ public class OrderItemMapper {
     private final ProducerService producerService;
 
     public OrderItemDTO map(final OrderItem orderItem){
+
+
+        Long producerId = null;
+        String producerName = null;
+
+        if(orderItem.getProducer() != null){
+            producerId = orderItem.getProducer().getId();
+            producerName = orderItem.getProducer().getName();
+        }
+
         return new OrderItemDTO(
                 orderItem.getId(),
                 orderItem.getName(),
                 orderItem.getPrice(),
                 orderItem.getQuantity(),
-                orderItem.getProducer().getId(),
-                orderItem.getProducer().getName(),
+                producerId,
+                producerName,
                 orderItem.getWholesaler()
         );
     }

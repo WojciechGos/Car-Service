@@ -7,6 +7,6 @@ import com.carservice.CarService.requestItem.RequestItemDTO;
 import java.util.List;
 
 public interface WholesalerAdapter {
-    boolean orderItem(Integer index);
+    OrderItemDTO orderItem(Long id);
     List<OrderItemDTO> getOrderItemList();
 }
