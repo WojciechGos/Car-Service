@@ -5,7 +5,10 @@ const PATH = {
     COMMISSION: "/commission",
     WAREHOUSE: "/warehouse",
     VEHICLE: "/vehicle",
-    ORDER: "/order",
+    LOCALORDER: "/localorder",
+    EXTERNALORDER: "/externalorder",
+    WHOLESELER: "/wholeseler",
+
 }
 
 

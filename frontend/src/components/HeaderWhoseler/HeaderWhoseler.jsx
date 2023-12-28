@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
 
-const HeaderOrder = ()=>{
+const HeaderWhoseler = ()=>{
 
     const buttonStyle = {
         marginTop: "10px",
@@ -14,7 +14,7 @@ const HeaderOrder = ()=>{
         
       };
 
-      const buttonStyleWarehouse = {
+      const buttonStyleWhoseler = {
         fontSize: "32px", 
         marginLeft: "500px",
         fontFamily: "'Extra Bolt Italic', sans-serif"
@@ -23,10 +23,12 @@ const HeaderOrder = ()=>{
 
     return (
         <div >
-             <Link to={PATH.WAREHOUSE}>
-            <Button variant="light" style={buttonStyle} >List</Button>{' '}
+             
+            <Button variant="danger" style={buttonStyle} >List</Button>{' '}
+            
+            <Link to={PATH.EXTERNALORDER}>
+            <Button variant="light" style={buttonStyle}>External order</Button>{' '}
             </Link>
-            <Button variant="danger" style={buttonStyle}>Order</Button>{' '}
             <br/>
 
             <div style={{display: "flex"}}>
@@ -41,11 +43,11 @@ const HeaderOrder = ()=>{
 
             </InputGroup>
             
-            <Button variant="secondary" style={buttonStyleWarehouse} >delete</Button>{' '}
+            <Button variant="secondary" style={buttonStyleWhoseler} >order</Button>{' '}
             </div>
 
         </div>
     )
  
 }
-export default HeaderOrder
+export default HeaderWhoseler

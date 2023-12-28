@@ -5,8 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
 
-
-const HeaderWarehouse = ()=>{
+const HeaderExternalOrder = ()=>{
 
     const buttonStyle = {
         marginTop: "10px",
@@ -24,11 +23,10 @@ const HeaderWarehouse = ()=>{
 
     return (
         <div >
-            <Button variant="danger" style={buttonStyle} >List</Button>{' '}
-           
-            <Link to={PATH.LOCALORDER}>
-            <Button variant="light" style={buttonStyle}>Local order</Button>{' '}
+             <Link to={PATH.WHOLESELER}>
+            <Button variant="light" style={buttonStyle} >List</Button>{' '}
             </Link>
+            <Button variant="danger" style={buttonStyle}>External order</Button>{' '}
             <br/>
 
             <div style={{display: "flex"}}>
@@ -43,11 +41,11 @@ const HeaderWarehouse = ()=>{
 
             </InputGroup>
             
-            <Button variant="secondary" style={buttonStyleWarehouse} >order</Button>{' '}
+            <Button variant="secondary" style={buttonStyleWarehouse} >delete</Button>{' '}
             </div>
 
         </div>
     )
  
 }
-export default HeaderWarehouse
+export default HeaderExternalOrder

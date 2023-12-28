@@ -1,6 +1,6 @@
 import HeaderWarehouse from "./HeaderWarehouse"
 
-const HeaderWarehouse = ()=>{
+const HeaderWarehouseContainer = ()=>{
     return <HeaderWarehouse/>
 }
 export default HeaderWarehouseContainer

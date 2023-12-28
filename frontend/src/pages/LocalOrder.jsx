@@ -1,15 +1,15 @@
 import Sidebar from "../components/Sidebar/SideBar"
-import HeaderOrder from "../components/HeaderOrder/HeaderOrder"
-import TableOrder from "../components/TableOrder/TableOrder"
+import HeaderOrder from "../components/HeaderLocalOrder/HeaderLocalOrder"
+import TableLocalOrder from "../components/TableLocalOrder/TableLocalOrder"
 
-const Order = ()=>{
+const LocalOrder = ()=>{
     return (
         <div style={{display: "flex"}}>
             <Sidebar />
             
             <div>
                 <HeaderOrder />
-                <TableOrder/>   
+                <TableLocalOrder/>   
             </div>
         
         </div>
@@ -20,4 +20,4 @@ const Order = ()=>{
     )
 }
 
-export default Order
+export default LocalOrder

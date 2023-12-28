@@ -9,7 +9,9 @@ import Client from './pages/Client';
 import Warehouse from './pages/Warehouse';
 import Commission from './pages/Commission';
 import Vehicle from './pages/Vehicle';
-import Order from './pages/Order';
+import LocalOrder from './pages/LocalOrder';
+import ExternalOrder from './pages/ExternalOrder';
+import Wholeseler from './pages/Wholeseler';
 
 import 'bootstrap/dist/css/bootstrap.css';
 function App() {
@@ -20,7 +22,9 @@ function App() {
       <Route path={PATH.WAREHOUSE} element={<Warehouse/>} />
       <Route path={PATH.COMMISSION} element={<Commission/>}/>
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
-      <Route path={PATH.ORDER} element={<Order/>}/>
+      <Route path={PATH.LOCALORDER} element={<LocalOrder/>}/>
+      <Route path={PATH.EXTERNALORDER} element={<ExternalOrder/>}/>
+      <Route path={PATH.WHOLESELER} element={<Wholeseler/>}/>
 
       <Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
     </Routes>
