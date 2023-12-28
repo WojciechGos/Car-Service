@@ -1,8 +1,14 @@
 .centerDiv {
-  width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  background-image: url('../src/components/Sidebar/tlo.png');
+  background-size: cover;
+  height: 100vh;
+  color: white;
 }
+
 .whiteWritings{
   text-align: center;
   color: white;
@@ -31,4 +37,42 @@ margin-top: 20px;
 max-width: 350px;
 border: 3px solid gray;
 border-radius: 10px;
+}
+.loginDiv{
+  margin-top: 40px;
+  border-color:white;
+  border: 2px solid white;
+  border-radius: 10px;
+  width: 30vw;
+  padding: 5px;
+  padding-left: 20px;
+}
+.passwordDiv{
+  margin-top: 20px;
+  border-color:white;
+  border: 2px solid white;
+  border-radius: 10px;
+  width: 30vw;
+  padding: 5px;
+  padding-left: 20px;
+}
+.input
+{
+  border-color:transparent;
+  background: transparent;
+  margin-left: 20px;
+  color: white;
+  width: 85%;
+}
+.input:focus {
+  outline: none; 
+  border-color: none; 
+}
+::placeholder {
+  color: white;
+  font-size: 15px;
+}
+.button{
+  width: 30vw;
+  margin-top: 50px;
 }
