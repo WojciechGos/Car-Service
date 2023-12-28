@@ -3,13 +3,16 @@ package com.carservice.CarService.worker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Configuration
 public class WorkerConfig {
-    @Bean
+    /*@Bean
+    @Order(value = 2)
     CommandLineRunner commandLineRunner(WorkerRepository workerRepository){
         return args -> {
             Worker jan = new Worker(
@@ -49,5 +52,5 @@ public class WorkerConfig {
                     List.of(jan, piotr, karol, maciej)
             );
         };
-    }
+    }*/
 }

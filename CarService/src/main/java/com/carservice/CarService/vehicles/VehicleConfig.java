@@ -10,7 +10,7 @@ import java.util.List;
 @Configuration
 public class VehicleConfig {
 
-    @Bean
+    /*@Bean
     CommandLineRunner commandLineRunner(VehicleRepository repository){
         return args -> {
             Vehicle vehicle1 = new Vehicle("opel", "astra", "123123", "TKI 5VF5","2001");
@@ -20,5 +20,5 @@ public class VehicleConfig {
                     List.of(vehicle1, vehicle2)
             );
         };
-    }
+    }*/
 }

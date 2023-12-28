@@ -135,9 +135,9 @@ abstract class Item {
     - String name
     - BigDecimal price
     - Integer quantity
-    - Producent producent
+    - Producer producer
 }
-class Producent {
+class Producer {
     - Long id
     - String name
 }
