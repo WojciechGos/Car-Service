@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @Entity
-public class OrderItem extends Item{
+public class OrderItem extends Item {
     @SequenceGenerator(
             name = "order_item_sequence",
             sequenceName = "order_item_sequence",

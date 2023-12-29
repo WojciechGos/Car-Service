@@ -3,21 +3,15 @@ package com.carservice.CarService.localOrder;
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.OrderSparePart.OrderSparePartService;
 import com.carservice.CarService.exception.ResourceNotFoundException;
-import com.carservice.CarService.item.Item;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
-import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -52,7 +46,7 @@ public class LocalOrderService {
         }else{
             final Long finalLocalOrderId = localOrderRequest.localOrderId();
             localOrder = localOrderRepository.findById(finalLocalOrderId)
-                    .orElseThrow(()-> new ResourceNotFoundException("Local order with id [%] not found".formatted(finalLocalOrderId)));
+                    .orElseThrow(()-> new ResourceNotFoundException("Local order with id [%s] not found".formatted(finalLocalOrderId)));
         }
 
         List<OrderSparePart> tmpList = localOrder.getItems();
