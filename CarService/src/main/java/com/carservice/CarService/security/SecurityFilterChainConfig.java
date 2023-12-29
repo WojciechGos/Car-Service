@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,7 +31,17 @@ public class SecurityFilterChainConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors
+                        .configurationSource(request -> {
+                            CorsConfiguration corsConfig = new CorsConfiguration();
+                            corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                            corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                            corsConfig.setAllowedHeaders(Arrays.asList("*"));
+                            corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+                            corsConfig.setMaxAge(3600L);
+                            return corsConfig;
+                        })
+                )
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(
                                 "/api/v1/commissions/**"
