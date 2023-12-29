@@ -15,29 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-//@RequiredArgsConstructor
-//@Service
-//public class ExternalOrderService {
-//
-//    private final ExternalOrderRepository externalOrderRepository;
-//
-//
-//    public List<ExternalOrder> getAllExternalOrders(){
-//        return externalOrderRepository.findAll();
-//    }
-//
-//    private ExternalOrder createExternalOrder(Long)
-//
-//    public Long addOrderItemToExternalOrder(Long orderItemId, CreateExternalOrderRequest externalOrderRequest){
-//        ExternalOrder externalOrder;
-//
-//        if(externalOrderRequest.externalOrderId() == null){
-//            externalOrder =
-//        }
-//    }
-//}
 
 @RequiredArgsConstructor
 @Service
@@ -46,7 +25,6 @@ public class ExternalOrderService {
     private final WorkerService workerService;
     private final OrderItemService orderItemService;
     private final ProducerService producerService;
-//    private final OrderSparePartService orderSparePartService;
     private final WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
 
     private final ExternalOrderMapper externalOrderMapper;
@@ -64,7 +42,6 @@ public class ExternalOrderService {
         return externalOrders.get(0);
     }
 
-    // tworzy zamówienie
     private ExternalOrder createExternalOrder(Long workerId) {
         Worker worker = workerService.getWorkerEntityById(workerId);
         ExternalOrder externalOrder = new ExternalOrder(worker, LocalDateTime.now());
@@ -74,53 +51,60 @@ public class ExternalOrderService {
         return saved;
     }
 
-    // TODO change 'add item functionality' if worker has open order with status NEW, just add item to it without providing externalOrderId
-    public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest, OrderItemDTO orderItemDTO, Long wholesalerPartId) {
-
+    public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest, OrderItemDTO orderItemDTO) {
         final Worker worker = workerService.getWorkerByEmail(externalOrderRequest.email());
-
         ExternalOrder workerExternalOrder = getExternalOrderByWorkerId(worker.getId());
 
-        if(orderItemDTO.quantity() < 1) {
+        if((orderItemDTO.quantity() - externalOrderRequest.quantity()) < 0) {
             throw new ResourceNotFoundException("Order Item with id [%s] not available".formatted(orderItemDTO.id()));
         }
 
-        ExternalOrder externalOrder;
-        if(workerExternalOrder != null && workerExternalOrder.getOrderStatus() == OrderStatus.CREATING) {
-            externalOrder = workerExternalOrder;
+        ExternalOrder externalOrder = getOrCreateExternalOrder(worker, workerExternalOrder);
+
+        List<OrderItem> orderItems = externalOrder.getItems();
+        Producer producer = getProducer(orderItemDTO);
+
+        Optional<OrderItem> existingOrderItem = externalOrder.getItems().stream()
+                .filter(item -> item.getExternalOrderItemId().equals(orderItemDTO.id()))
+                .findFirst();
+
+        if (existingOrderItem.isPresent()) {
+            existingOrderItem.get().setQuantity(existingOrderItem.get().getQuantity() + externalOrderRequest.quantity());
         } else {
-            externalOrder = createExternalOrder(worker.getId());
+            OrderItem orderItem = orderItemService.createOrderItem(
+                    new OrderItem(
+                            orderItemDTO.sparePartName(),
+                            orderItemDTO.price(),
+                            externalOrderRequest.quantity(),
+                            producer,
+                            orderItemDTO.wholesaler(),
+                            orderItemDTO.id()
+                    )
+            );
+            orderItems.add(orderItem);
         }
 
-        List<OrderItem> tmpList = externalOrder.getItems();
-        Producer producer = null;
-        if(orderItemDTO.producerId() != null)
-            producer = producerService.getProducerById(orderItemDTO.producerId());
-
-        OrderItem orderItem = orderItemService.createOrderItem(
-                new OrderItem(
-                        orderItemDTO.sparePartName(),
-                        orderItemDTO.price(),
-                        externalOrderRequest.quantity(),
-                        producer,
-                        orderItemDTO.wholesaler()
-                )
-        );
-        tmpList.add(orderItem);
-
-        // dodanie częśći zamiennej do listy
-        externalOrder.setItems(tmpList);
+        externalOrder.setItems(orderItems);
         externalOrderRepository.save(externalOrder);
 
-        wholesalerAdapterIPARTS.put(wholesalerPartId, externalOrderRequest.quantity());
+        wholesalerAdapterIPARTS.put(orderItemDTO.id(), externalOrderRequest.quantity());
 
         return externalOrder.getId();
     }
 
-//    public void updateExternalOrder(Long externalOrderId, UpdateExternalOrderRequest externalOrderRequest) {
-//        ExternalOrder updateExternalOrder = externalOrderRepository.findById(externalOrderId)
-//                .orElseThrow(() -> new ResourceNotFoundException("ExternalOrder with id [%s] not found.".formatted(externalOrderId)));
-//
-//        externalOrderRepository.save(updateExternalOrder);
-//    }
+    private ExternalOrder getOrCreateExternalOrder(Worker worker, ExternalOrder workerExternalOrder) {
+        if (workerExternalOrder != null && workerExternalOrder.getOrderStatus() == OrderStatus.CREATING) {
+            return workerExternalOrder;
+        } else {
+            return createExternalOrder(worker.getId());
+        }
+    }
+
+    private Producer getProducer(OrderItemDTO orderItemDTO) {
+        Producer producer = null;
+        if (orderItemDTO.producerId() != null) {
+            producer = producerService.getProducerById(orderItemDTO.producerId());
+        }
+        return producer;
+    }
 }

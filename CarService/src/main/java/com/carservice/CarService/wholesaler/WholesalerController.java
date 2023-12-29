@@ -28,7 +28,7 @@ public class WholesalerController {
             @RequestBody CreateExternalOrderRequest externalOrderRequest
     ){
         OrderItemDTO orderItemDTO = wholesalerAdapterIPARTS.orderItem(id);
-        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO, id);
+        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO);
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
