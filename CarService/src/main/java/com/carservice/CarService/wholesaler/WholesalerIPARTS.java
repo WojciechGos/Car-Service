@@ -1,8 +1,7 @@
 package com.carservice.CarService.wholesaler;
 
-import com.carservice.CarService.orderItem.OrderItemDTO;
+import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.requestItem.RequestItemDTO;
-import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ public class WholesalerIPARTS {
 
     public WholesalerIPARTS() {
         requestItemDTOList   = new ArrayList<>();
-
 
         requestItemDTOList.add(new RequestItemDTO(123L, "KNECHT", "IPART", "Producent\tKNECHT\n" +
                 "Indeks\tOX554D1\n" +
@@ -148,32 +146,41 @@ public class WholesalerIPARTS {
                 "Szerokość [mm]\t400", "Chłodnica", new BigDecimal(179.00), 7));
     }
     // this method simulates the work done on the IPART server side
-    private RequestItemDTO findItemById(Long targetId) throws ChangeSetPersister.NotFoundException {
+    public RequestItemDTO findItemById(Long targetId) {
         for (RequestItemDTO item : requestItemDTOList) {
             if (item.id().equals(targetId)) {
-                RequestItemDTO tmp = item;
-                requestItemDTOList.remove(item);
-                return tmp;
+                return item;
             }
         }
-        throw new ChangeSetPersister.NotFoundException();
+        throw new ResourceNotFoundException("Order Item with id [%s] not found".formatted(targetId));
     }
 
     // This code simulates API response from IPART wholesaler
-    public RequestItemDTO post(Long id){
-
-        try {
-            RequestItemDTO requestItemDTO = findItemById(id);
-            return requestItemDTO;
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    return null;
+    public RequestItemDTO post(Long id) {
+        return findItemById(id);
     }
 
     // This code simulates API response from IPART wholesaler
-    public List<RequestItemDTO> get(){
+    public List<RequestItemDTO> get() {
         return requestItemDTOList;
     }
 
+    public void put(Long targetId, int quantity) {
+        requestItemDTOList.stream()
+                .filter(item -> item.id() == targetId)
+                .findFirst()
+                .ifPresent(item -> {
+                    RequestItemDTO updatedItem = new RequestItemDTO(
+                            item.id(),
+                            item.producerName(),
+                            item.wholesaler(),
+                            item.parameters(),
+                            item.itemName(),
+                            item.price(),
+                            item.quantity() - quantity
+                    );
+
+                    requestItemDTOList.set(requestItemDTOList.indexOf(item), updatedItem);
+                });
+    }
 }

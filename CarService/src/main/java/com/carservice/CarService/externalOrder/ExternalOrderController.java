@@ -15,16 +15,8 @@ public class ExternalOrderController {
     private final ExternalOrderService externalOrderService;
 
     @GetMapping
-    public ResponseEntity<List<ExternalOrderDTO>> getExternalOrders(){
+    public ResponseEntity<List<ExternalOrderDTO>> getExternalOrders() {
         List<ExternalOrderDTO> externalOrders =  externalOrderService.getAllExternalOrders();
         return new ResponseEntity<>(externalOrders, HttpStatus.OK);
     }
-
-//    @PostMapping("/item")
-//    public ResponseEntity<Long> addItemToExternalOrder(
-//            @RequestBody CreateExternalOrderRequest externalOrderRequest
-//    ){
-//        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest );
-//        return new ResponseEntity<>(saved, HttpStatus.CREATED );
-//    }
 }

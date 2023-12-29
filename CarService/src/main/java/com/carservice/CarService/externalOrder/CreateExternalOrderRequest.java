@@ -1,10 +1,8 @@
 package com.carservice.CarService.externalOrder;
 
-import java.math.BigDecimal;
-
-public record CreateExternalOrderRequest (
-    Long workerId,
-    Long externalOrderId
-    ){
+public record CreateExternalOrderRequest(
+    String email,
+    Integer quantity
+) {
 
 }

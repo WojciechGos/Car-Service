@@ -1,7 +1,5 @@
 package com.carservice.CarService.wholesaler;
 
-import com.carservice.CarService.externalOrder.ExternalOrderService;
-import com.carservice.CarService.orderItem.OrderItem;
 import com.carservice.CarService.orderItem.OrderItemDTO;
 import com.carservice.CarService.orderItem.OrderItemMapper;
 import com.carservice.CarService.requestItem.RequestItemDTO;
@@ -18,8 +16,6 @@ public class WholesalerAdapterIPARTS extends WholesalerIPARTS implements  Wholes
     @Override
     public OrderItemDTO orderItem(Long id) {
         RequestItemDTO requestItemDTO = post(id);
-        if(requestItemDTO == null)
-            return null; // TODO throw NotFoundException
 
         OrderItemDTO orderItemDTO = orderItemMapper.map(requestItemDTO);
         return orderItemDTO;
