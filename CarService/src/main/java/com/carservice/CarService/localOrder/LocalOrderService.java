@@ -43,7 +43,7 @@ public class LocalOrderService {
         LocalOrder localOrder = new LocalOrder(worker, LocalDateTime.now());
 
         LocalOrder saved = localOrderRepository.save(localOrder);
-//        localOrder.submitOrder();
+
         return saved;
     }
 
@@ -59,12 +59,13 @@ public class LocalOrderService {
                     .orElseThrow(()-> new ResourceNotFoundException("Local order with id [%] not found".formatted(finalLocalOrderId)));
         }
 
-        //
-//        localOrder.getWarehouse().
-
         List<OrderSparePart> tmpList = localOrder.getItems();
 
         SparePart sparePart = sparePartService.getSparePartById(sparePartId);
+
+        warehouse = Warehouse.getInstance(sparePartService);
+        warehouse.takeSparePart(sparePart, localOrderRequest.quantity());
+
         OrderSparePart orderSparePart = orderSparePartService.createOrderSparePart(sparePart, localOrderRequest.quantity());
         tmpList.add(orderSparePart);
 
@@ -72,6 +73,12 @@ public class LocalOrderService {
         localOrderRepository.save(localOrder);
 
         return localOrder.getId();
+    }
+
+    public LocalOrder getLocalOrderById(Long localOrderId){
+        return localOrderRepository.findById(localOrderId).orElseThrow(()->
+                new ResourceNotFoundException("LocalOrder with id [%s] not found".formatted(localOrderId))
+        );
     }
 
     public void updateLocalOrder(Long localOrderId, UpdateLocalOrderRequest localOrderRequest){
@@ -96,15 +103,24 @@ public class LocalOrderService {
             updateLocalOrder.setOrderStatus(OrderStatus.COMPLETED);
             updateLocalOrder.setReceiveDate(LocalDateTime.now());
 
-        }else if(localOrderRequest.orderStatus() == OrderStatus.CANCELLED && (currentState == OrderStatus.NEW.getValue() || currentState == OrderStatus.IN_PROGRESS.getValue())){
+        }else if(localOrderRequest.orderStatus() == OrderStatus.CANCELLED ){
 
             updateLocalOrder.setReceiveDate(LocalDateTime.now());
             updateLocalOrder.setOrderStatus(OrderStatus.CANCELLED);
-            // release ordered items by calling some warehouse method
+
+
+            // release ordered spare parts
+            LocalOrder localOrder = getLocalOrderById(localOrderId);
+            warehouse = Warehouse.getInstance(sparePartService);
+            warehouse.releaseSparePartListFromOrder(localOrder);
 
         }
 
         localOrderRepository.save(updateLocalOrder);
+    }
+
+    public void deleteSparePartFromLocalOrder(Long sparePartId){
+        // TODO pobrac metode wyszukiwania zlecenia po emailu pracownika od zuzi
     }
 
 }

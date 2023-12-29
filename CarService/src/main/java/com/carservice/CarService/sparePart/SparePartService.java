@@ -38,4 +38,16 @@ public class SparePartService {
 
         sparePartRepository.save(updatedSparePart);
     }
+
+    public void updateSparePart(SparePart sparePart) {
+
+        SparePart updatedSparePart = new SparePart();
+        updatedSparePart.setName(sparePart.getName());
+        updatedSparePart.setPrice(sparePart.getPrice());
+        updatedSparePart.setQuantity(sparePart.getQuantity());
+        updatedSparePart.setProducer(sparePart.getProducer());
+        updatedSparePart.setSparePartState(sparePart.getSparePartState());
+
+        sparePartRepository.save(updatedSparePart);
+    }
 }

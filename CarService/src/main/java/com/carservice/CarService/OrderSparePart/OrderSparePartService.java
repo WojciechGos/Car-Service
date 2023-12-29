@@ -1,5 +1,6 @@
 package com.carservice.CarService.OrderSparePart;
 
+import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.sparePart.SparePart;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,11 @@ public class OrderSparePartService {
         OrderSparePart saved = orderSparePartRepository.save(new OrderSparePart(sparePart, quantity));
         return saved;
     }
+
+    public OrderSparePart getOrderSparePartById(Long orderSparePartId){
+        return orderSparePartRepository.findById(orderSparePartId).orElseThrow(()->
+                new ResourceNotFoundException("OrderSparePart with id [%s] not found".formatted(orderSparePartId))
+        );
+    }
+
 }

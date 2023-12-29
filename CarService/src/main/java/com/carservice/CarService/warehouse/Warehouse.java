@@ -4,7 +4,10 @@ import com.carservice.CarService.localOrder.LocalOrder;
 import com.carservice.CarService.order.Order;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -15,25 +18,40 @@ import java.util.Map;
 
 
 
-@Component
 public class Warehouse {
 
     private final SparePartService sparePartService;
     private static Warehouse instance = null;
 
-
-    private Warehouse(SparePartService sparePartService){
+    private Warehouse(SparePartService sparePartService) {
         this.sparePartService = sparePartService;
     }
 
-    public synchronized void takeSparePart(SparePart sparePart, Integer quantity){
 
+
+    public synchronized void takeSparePart(SparePart sparePart, Integer orderedQuantity){
+        System.out.println("takeSparePart //////////////////////////////////////////////////////////////////////////");
+        sparePart.setQuantity(sparePart.getQuantity() - orderedQuantity);
+        sparePartService.updateSparePart(sparePart);
     }
 
     public synchronized void releaseSparePart(OrderSparePart orderSparePart){
 
     }
 
+    public synchronized void releaseSparePartListFromOrder(LocalOrder localOrder){
+        System.out.println("releaseSparePartListFromOrder");
+        Integer quantity;
+        for(OrderSparePart orderSparePart: localOrder.getItems()){
+            quantity = orderSparePart.getQuantity() + orderSparePart.getSparePart().getQuantity();
+            orderSparePart.getSparePart().setQuantity(quantity);
+            sparePartService.updateSparePart(orderSparePart.getSparePart());
+        }
+    }
+
+    public synchronized void addSparePart(SparePart sparePart){
+
+    }
 
     public synchronized void processOrder(Order order){
 
@@ -44,10 +62,10 @@ public class Warehouse {
 
         System.out.println("Processing order:" + order.getWorker());
     }
-    // java singleton synchronized ( zabezpiecz przed utworzeniem dwóch instancji warehous)
-//    public synchronized static Warehouse getInstance(SparePartService sparePartService){
-//        if(instance == null)
-//            instance = new Warehouse(sparePartService);
-//        return instance;
-//    }
+//     java singleton synchronized ( zabezpiecz przed utworzeniem dwóch instancji warehous)
+    public synchronized static Warehouse getInstance(SparePartService sparePartService){
+        if(instance == null)
+            instance = new Warehouse(sparePartService);
+        return instance;
+    }
 }

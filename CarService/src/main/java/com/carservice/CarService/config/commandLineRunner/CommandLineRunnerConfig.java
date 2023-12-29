@@ -148,19 +148,19 @@ public class CommandLineRunnerConfig {
         SparePart oilFilter = new SparePart(
                 "Oil Filter",
                 new BigDecimal("8.50"),
-                20,
+                10,
                 producerRepository.findById(2L).orElse(null),
                 SparePartState.DAMAGED
         );
         SparePart sparkPlug = new SparePart(
                 "Spark Plug",
                 new BigDecimal("4.00"),
-                50,
+                10,
                 producerRepository.findById(3L).orElse(null),
                 SparePartState.MISS
         );
-        SparePart sparkPlug2 = new SparePart(
-                "Spark Plug",
+        SparePart airFilter = new SparePart(
+                "Air filter",
                 new BigDecimal("4.00"),
                 50,
                 producerRepository.findById(3L).orElse(null),
@@ -183,7 +183,7 @@ public class CommandLineRunnerConfig {
         );
 
         sparePartRepository.saveAll(
-                List.of(brakePad, oilFilter, sparkPlug)
+                List.of(brakePad, oilFilter, sparkPlug, airFilter, sparePart1, sparePart2)
         );
     }
 
