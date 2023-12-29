@@ -54,6 +54,7 @@ public class ExternalOrderService {
         return externalOrders.stream().map(externalOrderMapper::map).collect(Collectors.toList());
     }
 
+    // tworzy zamówienie
     private ExternalOrder createExternalOrder(Long workerId) {
         Worker worker = workerService.getWorkerEntityById(workerId);
         ExternalOrder externalOrder = new ExternalOrder(worker, LocalDateTime.now());
@@ -66,22 +67,29 @@ public class ExternalOrderService {
 
     // TODO change 'add item functionality' if workes has open order with status NEW, just add item to it without providing externalOrderId
     public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest, OrderItemDTO orderItemDTO) {
+
+
         System.out.println("addItemToExternalOrder: " + externalOrderRequest);
+
+        // patrzymy czy istnieje zamówienie o podanym ID
+        // sprawdzić czy Dany worker ma już external order w stanie NEW
         ExternalOrder externalOrder;
         if (externalOrderRequest.externalOrderId() == null) {
             externalOrder = createExternalOrder(externalOrderRequest.workerId());
         } else {
+            //  zmień żeby szukało po emailu workera
             final Long finalExternalOrderId = externalOrderRequest.externalOrderId();
             externalOrder = externalOrderRepository.findById(finalExternalOrderId)
                     .orElseThrow(() -> new ResourceNotFoundException("External order with id [%] not found".formatted(finalExternalOrderId)));
         }
 
+        // dorzucenie części zamiennej do listy
         List<OrderItem> tmpList = externalOrder.getItems();
         Producer producer = null;
         if(orderItemDTO.producerId() != null)
             producer = producerService.getProducerById(orderItemDTO.producerId());
 
-        // TODO change it to warehouse orderItem call or smt
+
         OrderItem orderItem = orderItemService.createOrderItem(
                 new OrderItem(
                     orderItemDTO.sparePartName(),
@@ -91,9 +99,9 @@ public class ExternalOrderService {
                     orderItemDTO.wholesaler()
                 )
         );
-//        OrderItem orderSparePart = orderSparePartService.createOrderSparePart(sparePart, externalOrderRequest.quantity());
         tmpList.add(orderItem);
 
+        // dodanie częśći zamiennej do listy
         externalOrder.setItems(tmpList);
         externalOrderRepository.save(externalOrder);
 
