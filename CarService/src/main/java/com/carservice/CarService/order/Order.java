@@ -28,16 +28,10 @@ public abstract class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @Transient
-    private Warehouse warehouse;
 
     public Order(Worker worker, LocalDateTime createDate) {
         this.worker = worker;
         this.createDate = createDate;
-        this.orderStatus = OrderStatus.NEW;
-        this.warehouse = Warehouse.getInstance();
-    }
-    public void submitOrder(){
-        warehouse.processOrder(this);
+        this.orderStatus = OrderStatus.CREATING;
     }
 }

@@ -2,12 +2,14 @@ package com.carservice.CarService.sparePart;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Component
 public class SparePartService {
     private final SparePartRepository sparePartRepository;
 

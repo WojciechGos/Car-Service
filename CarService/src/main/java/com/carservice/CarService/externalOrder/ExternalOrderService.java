@@ -60,7 +60,7 @@ public class ExternalOrderService {
         ExternalOrder externalOrder = new ExternalOrder(worker, LocalDateTime.now());
 
         ExternalOrder saved = externalOrderRepository.save(externalOrder);
-        externalOrder.submitOrder();
+//        externalOrder.submitOrder();
         return saved;
     }
 
