@@ -1,12 +1,15 @@
 package com.carservice.CarService.cost;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -28,9 +31,15 @@ public class CostService {
 
 
     public Long createCost(CostRequest costRequest) {
-        List<SparePart> spareParts = costRequest.sparePartsIds().stream()
-                .map(sparePartService::getSparePartById)
-                .collect(Collectors.toList());
+        List<OrderSparePart> spareParts = new ArrayList<>();
+
+        OrderSparePart orderSparePart;
+        for (Map.Entry<Long, Integer> entry : costRequest.sparePartQuantities().entrySet()) {
+            SparePart sparePart = getSparePartById(entry.getKey());
+            if (sparePart != null) {
+                orderSparePart = new OrderSparePart(sparePart, entry.getValue());
+            }
+        }
 
         Cost cost = new Cost(
                 costRequest.name(),

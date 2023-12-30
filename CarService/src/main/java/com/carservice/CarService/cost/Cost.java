@@ -1,5 +1,6 @@
 package com.carservice.CarService.cost;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.sparePart.SparePart;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -30,20 +31,22 @@ public class Cost {
     @NotBlank
     private String name;
     private LocalDate createDate;
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
             name = "cost_spare_part",
             joinColumns = @JoinColumn(name = "cost_id"),
             inverseJoinColumns = @JoinColumn(name = "spare_part_id")
-    )
-    private List<SparePart> spareParts;
+    )*/
+    @OneToMany
+    @JoinColumn(name = "spare_part_id", nullable = false)
+    private List<OrderSparePart> spareParts;
     private BigDecimal laborPrice;
     private BigDecimal totalCost;
 
     public Cost(
             String name,
             LocalDate createDate,
-            List<SparePart> spareParts,
+            List<OrderSparePart> spareParts,
             BigDecimal laborPrice,
             BigDecimal totalCost
     ) {
