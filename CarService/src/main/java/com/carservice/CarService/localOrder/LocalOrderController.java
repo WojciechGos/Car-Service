@@ -44,9 +44,11 @@ public class LocalOrderController {
 
     @DeleteMapping("/item/{sparePartID}")
     public ResponseEntity<HttpStatus> deleteItemFromOrder(
-            @PathVariable("sparePartID") Long sparePartId
+            @PathVariable("sparePartID") Long sparePartId,
+            @RequestParam(required = true) String email
+
     ){
-        localOrderService.deleteSparePartFromLocalOrder(sparePartId);
+        localOrderService.deleteSparePartFromLocalOrder(sparePartId, email);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

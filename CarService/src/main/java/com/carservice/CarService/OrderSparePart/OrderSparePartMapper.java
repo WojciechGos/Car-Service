@@ -8,6 +8,7 @@ public class OrderSparePartMapper {
         return new OrderSparePartDTO(
                 orderSparePart.getId(),
                 orderSparePart.getSparePart().getName(),
+                orderSparePart.getSparePart().getId(),
                 orderSparePart.getSparePart().getPrice(),
                 orderSparePart.getQuantity(),
                 orderSparePart.getSparePart().getProducer().getId(),

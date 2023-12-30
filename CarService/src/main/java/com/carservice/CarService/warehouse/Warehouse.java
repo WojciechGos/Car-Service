@@ -35,8 +35,24 @@ public class Warehouse {
         sparePartService.updateSparePart(sparePart);
     }
 
-    public synchronized void releaseSparePart(OrderSparePart orderSparePart){
+    /*
+        TODO potential problem with releasing sparePart
+        Delete SparePart from given list and return it. Also release spare part quantity back to SparePart entity.
+     */
+    public synchronized List<OrderSparePart> deleteSparePart(List<OrderSparePart> orderSparePartList, Long sparePartId ){
 
+        for(OrderSparePart item: orderSparePartList){
+            if(item.getSparePart().getId().equals(sparePartId)){
+                Integer quantityToRelaese = item.getQuantity();
+                SparePart sparePart = item.getSparePart();
+                sparePart.setQuantity(sparePart.getQuantity() + quantityToRelaese);
+                sparePartService.updateSparePart(sparePart);
+                orderSparePartList.remove(item);
+                break;
+            }
+        }
+
+        return  orderSparePartList;
     }
 
     public synchronized void releaseSparePartListFromOrder(LocalOrder localOrder){
@@ -53,15 +69,7 @@ public class Warehouse {
 
     }
 
-    public synchronized void processOrder(Order order){
 
-        if(order instanceof LocalOrder){
-            Long id = ((LocalOrder) order).getId();
-            System.out.println(order + " " + id);
-        }
-
-        System.out.println("Processing order:" + order.getWorker());
-    }
 //     java singleton synchronized ( zabezpiecz przed utworzeniem dwóch instancji warehous)
     public synchronized static Warehouse getInstance(SparePartService sparePartService){
         if(instance == null)
