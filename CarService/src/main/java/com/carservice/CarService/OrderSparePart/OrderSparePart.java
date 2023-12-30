@@ -25,6 +25,7 @@ public class OrderSparePart {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "spare_part_id", nullable = false)
     private SparePart sparePart;
 
     private Integer quantity;
