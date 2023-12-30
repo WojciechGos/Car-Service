@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("api/v1/wholesaler")
 public class WholesalerController {
     private final WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
+    private final WholesalerAdapterSTARTHURT wholesalerAdapterSTARTHURT;
     private final ExternalOrderService externalOrderService;
     @GetMapping("/ipart")
     public ResponseEntity<List<OrderItemDTO>> getAllItemsFromIPART(){
@@ -28,6 +29,23 @@ public class WholesalerController {
             @RequestBody CreateExternalOrderRequest externalOrderRequest
     ){
         OrderItemDTO orderItemDTO = wholesalerAdapterIPARTS.orderItem(id);
+        Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO);
+
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/starthurt")
+    public ResponseEntity<List<OrderItemDTO>> getAllItemsFromSTARTHURT(){
+        List<OrderItemDTO> requestItemDTOList = wholesalerAdapterSTARTHURT.getOrderItemList();
+        return new ResponseEntity<>(requestItemDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping("/starthurt/{id}")
+    public ResponseEntity<Long> addItemToExternalOrderSTARTHURT(
+            @PathVariable("id") Long id,
+            @RequestBody CreateExternalOrderRequest externalOrderRequest
+    ){
+        OrderItemDTO orderItemDTO = wholesalerAdapterSTARTHURT.orderItem(id);
         Long saved = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO);
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);

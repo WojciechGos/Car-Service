@@ -10,22 +10,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class WholesalerAdapterIPARTS extends WholesalerIPARTS implements  WholesalerAdapter{
+public class WholesalerAdapterIPARTS extends WholesalerIPARTS implements  WholesalerAdapter {
     private final OrderItemMapper orderItemMapper;
 
     @Override
     public OrderItemDTO orderItem(Long id) {
         RequestItemDTO requestItemDTO = post(id);
 
-        OrderItemDTO orderItemDTO = orderItemMapper.map(requestItemDTO);
-        return orderItemDTO;
+        return orderItemMapper.map(requestItemDTO);
     }
 
     @Override
     public List<OrderItemDTO> getOrderItemList() {
         List<RequestItemDTO> response = get();
-        System.out.println(response);
-        List<OrderItemDTO> orderItemDTOList = response.stream().map(orderItemMapper::map).toList();
-        return orderItemDTOList;
+        return response.stream().map(orderItemMapper::map).toList();
     }
 }
