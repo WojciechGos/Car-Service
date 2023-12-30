@@ -28,4 +28,10 @@ public abstract class Item {
         this.quantity = quantity;
         this.producer = producer;
     }
+
+    public Item(String name, BigDecimal price, Integer quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }

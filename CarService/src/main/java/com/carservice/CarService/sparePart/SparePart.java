@@ -29,6 +29,11 @@ public class SparePart extends Item {
     @Enumerated(EnumType.STRING)
     private SparePartState sparePartState;
 
+    public SparePart(String name, BigDecimal price, Integer quantity, SparePartState sparePartState) {
+        super(name, price, quantity);
+        this.sparePartState = sparePartState;
+    }
+
     public SparePart(
             String name,
             BigDecimal price,
@@ -39,4 +44,5 @@ public class SparePart extends Item {
         super(name, price, quantity, producer);
         this.sparePartState = sparePartState;
     }
+
 }

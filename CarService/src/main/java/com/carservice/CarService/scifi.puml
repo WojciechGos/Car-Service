@@ -14,53 +14,17 @@ class Client  extends PersonalData{
 abstract class Worker extends PersonalData{
     - BigDecimal salaryPerHour
     - WorkSchedule schedule
+    List<Commission> commissions
 }
 
 class WorkSchedule {
     - List<LocalDate> workDays
 }
 
-class Receptionist extends Worker{
-     createClient()
-     createVehicle()
-     createCommission()
-     editClient(Client c)
-     editVehicle(Vehicle v)
-     editCommission(Commission c)
- }
 
-class Warehouse{
-    - List<SparePart, int> partStock
-    - List<Order> orders
-
-    receiveOrder(Order o)
-    removeSparePart(SparePart sp)
-    increaseStock(SparePart sp, int number)
-    decreaseStock(SparePart sp, int number)
-    checkStockAvailability(SparePart sp)
-}
-enum SparePartState{
-    DAMAGED,
-    WHOLE,
-    MISS
-}
 
 class SparePart extends Item {
     SparePartState sps
-}
-
-class Warehouseman extends Worker {
-    issueSparePart(SparePart sp)
-}
-
-'Mechanic/Vanisher/Elecrtician
-class Contractor extends Worker {
-    List<Commission> commissions
-
-}
-
-class Manager extends Worker {
-    assignCommissionToWorker(Worker w, Commission c)
 }
 
 
@@ -77,6 +41,30 @@ class Commission {
 
     updateStatus()
 }
+
+abstract class Invoice {
+    - PrintInvoice printInvoice
+    - Commission commissions
+
+    GenerateInvoice(Commission c)
+
+}
+class VatInvoice extends Invoice {
+}
+
+class SaleInvoice extends Invoice {
+}
+
+interface PrintInvoice {
+    GenerateInvoice(Commission c)
+}
+
+class PrintPDFInvoice implements PrintInvoice {
+}
+
+class PrintHTMLInvoice implements PrintInvoice {
+}
+
 
 
 class Vehicle {
@@ -98,6 +86,20 @@ enum CommissionStatus{
     CANCELED
 }
 
+class Warehouse{
+    receiveOrder(Order o)
+    removeSparePart(SparePart sp)
+    increaseStock(SparePart sp, int number)
+    decreaseStock(SparePart sp, int number)
+    checkStockAvailability(SparePart sp)
+}
+enum SparePartState{
+    DAMAGED,
+    WHOLE,
+    MISS,
+}
+
+
 class Cost {
     - Long id
     - String name
@@ -112,32 +114,67 @@ class Cost {
 }
 
 class OrderItem extends Item{
-    - Double discount
+    - String wholesaler
 }
-class Order {
-    - Long id
+abstract class Order {
     - Worker worker
     - LocalDate orderDate
     - LocalDate receiveDate
-    - BigDecimal cost
     - List<OrderItem> orderItem
     - OrderStatus status
-    - Supplier supplier
-   - List<Commission> commissions
-    'For warehouseman to set status COMPLETED
+    - Warehouse warehouse
 
     addOrderItem(Order o)
     deleteOrderItem(Order o)
     modifyAmountOfOrderItem(Order o, int newQuantity)
 }
+
+class LocalOrder extends Order {
+    - Long id
+    - List<OrderSparePart> orderSparePartList
+    - List<Commission> commissions
+}
+class ExternalOrder extends Order {
+    - Long id
+    - BigDecimal cost
+    - List<OrderItem> orderItemList
+}
+
+interface WholesalerAdapter {
+    getOrderItemList()
+    orderItem()
+}
+
+class WholesalerIPARTS {
+    get()
+    post()
+}
+
+class WholesalerAdapterIPARTS extends WholesalerIPARTS implements WholesalerAdapter{
+    getOrderItemList()
+    orderItem(Integer id)
+}
+
+class WholesalerSTARTHURT {
+    get()
+    post()
+}
+
+class WholesalerAdapterSTARTHURT extends WholesalerSTARTHURT implements WholesalerAdapter{
+    getOrderItemList()
+    orderItem(Integer id)
+}
+
+WholesalerAdapter o-- OrderItem
+
 abstract class Item {
     - Long id
     - String name
     - BigDecimal price
     - Integer quantity
-    - Producer producer
+    - Producent producent
 }
-class Producer {
+class Producent {
     - Long id
     - String name
 }
@@ -172,36 +209,45 @@ class Payment {
     payUsingBlik()
 }
 
+class OrderSparePart {
+    - SparePart sparePart
+    - Integer quantity
+}
+
 Client --> Payment : "Pay"
 PaymentStatus --* Payment
 
-Warehouse *-- SparePart
-SparePart --o Cost
-Cost --* Commission
+Warehouse <-- ExternalOrder : "communicate"
+Warehouse <-- LocalOrder : "communicate"
 
-Manager --> WorkSchedule : "manage"
+OrderSparePart --o Cost
+Cost --* Commission
 
 SparePartState --* SparePart
 Item *-- Producent
 Order *-- OrderStatus
 Commission *-- Client
 Commission *-- Vehicle
-Commission --o Order
+Commission --o LocalOrder
 Commission *-- CommissionStatus
 Commission --* Payment
-Warehouseman --> Warehouse : "manage"
 
-Receptionist --> Commission : "creates"
 
-Manager --> Commission : "assign"
-Manager --> Order : "order"
-Order --o Warehouse
+Order *-- Warehouse
+Order o-- Item
 
-Contractor o-o Commission
-Contractor --> Commission : "performs"
-Order *-- OrderItem
+Worker o-o Commission
+
+Worker --* Order
 
 Worker *-- WorkSchedule
 
+Invoice o-- PrintInvoice
+Commission --* Invoice
+
+SparePart --o OrderSparePart
+OrderItem --o ExternalOrder
+OrderSparePart --o LocalOrder
+Warehouse --> SparePart : "update"
 
 @enduml
