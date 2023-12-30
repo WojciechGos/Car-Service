@@ -42,24 +42,24 @@ public class SecurityFilterChainConfig {
                             return corsConfig;
                         })
                 )
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(
-                                "/api/v1/commissions/**"
-                        )
-                        .hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
-                        .requestMatchers(
-                                "/api/v1/commissions/**",
-                                "/api/v1/clients/**",
-                                "/api/v1/vehicles/**",
-                                "/api/v1/invoices/**"
-                        )
-                        .hasAnyRole("MANAGER", "RECEPTIONIST")
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/v1/auth/login"
-                    )
-                        .permitAll()
-                )
+//                .authorizeHttpRequests((authz) -> authz
+//                        .requestMatchers(
+//                                "/api/v1/commissions/**"
+//                        )
+//                        .hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+//                        .requestMatchers(
+//                                "/api/v1/commissions/**",
+//                                "/api/v1/clients/**",
+//                                "/api/v1/vehicles/**",
+//                                "/api/v1/invoices/**"
+//                        )
+//                        .hasAnyRole("MANAGER", "RECEPTIONIST")
+//                    .requestMatchers(
+//                        HttpMethod.POST,
+//                        "/api/v1/auth/login"
+//                    )
+//                        .permitAll()
+//                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
