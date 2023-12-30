@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 public class Commission {
 
     @SequenceGenerator(
-            name = "commission_sequence",
-            sequenceName = "commission_sequence",
+            name = "commission_new_sequence",
+            sequenceName = "commission_new_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "commission_sequence"
+            generator = "commission_new_sequence"
     )
     private Long id;
     private LocalDateTime createDate;
@@ -48,17 +48,6 @@ public class Commission {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "total_cost_id")
     private Cost totalCost;
-
-    public Commission(Long id, LocalDateTime createDate, LocalDateTime endDate, Vehicle vehicle, Client client, Worker contractor, String description, CommissionStatus commissionStatus) {
-        this.id = id;
-        this.createDate = createDate;
-        this.endDate = endDate;
-        this.vehicle = vehicle;
-        this.client = client;
-        this.contractor = contractor;
-        this.description = description;
-        this.commissionStatus = commissionStatus;
-    }
 
     @Override
     public String toString() {

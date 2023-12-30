@@ -41,7 +41,7 @@ public class LocalOrder extends Order {
     private Long id;
     // idk co to znaczy
     @OneToMany
-    @JoinColumn(name = "commission_id", nullable = false)
+    @JoinColumn(name = "commission_id")
     private List<Commission> commissionList;
 
     @OneToMany

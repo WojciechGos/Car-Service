@@ -42,16 +42,13 @@ public class CommissionService {
         Client client = clientService.getClientEntityById(createCommissionRequest.clientId());
         Worker worker = workerService.getWorkerEntityById(createCommissionRequest.workerId());
 
-//        Commission commission = CommissionBuilder.getBase()
-//                .buildVehicle(vehicle)
-//                .buildClient(client)
-//                .buildWorker(worker)
-//                .build();
+        Commission commission = CommissionBuilder.getBase()
+                .buildVehicle(vehicle)
+                .buildClient(client)
+                .buildWorker(worker)
+                .build();
 
-        Commission commission = new Commission(1L,LocalDateTime.now(), null, vehicle, client, worker, "cos", CommissionStatus.PENDING);
-        System.out.println("przed savem: " + commission);
         Commission savedCommission = commissionRepository.save(commission);
-        System.out.println("po save: " + savedCommission);
 
         return savedCommission.getId();
     }

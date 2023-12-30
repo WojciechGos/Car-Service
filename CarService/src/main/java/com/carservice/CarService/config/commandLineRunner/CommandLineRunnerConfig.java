@@ -251,11 +251,7 @@ public class CommandLineRunnerConfig {
                 .build();
 
 
-        System.out.println(commission1.toString());
-        System.out.println(commission2.toString());
-
-
-//        commissionRepository.saveAll(List.of(commission1, commission2));
+        commissionRepository.saveAll(List.of(commission1, commission2));
     }
 
     private void addPayments(
