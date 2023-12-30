@@ -33,12 +33,22 @@ public class LocalOrderController {
         return new ResponseEntity<>(savedLocalOrder, HttpStatus.CREATED);
     }
 
-    @PutMapping({"id"})
+    @PutMapping({"{id}"})
     public ResponseEntity<HttpStatus> updateLocalOrder(
             @PathVariable("id") Long localOrderId,
             @RequestBody UpdateLocalOrderRequest localOrderRequest
     ){
         localOrderService.updateLocalOrder(localOrderId, localOrderRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/item/{sparePartID}")
+    public ResponseEntity<HttpStatus> deleteItemFromOrder(
+            @PathVariable("sparePartID") Long sparePartId,
+            @RequestParam(required = true) String email
+
+    ){
+        localOrderService.deleteSparePartFromLocalOrder(sparePartId, email);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
