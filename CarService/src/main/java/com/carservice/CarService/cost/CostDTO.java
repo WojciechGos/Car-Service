@@ -9,7 +9,6 @@ import java.util.List;
 public record CostDTO(
         Long id,
         String name,
-        LocalDate createDate,
         List<OrderSparePartDTO> orderSparePartDTOS,
         BigDecimal laborPrice,
         BigDecimal totalPrice

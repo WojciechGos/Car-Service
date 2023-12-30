@@ -5,6 +5,7 @@ import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.worker.Worker;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class CommissionBuilder {
+
     private LocalDateTime createDate;
     private LocalDateTime endDate;
     private Vehicle vehicle;
@@ -20,6 +22,8 @@ public class CommissionBuilder {
     private Worker contractor;
     private String description;
     private CommissionStatus commissionStatus;
+
+
 
     public static CommissionBuilder getBase(){
         return new CommissionBuilder();

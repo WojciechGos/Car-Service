@@ -3,8 +3,10 @@ package com.carservice.CarService.commission;
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientService;
 import com.carservice.CarService.cost.Cost;
+import com.carservice.CarService.cost.CostRequest;
 import com.carservice.CarService.cost.CostService;
 import com.carservice.CarService.exception.ResourceNotFoundException;
+import com.carservice.CarService.order.OrderStatus;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleService;
 import com.carservice.CarService.worker.Worker;
@@ -12,6 +14,7 @@ import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,7 +25,6 @@ public class CommissionService {
     private final VehicleService vehicleService;
     private final ClientService clientService;
     private final WorkerService workerService;
-    private final CostService costService;
 
     public List<Commission> getAllCommissions(){
         return commissionRepository.findAll();
@@ -40,13 +42,16 @@ public class CommissionService {
         Client client = clientService.getClientEntityById(createCommissionRequest.clientId());
         Worker worker = workerService.getWorkerEntityById(createCommissionRequest.workerId());
 
-        Commission commission = CommissionBuilder.getBase()
-                .buildVehicle(vehicle)
-                .buildClient(client)
-                .buildWorker(worker)
-                .build();
+//        Commission commission = CommissionBuilder.getBase()
+//                .buildVehicle(vehicle)
+//                .buildClient(client)
+//                .buildWorker(worker)
+//                .build();
 
+        Commission commission = new Commission(1L,LocalDateTime.now(), null, vehicle, client, worker, "cos", CommissionStatus.PENDING);
+        System.out.println("przed savem: " + commission);
         Commission savedCommission = commissionRepository.save(commission);
+        System.out.println("po save: " + savedCommission);
 
         return savedCommission.getId();
     }
@@ -80,20 +85,14 @@ public class CommissionService {
             updatedCommission.setCommissionStatus(updateCommissionRequest.commissionStatus());
         }
 
-        if(updateCommissionRequest.costEstimateId() != null) {
-            Cost cost = costService.getCostById(updateCommissionRequest.costEstimateId());
-            updatedCommission.setCostEstimate(cost);
-        }
-
-        if(updateCommissionRequest.totalCostId() != null) {
-            Cost cost = costService.getCostById(updateCommissionRequest.totalCostId());
-            updatedCommission.setTotalCost(cost);
-        }
-
         commissionRepository.save(updatedCommission);
     }
 
+    public void saveCommission(Commission commission){
+        commissionRepository.save(commission);
+    }
     public void deleteCommission(Long commissionId) {
         commissionRepository.deleteById(commissionId);
     }
+
 }

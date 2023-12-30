@@ -29,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -208,14 +209,14 @@ public class CommandLineRunnerConfig {
         List<Cost> costs = List.of(
                 new Cost(
                         "Cost 1",
-                        LocalDate.now(),
+                        LocalDateTime.now(),
                         orderSpareParts.subList(0, 2),
                         new BigDecimal("50.00"),
                         new BigDecimal("70.00")
                 ),
                 new Cost(
                         "Cost 2",
-                        LocalDate.now(),
+                        LocalDateTime.now(),
                         orderSpareParts.subList(2, 3),
                         new BigDecimal("30.00"),
                         new BigDecimal("80.00")
@@ -248,6 +249,11 @@ public class CommandLineRunnerConfig {
                 .buildWorker(workers.get(1))
                 .buildDescription("Commission 2")
                 .build();
+
+
+        System.out.println(commission1.toString());
+        System.out.println(commission2.toString());
+
 
 //        commissionRepository.saveAll(List.of(commission1, commission2));
     }

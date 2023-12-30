@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Commission {
+
     @SequenceGenerator(
             name = "commission_sequence",
             sequenceName = "commission_sequence",
@@ -30,13 +31,13 @@ public class Commission {
     private LocalDateTime createDate;
     private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "vehicleId", nullable = false)
+    @JoinColumn(name = "vehicleId")
     private Vehicle vehicle;
     @ManyToOne
-    @JoinColumn(name = "clientId", nullable = false)
+    @JoinColumn(name = "clientId")
     private Client client;
     @ManyToOne
-    @JoinColumn(name = "workerId", nullable = false)
+    @JoinColumn(name = "workerId")
     private Worker contractor;
     private String description;
     @Enumerated(EnumType.STRING)
@@ -47,4 +48,31 @@ public class Commission {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "total_cost_id")
     private Cost totalCost;
+
+    public Commission(Long id, LocalDateTime createDate, LocalDateTime endDate, Vehicle vehicle, Client client, Worker contractor, String description, CommissionStatus commissionStatus) {
+        this.id = id;
+        this.createDate = createDate;
+        this.endDate = endDate;
+        this.vehicle = vehicle;
+        this.client = client;
+        this.contractor = contractor;
+        this.description = description;
+        this.commissionStatus = commissionStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Commission{" +
+                "id=" + id +
+                ", createDate=" + createDate +
+                ", endDate=" + endDate +
+                ", vehicle=" + vehicle +
+                ", client=" + client +
+                ", contractor=" + contractor +
+                ", description='" + description + '\'' +
+                ", commissionStatus=" + commissionStatus +
+                ", costEstimate=" + costEstimate +
+                ", totalCost=" + totalCost +
+                '}';
+    }
 }

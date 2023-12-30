@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -29,22 +30,36 @@ public class Cost {
     private Long id;
     @NotBlank
     private String name;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     @OneToMany
     @JoinColumn(name = "order_spare_part_id")
     private List<OrderSparePart> spareParts;
     private BigDecimal laborPrice;
+    @Transient
     private BigDecimal totalCost;
 
     public Cost(
             String name,
-            LocalDate createDate,
+            LocalDateTime createDate,
             List<OrderSparePart> spareParts,
             BigDecimal laborPrice,
             BigDecimal totalCost
     ) {
         this.name = name;
         this.createDate = createDate;
+        this.spareParts = spareParts;
+        this.laborPrice = laborPrice;
+        this.totalCost = totalCost;
+    }
+
+    public Cost(
+            String name,
+            List<OrderSparePart> spareParts,
+            BigDecimal laborPrice,
+            BigDecimal totalCost
+    ) {
+        this.name = name;
+        this.createDate = LocalDateTime.now();
         this.spareParts = spareParts;
         this.laborPrice = laborPrice;
         this.totalCost = totalCost;
