@@ -11,6 +11,7 @@ import com.carservice.CarService.producer.ProducerService;
 import com.carservice.CarService.sparePart.SparePartService;
 import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.wholesaler.WholesalerAdapterIPARTS;
+import com.carservice.CarService.wholesaler.WholesalerAdapterSTARTHURT;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class ExternalOrderService {
     private final OrderItemService orderItemService;
     private final ProducerService producerService;
     private final WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
+    private final WholesalerAdapterSTARTHURT wholesalerAdapterSTARTHURT;
     private final SparePartService sparePartService;
     private final ExternalOrderMapper externalOrderMapper;
 
@@ -92,9 +95,18 @@ public class ExternalOrderService {
         externalOrder.setItems(orderItems);
         externalOrderRepository.save(externalOrder);
 
-        wholesalerAdapterIPARTS.put(orderItemDTO.id(), externalOrderRequest.quantity());
+        updateWholesalers(orderItemDTO, externalOrderRequest);
 
         return externalOrder.getId();
+    }
+
+    private void updateWholesalers(OrderItemDTO orderItemDTO, CreateExternalOrderRequest externalOrderRequest) {
+        if(Objects.equals(orderItemDTO.wholesaler(), "IPART")) {
+            wholesalerAdapterIPARTS.put(orderItemDTO.id(), externalOrderRequest.quantity());
+        }
+        else if(Objects.equals(orderItemDTO.wholesaler(), "STARTHURT")){
+            wholesalerAdapterSTARTHURT.put(orderItemDTO.id(), externalOrderRequest.quantity());
+        }
     }
 
     private ExternalOrder getOrCreateExternalOrder(Worker worker, ExternalOrder workerExternalOrder) {

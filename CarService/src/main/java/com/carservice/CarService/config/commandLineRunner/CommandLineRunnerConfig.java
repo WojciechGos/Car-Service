@@ -1,5 +1,7 @@
 package com.carservice.CarService.config.commandLineRunner;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePart;
+import com.carservice.CarService.OrderSparePart.OrderSparePartRepository;
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
 import com.carservice.CarService.commission.Commission;
@@ -17,7 +19,6 @@ import com.carservice.CarService.sparePart.SparePartRepository;
 import com.carservice.CarService.sparePart.SparePartState;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleRepository;
-import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerRepository;
 import com.carservice.CarService.worker.WorkerRole;
@@ -43,7 +44,8 @@ public class CommandLineRunnerConfig {
             CostRepository costRepository,
             CommissionRepository commissionRepository,
             PaymentRepository paymentRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            OrderSparePartRepository orderSparePartRepository
             ){
         return args -> {
             addClients(clientRepository);
@@ -51,7 +53,7 @@ public class CommandLineRunnerConfig {
             addVehicles(vehicleRepository);
             addWorkers(workerRepository, passwordEncoder);
             addSpareParts(sparePartRepository, producerRepository);
-            addCosts(costRepository, sparePartRepository);
+            addCosts(costRepository, sparePartRepository, orderSparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
             addPayments(paymentRepository, clientRepository);
         };
@@ -189,27 +191,38 @@ public class CommandLineRunnerConfig {
 
     private void addCosts(
             CostRepository costRepository,
-            SparePartRepository sparePartRepository
+            SparePartRepository sparePartRepository,
+            OrderSparePartRepository orderSparePartRepository
     ) {
         List<SparePart> spareParts = sparePartRepository.findAll();
 
-        Cost cost1 = new Cost(
-                "Cost 1",
-                LocalDate.now(),
-                spareParts.subList(0, 2),
-                new BigDecimal("50.00"),
-                new BigDecimal("70.00")
+        OrderSparePart orderSparePart1 = new OrderSparePart(spareParts.get(0), 5);
+        OrderSparePart orderSparePart2 = new OrderSparePart(spareParts.get(1), 7);
+        OrderSparePart orderSparePart3 = new OrderSparePart(spareParts.get(2), 3);
+        OrderSparePart orderSparePart4 = new OrderSparePart(spareParts.get(3), 10);
+
+        orderSparePartRepository.saveAll(List.of(orderSparePart1, orderSparePart2, orderSparePart3, orderSparePart4));
+
+        List<OrderSparePart> orderSpareParts = orderSparePartRepository.findAll();
+
+        List<Cost> costs = List.of(
+                new Cost(
+                        "Cost 1",
+                        LocalDate.now(),
+                        orderSpareParts.subList(0, 2),
+                        new BigDecimal("50.00"),
+                        new BigDecimal("70.00")
+                ),
+                new Cost(
+                        "Cost 2",
+                        LocalDate.now(),
+                        orderSpareParts.subList(2, 3),
+                        new BigDecimal("30.00"),
+                        new BigDecimal("80.00")
+                )
         );
 
-        Cost cost2 = new Cost(
-                "Cost 2",
-                LocalDate.now(),
-                spareParts.subList(2, 3),
-                new BigDecimal("30.00"),
-                new BigDecimal("80.00")
-        );
-
-        costRepository.saveAll(List.of(cost1, cost2));
+        costRepository.saveAll(costs);
     }
 
     public void addCommissions(

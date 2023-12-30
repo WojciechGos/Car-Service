@@ -1,15 +1,17 @@
 package com.carservice.CarService.cost;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePartDTO;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
-public record CostRequest(
+public record CostDTO(
+        Long id,
         String name,
         LocalDate createDate,
-        Map<Long, Integer> sparePartQuantities,
+        List<OrderSparePartDTO> orderSparePartDTOS,
         BigDecimal laborPrice,
-        BigDecimal totalCost
+        BigDecimal totalPrice
 ) {
 }
