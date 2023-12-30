@@ -141,8 +141,6 @@ public class LocalOrderService {
             updateLocalOrder.setReceiveDate(LocalDateTime.now());
             updateLocalOrder.setOrderStatus(OrderStatus.CANCELLED);
 
-
-            // release ordered spare parts
             LocalOrder localOrder = getLocalOrderById(localOrderId);
             warehouse = Warehouse.getInstance(sparePartService);
             warehouse.releaseSparePartListFromOrder(localOrder);

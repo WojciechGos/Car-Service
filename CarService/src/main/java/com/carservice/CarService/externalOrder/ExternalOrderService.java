@@ -1,12 +1,15 @@
 package com.carservice.CarService.externalOrder;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
+import com.carservice.CarService.localOrder.LocalOrder;
 import com.carservice.CarService.order.OrderStatus;
 import com.carservice.CarService.orderItem.OrderItem;
 import com.carservice.CarService.orderItem.OrderItemDTO;
 import com.carservice.CarService.orderItem.OrderItemService;
 import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerService;
+import com.carservice.CarService.sparePart.SparePartService;
+import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.wholesaler.WholesalerAdapterIPARTS;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
@@ -26,8 +29,10 @@ public class ExternalOrderService {
     private final OrderItemService orderItemService;
     private final ProducerService producerService;
     private final WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
-
+    private final SparePartService sparePartService;
     private final ExternalOrderMapper externalOrderMapper;
+
+    private Warehouse warehouse;
 
 
     public List<ExternalOrderDTO> getAllExternalOrders() {
@@ -106,5 +111,44 @@ public class ExternalOrderService {
             producer = producerService.getProducerById(orderItemDTO.producerId());
         }
         return producer;
+    }
+
+    public void updateExternalOrder(Long externalOrderId, UpdateExternalOrder externalOrderRequest){
+        ExternalOrder updateExternalOrder = externalOrderRepository.findById(externalOrderId)
+                .orElseThrow(()-> new ResourceNotFoundException("ExternalOrder with id [%s] not found.".formatted(externalOrderId)));
+
+        int currentState = updateExternalOrder.getOrderStatus().getValue();
+
+        if(externalOrderRequest.orderStatus() == null)
+            return;
+        if(externalOrderRequest.orderStatus() == OrderStatus.NEW && currentState < OrderStatus.NEW.getValue()){
+
+            updateExternalOrder.setOrderStatus(OrderStatus.NEW);
+
+        }else  if(externalOrderRequest.orderStatus() == OrderStatus.IN_PROGRESS && currentState < OrderStatus.IN_PROGRESS.getValue()){
+
+            updateExternalOrder.setOrderStatus(OrderStatus.IN_PROGRESS);
+
+        } else if(externalOrderRequest.orderStatus() == OrderStatus.COMPLETED && currentState < OrderStatus.COMPLETED.getValue()){
+
+            List<OrderItem> orderItemList = updateExternalOrder.getItems();
+            warehouse = Warehouse.getInstance(sparePartService);
+            warehouse.addSparePart(orderItemList);
+
+            updateExternalOrder.setOrderStatus(OrderStatus.COMPLETED);
+            updateExternalOrder.setReceiveDate(LocalDateTime.now());
+
+        }else if(externalOrderRequest.orderStatus() == OrderStatus.CANCELLED ){
+
+            updateExternalOrder.setReceiveDate(LocalDateTime.now());
+            updateExternalOrder.setOrderStatus(OrderStatus.CANCELLED);
+
+
+
+
+        }
+
+        externalOrderRepository.save(updateExternalOrder);
+
     }
 }
