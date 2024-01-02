@@ -1,16 +1,15 @@
 import Sidebar from "../components/Sidebar/SideBar"
 import HeaderClient from "../components/HeaderClient/HeaderClient"
-import TableClient from "../components/TableClient/TableClient"
+import TableAddClient from "../components/TableClient/TableAddClient"
 
-const Client = ()=>{
-    
+const ClientAdd = ()=>{
     return (
         <div style={{display: "flex"}}>
             <Sidebar />
             
             <div>
             <HeaderClient />
-           <TableClient />
+           <TableAddClient />
            
            </div>
         </div>
@@ -20,4 +19,4 @@ const Client = ()=>{
     )
 }
 
-export default Client
+export default ClientAdd

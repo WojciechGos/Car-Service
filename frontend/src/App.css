@@ -76,3 +76,6 @@ border-radius: 10px;
   width: 30vw;
   margin-top: 50px;
 }
+.selected-row {
+  background-color: #b3d9ff; 
+}

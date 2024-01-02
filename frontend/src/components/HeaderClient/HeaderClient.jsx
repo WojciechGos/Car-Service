@@ -44,7 +44,9 @@ const HeaderClient = ()=>{
       </InputGroup>
             
             <br />
-            <Button variant="light" style={buttonStyle}>Add client</Button>{' '}
+            <Link to={PATH.CLIENTADD}>
+              <Button variant="light" style={buttonStyle}>Add client</Button>
+            </Link>
             <Button variant="light" style={buttonStyleClient}>Edit client</Button>{' '}
             <Button variant="light" style={buttonStyle}>Delete client</Button>{' '}
 

@@ -5,23 +5,24 @@ import userImage from "./user.png";
 import keyImage from "./key.png";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+
     try {
       const response = await fetch("http://localhost:5001/api/v1/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         
-        if (data.success) {
+        if (data) { 
           window.location.href = PATH.CLIENT;
         } else {
           console.error("Authentication failed");
@@ -42,9 +43,9 @@ const LoginForm = () => {
         <img src={userImage} alt="User" />
         <input
           className="input"
-          placeholder="Username or E-mail"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="email or E-mail"
+          value={email}
+          onChange={(e) => setemail(e.target.value)}
         />
       </div>
       <div className="passwordDiv">
