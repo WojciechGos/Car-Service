@@ -9,10 +9,9 @@ const Client = ()=>{
             <Sidebar />
             
             <div>
-            <HeaderClient />
-           <TableClient />
-           
-           </div>
+                <HeaderClient />
+                <TableClient />
+            </div>
         </div>
        
            
