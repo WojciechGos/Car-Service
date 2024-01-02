@@ -1,5 +1,78 @@
 .centerDiv {
-  width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  background-image: url('../src/components/Sidebar/tlo.png');
+  background-size: cover;
+  height: 100vh;
+  color: white;
+}
+
+.whiteWritings{
+  text-align: center;
+  color: white;
+}
+.slideBarContainer{
+  background-image: url('../src/components/Sidebar/tlo.png');
+  background-size: cover;
+  background-position: left; 
+  height: 100vh;
+  padding: 10px;
+  width: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  margin-right: 10vh;
+}
+.grayTable{
+  background-color: gray;
+}
+.grayTable th, .grayTable td {
+  border-color: grey; 
+  
+}
+.inputSearch{
+margin-top: 20px;
+max-width: 350px;
+border: 3px solid gray;
+border-radius: 10px;
+}
+.loginDiv{
+  margin-top: 40px;
+  border-color:white;
+  border: 2px solid white;
+  border-radius: 10px;
+  width: 30vw;
+  padding: 5px;
+  padding-left: 20px;
+}
+.passwordDiv{
+  margin-top: 20px;
+  border-color:white;
+  border: 2px solid white;
+  border-radius: 10px;
+  width: 30vw;
+  padding: 5px;
+  padding-left: 20px;
+}
+.input
+{
+  border-color:transparent;
+  background: transparent;
+  margin-left: 20px;
+  color: white;
+  width: 85%;
+}
+.input:focus {
+  outline: none; 
+  border-color: none; 
+}
+::placeholder {
+  color: white;
+  font-size: 15px;
+}
+.button{
+  width: 30vw;
+  margin-top: 50px;
 }

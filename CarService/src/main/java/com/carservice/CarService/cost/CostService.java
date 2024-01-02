@@ -1,19 +1,27 @@
 package com.carservice.CarService.cost;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePart;
+import com.carservice.CarService.OrderSparePart.OrderSparePartRepository;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionService;
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class CostService {
     private final CostRepository costRepository;
     private final SparePartService sparePartService;
+    private final OrderSparePartRepository orderSparePartRepository;
+    private final CommissionService commissionService;
 
     public List<Cost> getAllCosts() {
         return costRepository.findAll();
@@ -28,21 +36,49 @@ public class CostService {
 
 
     public Long createCost(CostRequest costRequest) {
-        List<SparePart> spareParts = costRequest.sparePartsIds().stream()
-                .map(sparePartService::getSparePartById)
-                .collect(Collectors.toList());
+
+
+
+
+        List<OrderSparePart> spareParts = new ArrayList<>();
+
+        for (Map.Entry<Long, Integer> entry : costRequest.sparePartQuantities().entrySet()) {
+            SparePart sparePart = sparePartService.getSparePartById(entry.getKey());
+            if (sparePart != null) {
+                OrderSparePart orderSparePart = new OrderSparePart(sparePart, entry.getValue());
+                spareParts.add(orderSparePart);
+                orderSparePartRepository.save(orderSparePart);
+            }
+        }
 
         Cost cost = new Cost(
                 costRequest.name(),
-                costRequest.createDate(),
                 spareParts,
                 costRequest.laborPrice(),
                 costRequest.totalCost()
         );
 
+
+
         Cost createdCost = costRepository.save(cost);
+
+        Commission commission = commissionService.getCommissionById(costRequest.commissionId());
+        if(costRequest.costType().equals("estimate")){
+            commission.setCostEstimate(createdCost);
+
+        }else if(costRequest.costType().equals("total")){
+            commission.setTotalCost(createdCost);
+        }
+        commissionService.saveCommission(commission);
         return createdCost.getId();
     }
+
+
+
+    /*
+           update
+
+     */
 
     public void updateCost(Long costId, CostRequest costRequest) {
         Cost updatedCost = costRepository.findById(costId)
@@ -54,14 +90,17 @@ public class CostService {
             updatedCost.setName(costRequest.name());
         }
 
-        if(costRequest.createDate() != null) {
-            updatedCost.setCreateDate(costRequest.createDate());
-        }
+        if(!costRequest.sparePartQuantities().isEmpty()) {
+            List<OrderSparePart> spareParts = new ArrayList<>();
+            for (Map.Entry<Long, Integer> entry : costRequest.sparePartQuantities().entrySet()) {
+                SparePart sparePart = sparePartService.getSparePartById(entry.getKey());
+                if (sparePart != null) {
+                    OrderSparePart orderSparePart = new OrderSparePart(sparePart, entry.getValue());
+                    spareParts.add(orderSparePart);
+                    orderSparePartRepository.save(orderSparePart);
+                }
+            }
 
-        if(!costRequest.sparePartsIds().isEmpty()) {
-            List<SparePart> spareParts = costRequest.sparePartsIds().stream()
-                    .map(sparePartService::getSparePartById)
-                    .collect(Collectors.toList());
             updatedCost.setSpareParts(spareParts);
         }
 
@@ -73,8 +112,11 @@ public class CostService {
             updatedCost.setTotalCost(costRequest.totalCost());
         }
 
+
+
         costRepository.save(updatedCost);
     }
+
 
     public void deleteCost(Long costId) {
         costRepository.deleteById(costId);

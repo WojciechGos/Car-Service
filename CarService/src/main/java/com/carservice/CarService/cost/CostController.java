@@ -14,8 +14,8 @@ public class CostController {
     private final CostService costService;
     @GetMapping
     public ResponseEntity<List<Cost>> getAllCosts() {
-        List<Cost> clients = costService.getAllCosts();
-        return new ResponseEntity<>(clients, HttpStatus.OK);
+        List<Cost> costs = costService.getAllCosts();
+        return new ResponseEntity<>(costs, HttpStatus.OK);
     }
 
     @GetMapping("{id}")

@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
@@ -28,25 +31,35 @@ public class SecurityFilterChainConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers(
-                                "/api/v1/commissions/**"
-                        )
-                        .hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
-                        .requestMatchers(
-                                "/api/v1/commissions/**",
-                                "/api/v1/clients/**",
-                                "/api/v1/vehicles/**",
-                                "/api/v1/invoices/**"
-                        )
-                        .hasAnyRole("MANAGER", "RECEPTIONIST")
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/v1/auth/login"
-                    )
-                        .permitAll()
+                .cors(cors -> cors
+                        .configurationSource(request -> {
+                            CorsConfiguration corsConfig = new CorsConfiguration();
+                            corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                            corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                            corsConfig.setAllowedHeaders(Arrays.asList("*"));
+                            corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+                            corsConfig.setMaxAge(3600L);
+                            return corsConfig;
+                        })
                 )
+//                .authorizeHttpRequests((authz) -> authz
+//                        .requestMatchers(
+//                                "/api/v1/commissions/**"
+//                        )
+//                        .hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+//                        .requestMatchers(
+//                                "/api/v1/commissions/**",
+//                                "/api/v1/clients/**",
+//                                "/api/v1/vehicles/**",
+//                                "/api/v1/invoices/**"
+//                        )
+//                        .hasAnyRole("MANAGER", "RECEPTIONIST")
+//                    .requestMatchers(
+//                        HttpMethod.POST,
+//                        "/api/v1/auth/login"
+//                    )
+//                        .permitAll()
+//                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

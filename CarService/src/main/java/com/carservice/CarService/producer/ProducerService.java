@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,9 +17,14 @@ public class ProducerService {
     }
 
     public Producer getProducerById(Long producerId) {
+
         return producerRepository.findById(producerId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Producer with id [%s] not found.".formatted(producerId)
                 ));
+    }
+
+    public Optional<Producer> getProducerByName(String name){
+        return producerRepository.findProducerByName(name);
     }
 }
