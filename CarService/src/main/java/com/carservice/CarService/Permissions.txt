@@ -1,0 +1,60 @@
+All -> czyli wszyscy użytkownicy systemu ( Manager, Receptionist, Contractor, Warehouseman)
+
+Client:
+	GET - Manager, Receptionist, Contractor
+	POST  Manager, Receptionist,
+	PUT Manager, Contractor
+	DELETE
+
+Commission -
+	GET - Manager, Receptionist, Contractor
+	POST  Manager, Receptionist,
+	PUT Manager, Contractor
+	DELETE
+
+Cost:
+	GET - Manager
+	POST - Manager
+	PUT - Manager
+	DELETE - Manager
+
+ExternalOrder:
+	GET - Manager
+	POST
+	PUT - Manager
+	DELETE
+
+Invoice -
+ 	GET - Manager, Receptionist
+	POST - Manager, Receptionist
+	PUT - Manager, Receptionist
+	DELETE - Manager, Receptionist
+
+LocalOrder -
+	GET - Manager, Contractor, Warehouseman
+	POST - Manager, Contractor
+	PUT - Manager, Contractor
+	DELETE - x
+
+Payment -
+	GET
+	POST
+	PUT
+	DELETE
+
+SparePart:
+	GET - Manager
+	POST - Manager
+	PUT - Manager
+	DELETE - Manager
+Vehicles:
+	GET - all
+	POST - Manager, Receptionist
+	PUT - Manager, Receptionist
+	DELETE - Manager, Receptionist
+
+Wholesaler:
+	GET - Manager
+	POST - Manager
+	PUT - Manager
+	DELETE - Manager

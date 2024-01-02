@@ -1,5 +1,7 @@
 package com.carservice.CarService.config.commandLineRunner;
 
+import com.carservice.CarService.OrderSparePart.OrderSparePart;
+import com.carservice.CarService.OrderSparePart.OrderSparePartRepository;
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientRepository;
 import com.carservice.CarService.commission.Commission;
@@ -27,10 +29,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
 public class CommandLineRunnerConfig {
+
     @Bean
     CommandLineRunner commandLineRunner(
             ClientRepository clientRepository,
@@ -41,7 +45,8 @@ public class CommandLineRunnerConfig {
             CostRepository costRepository,
             CommissionRepository commissionRepository,
             PaymentRepository paymentRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            OrderSparePartRepository orderSparePartRepository
             ){
         return args -> {
             addClients(clientRepository);
@@ -49,7 +54,7 @@ public class CommandLineRunnerConfig {
             addVehicles(vehicleRepository);
             addWorkers(workerRepository, passwordEncoder);
             addSpareParts(sparePartRepository, producerRepository);
-            addCosts(costRepository, sparePartRepository);
+            addCosts(costRepository, sparePartRepository, orderSparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
             addPayments(paymentRepository, clientRepository);
         };
@@ -146,46 +151,79 @@ public class CommandLineRunnerConfig {
         SparePart oilFilter = new SparePart(
                 "Oil Filter",
                 new BigDecimal("8.50"),
-                20,
+                10,
                 producerRepository.findById(2L).orElse(null),
                 SparePartState.DAMAGED
         );
         SparePart sparkPlug = new SparePart(
                 "Spark Plug",
                 new BigDecimal("4.00"),
-                50,
+                10,
                 producerRepository.findById(3L).orElse(null),
                 SparePartState.MISS
         );
+        SparePart airFilter = new SparePart(
+                "Air filter",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
+        );
+
+        SparePart sparePart1 = new SparePart(
+                "Engine",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
+        );
+        SparePart sparePart2 = new SparePart(
+                "Tire",
+                new BigDecimal("4.00"),
+                50,
+                producerRepository.findById(3L).orElse(null),
+                SparePartState.WHOLE
+        );
 
         sparePartRepository.saveAll(
-                List.of(brakePad, oilFilter, sparkPlug)
+                List.of(brakePad, oilFilter, sparkPlug, airFilter, sparePart1, sparePart2)
         );
     }
 
     private void addCosts(
             CostRepository costRepository,
-            SparePartRepository sparePartRepository
+            SparePartRepository sparePartRepository,
+            OrderSparePartRepository orderSparePartRepository
     ) {
         List<SparePart> spareParts = sparePartRepository.findAll();
 
-        Cost cost1 = new Cost(
-                "Cost 1",
-                LocalDate.now(),
-                spareParts.subList(0, 2),
-                new BigDecimal("50.00"),
-                new BigDecimal("70.00")
+        OrderSparePart orderSparePart1 = new OrderSparePart(spareParts.get(0), 5);
+        OrderSparePart orderSparePart2 = new OrderSparePart(spareParts.get(1), 7);
+        OrderSparePart orderSparePart3 = new OrderSparePart(spareParts.get(2), 3);
+        OrderSparePart orderSparePart4 = new OrderSparePart(spareParts.get(3), 10);
+
+        orderSparePartRepository.saveAll(List.of(orderSparePart1, orderSparePart2, orderSparePart3, orderSparePart4));
+
+        List<OrderSparePart> orderSpareParts = orderSparePartRepository.findAll();
+
+        List<Cost> costs = List.of(
+                new Cost(
+                        "Cost 1",
+                        LocalDateTime.now(),
+                        orderSpareParts.subList(0, 2),
+                        new BigDecimal("50.00"),
+                        new BigDecimal("70.00")
+                ),
+                new Cost(
+                        "Cost 2",
+                        LocalDateTime.now(),
+                        orderSpareParts.subList(2, 3),
+                        new BigDecimal("30.00"),
+                        new BigDecimal("80.00")
+                )
         );
 
-        Cost cost2 = new Cost(
-                "Cost 2",
-                LocalDate.now(),
-                spareParts.subList(2, 3),
-                new BigDecimal("30.00"),
-                new BigDecimal("80.00")
-        );
-
-        costRepository.saveAll(List.of(cost1, cost2));
+        costRepository.saveAll(costs);
     }
 
     public void addCommissions(
@@ -211,6 +249,7 @@ public class CommandLineRunnerConfig {
                 .buildWorker(workers.get(1))
                 .buildDescription("Commission 2")
                 .build();
+
 
         commissionRepository.saveAll(List.of(commission1, commission2));
     }

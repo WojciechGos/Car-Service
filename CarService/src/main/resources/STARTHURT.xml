@@ -1,0 +1,91 @@
+<items>
+    <item>
+        <id>1</id>
+        <producerName>KNECHT</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tKNECHT\nIndeks\tOX554D1\nKod EAN\t4009026728598\nTyp filtra\tWkład filtra\nWysokość [mm]\t117\nWysokość 2 [mm]\t112,4</parameters>
+        <itemName>Filtr oleju</itemName>
+        <price>78.99</price>
+        <quantity>15</quantity>
+    </item>
+
+    <item>
+        <id>2</id>
+        <producerName>BOSCH</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tBOSCH\nIndeks\tF00E164453\nKod EAN\t3165143226311\nTyp filtra\tFiltr powietrza\nWysokość [mm]\t300\nWysokość 2 [mm]\t295,5</parameters>
+        <itemName>Filtr powietrza</itemName>
+        <price>45.50</price>
+        <quantity>20</quantity>
+    </item>
+
+    <item>
+        <id>3</id>
+        <producerName>CONTITECH</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tCONTITECH\nIndeks\t6PK2418\nKod EAN\t4010858779255\nTyp paska\tPasek klinowy wielorowkowy\nDługość [mm]\t2418\nSzerokość [mm]\t19</parameters>
+        <itemName>Pasek klinowy wielorowkowy</itemName>
+        <price>22.75</price>
+        <quantity>30</quantity>
+    </item>
+
+    <item>
+        <id>4</id>
+        <producerName>HELLA</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tHELLA\nIndeks\t8GH 007 157-121\nKod EAN\t4082300487103\nTyp żarówki\tŻarówka halogenowa H7\nNapięcie [V]\t12\nMoc [W]\t55\nKolor światła\tBiały</parameters>
+        <itemName>Żarówka halogenowa H7</itemName>
+        <price>12.99</price>
+        <quantity>50</quantity>
+    </item>
+
+    <item>
+        <id>5</id>
+        <producerName>MOBIL</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tMOBIL\nIndeks\tESP 5W-30\nKod EAN\t5055107432953\nRodzaj oleju\tOlej silnikowy\nPojemność [l]\t5\nViscosity\t5W-30\nNormy\tACEA C3, API SN/CF</parameters>
+        <itemName>Olej silnikowy 5W-30</itemName>
+        <price>32.50</price>
+        <quantity>25</quantity>
+    </item>
+
+    <item>
+        <id>6</id>
+        <producerName>BILSTEIN</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tBILSTEIN\nIndeks\t22-197662\nKod EAN\t4025258563671\nTyp amortyzatora\tAmortyzator gazowy\nPozycja montażowa\tZ przodu\nRodzaj zawieszenia\tZawieszenie sportowe\nDługość [mm]\t305\nSkok [mm]\t120</parameters>
+        <itemName>Amortyzator gazowy</itemName>
+        <price>89.99</price>
+        <quantity>12</quantity>
+    </item>
+
+    <item>
+        <id>7</id>
+        <producerName>NGK</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tNGK\nIndeks\tBKR6E-11\nKod EAN\t087295158384\nTyp świecy zapłonowej\tŚwieca żarowa\nRozstaw elektrod [mm]\t1,1\nGwint\t14 mm\nDługość gwintu [mm]\t19</parameters>
+        <itemName>Świeca zapłonowa</itemName>
+        <price>4.75</price>
+        <quantity>100</quantity>
+    </item>
+
+    <item>
+        <id>8</id>
+        <producerName>VALEO</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tVALEO\nIndeks\t574098\nKod EAN\t3276425740983\nRodzaj sprzęgła\tZestaw sprzęgła\nŚrednica [mm]\t240\nLiczba zębów\t23\nŚrednica tarczy sprzęgła [mm]\t240</parameters>
+        <itemName>Zestaw sprzęgła</itemName>
+        <price>129.50</price>
+        <quantity>8</quantity>
+    </item>
+
+    <item>
+        <id>9</id>
+        <producerName>ATE</producerName>
+        <wholesaler>STARTHURT</wholesaler>
+        <parameters>Producent\tATE\nIndeks\t24.8190-0401.2\nKod EAN\t4006633205883\nTyp klocka\tKlocki hamulcowe\nGrubość [mm]\t17\nWysokość [mm]\t58,2</parameters>
+        <itemName>Klocki hamulcowe</itemName>
+        <price>58.20</price>
+        <quantity>18</quantity>
+    </item>
+</items>
