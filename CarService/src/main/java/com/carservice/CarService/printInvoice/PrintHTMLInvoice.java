@@ -12,7 +12,7 @@ public class PrintHTMLInvoice implements PrintInvoice {
             String htmlContent = "<html><body>" +
                     "<h2>Invoice for Commission: " + commission.getId() + "</h2>" +
                     "<p>Customer: " + commission.getClient().getName() + " " + commission.getClient().getSurname() + "</p>" +
-                    "<p>Total Commission Value: " + commission.getTotalCost().getTotalCost() + "</p>" +
+                    "<p>Total Commission Value: " + commission.getTotalCost().getTotalCost() + " zł" + "</p>" +
                     "</body></html>";
 
             outputStream.write(htmlContent.getBytes());
