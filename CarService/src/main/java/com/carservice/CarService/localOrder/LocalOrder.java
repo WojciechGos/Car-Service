@@ -2,11 +2,7 @@ package com.carservice.CarService.localOrder;
 
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.commission.Commission;
-import com.carservice.CarService.item.Item;
 import com.carservice.CarService.order.Order;
-import com.carservice.CarService.order.OrderStatus;
-import com.carservice.CarService.sparePart.SparePart;
-import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,9 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /*
     LocalOrder class purpose is used to place local orders in an auto repair shop.
@@ -39,18 +33,12 @@ public class LocalOrder extends Order {
             generator = "local_order_sequence"
     )
     private Long id;
-    // idk co to znaczy
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "commission_id")
-    private List<Commission> commissionList;
-
+    private Commission commission;
     @OneToMany
     private List<OrderSparePart> items = new ArrayList<>();
-
-
     public LocalOrder(Worker worker, LocalDateTime createDate) {
         super(worker, createDate);
     }
-
-
 }
