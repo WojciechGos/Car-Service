@@ -3,7 +3,7 @@ All -> czyli wszyscy użytkownicy systemu ( Manager, Receptionist, Contractor, W
 Client:
 	GET - Manager, Receptionist, Contractor
 	POST  Manager, Receptionist,
-	PUT Manager, Contractor
+	PUT Manager, Receptionist
 	DELETE
 
 Commission -
@@ -13,18 +13,20 @@ Commission -
 	DELETE
 
 Cost:
-	GET - Manager
+	GET - Manager, Contractor
 	POST - Manager
 	PUT - Manager
 	DELETE - Manager
 
 ExternalOrder:
 	GET - Manager
-	POST
 	PUT - Manager
-	DELETE
 
-Invoice -
+Wholesaler:
+	GET - Manager
+	POST - Manager
+
+Invoice:
  	GET - Manager, Receptionist
 	POST - Manager, Receptionist
 	PUT - Manager, Receptionist
@@ -33,28 +35,23 @@ Invoice -
 LocalOrder -
 	GET - Manager, Contractor, Warehouseman
 	POST - Manager, Contractor
-	PUT - Manager, Contractor
-	DELETE - x
+	PUT - Manager, Contractor, Warehouseman
 
 Payment -
-	GET
-	POST
-	PUT
-	DELETE
-
-SparePart:
-	GET - Manager
-	POST - Manager
-	PUT - Manager
-	DELETE - Manager
-Vehicles:
-	GET - all
+	GET - Manager, Receptionist
 	POST - Manager, Receptionist
 	PUT - Manager, Receptionist
 	DELETE - Manager, Receptionist
 
-Wholesaler:
-	GET - Manager
+SparePart:
+	GET - Manager, Contractor, Warehouseman
 	POST - Manager
-	PUT - Manager
+	PUT - Manager, Contractor, Warehouseman
 	DELETE - Manager
+
+
+Vehicles:
+	GET - Manager, Receptionist, Contractor
+	POST - Manager, Receptionist
+	PUT - Manager, Receptionist
+

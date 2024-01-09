@@ -3,6 +3,7 @@ package com.carservice.CarService.jwt;
 import com.carservice.CarService.worker.WorkerUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -55,9 +56,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                Cookie jwtCookie = new Cookie("jwt", jwt);
+                jwtCookie.setHttpOnly(true); // This helps in preventing XSS attacks
+                jwtCookie.setMaxAge(jwtUtil.getExpirationDate(jwt).intValue() / 1000);
+                jwtCookie.setPath("/"); // Set cookie path
+                response.addCookie(jwtCookie);
             }
         }
         filterChain.doFilter(request, response);
 
     }
 }
+
