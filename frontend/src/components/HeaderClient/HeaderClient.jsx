@@ -16,8 +16,8 @@ const HeaderClient = ()=>{
 
       const buttonStyleClient = {
         fontSize: "32px", 
-        marginLeft: "300px",
-        marginRight: "300px",
+        marginTop: "10px",
+        marginLeft:"500px",
         fontFamily: "'Extra Bolt Italic', sans-serif"
       };
 
@@ -33,20 +33,21 @@ const HeaderClient = ()=>{
 
 
             <InputGroup className="inputSearch">
-        <Form.Control
-          placeholder="Enter name"
-          aria-label="Enter name"
-          aria-describedby="basic-addon2"
-        />
-        <Button variant="secondary" id="button-addon2">
-          Search
-        </Button>
-      </InputGroup>
+              <Form.Control
+                placeholder="Enter name"
+                aria-label="Enter name"
+                aria-describedby="basic-addon2"
+              />
+              <Button variant="secondary" id="button-addon2">
+                Search
+              </Button>
+            </InputGroup>
             
             <br />
-            <Button variant="light" style={buttonStyle}>Add client</Button>{' '}
+            <Link to={PATH.CLIENTADD}>
+              <Button variant="light" style={buttonStyle}>Add client</Button>
+            </Link>
             <Button variant="light" style={buttonStyleClient}>Edit client</Button>{' '}
-            <Button variant="light" style={buttonStyle}>Delete client</Button>{' '}
 
         </div>
     )
