@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import PATH from "../../paths";
 import userImage from "./user.png";
 import keyImage from "./key.png";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const [email, setemail] = useState("");
@@ -23,6 +24,8 @@ const LoginForm = () => {
         const data = await response.json();
         
         if (data) { 
+          // console.log(data)
+          Cookies.set("jwt", data.token)
           window.location.href = PATH.CLIENT;
         } else {
           console.error("Authentication failed");

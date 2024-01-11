@@ -1,4 +1,5 @@
 // TableClient.js
+import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 
 const TableClient = () => {
@@ -11,7 +12,11 @@ const TableClient = () => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/clients");
+      const response = await fetch("http://localhost:5001/api/v1/clients", {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setClients(data);
