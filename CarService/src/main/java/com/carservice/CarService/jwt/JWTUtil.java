@@ -32,7 +32,9 @@ public class JWTUtil {
         return issueToken(subject, Map.of("scopes", scopes));
     }
 
-
+    public Long getExpirationDate(String token) {
+        return getClaims(token).getExpiration().getTime();
+    }
     public String issueToken(
             String subject,
             Map<String, Object> claims) {

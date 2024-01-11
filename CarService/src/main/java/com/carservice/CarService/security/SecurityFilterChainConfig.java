@@ -42,24 +42,68 @@ public class SecurityFilterChainConfig {
                             return corsConfig;
                         })
                 )
-//                .authorizeHttpRequests((authz) -> authz
-//                        .requestMatchers(
-//                                "/api/v1/commissions/**"
-//                        )
-//                        .hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
-//                        .requestMatchers(
-//                                "/api/v1/commissions/**",
-//                                "/api/v1/clients/**",
-//                                "/api/v1/vehicles/**",
-//                                "/api/v1/invoices/**"
-//                        )
-//                        .hasAnyRole("MANAGER", "RECEPTIONIST")
-//                    .requestMatchers(
-//                        HttpMethod.POST,
-//                        "/api/v1/auth/login"
-//                    )
-//                        .permitAll()
-//                )
+                .authorizeHttpRequests((authz) -> authz
+
+                        // Client endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/clients/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/clients/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/clients/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/clients/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+
+                        // Commission endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/commissions/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/commissions/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/commissions/**").hasAnyRole("MANAGER", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/commissions/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+
+                        // Cost endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/costs/**").hasAnyRole("MANAGER", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/costs/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/costs/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/costs/**").hasAnyRole("MANAGER")
+
+                        // ExternalOrder endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/externalorders/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/externalorders/**").hasAnyRole("MANAGER")
+
+                        // Wholesaler endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/wholesalers/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/wholesalers/**").hasAnyRole("MANAGER")
+
+                        // Invoice endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+
+                        // LocalOrder endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+
+                        // Payment endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+
+                        // SparePart endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/spareparts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/spareparts/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/spareparts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/spareparts/**").hasAnyRole("MANAGER")
+
+                        // Vehicles endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        "/api/v1/auth/login"
+                    )
+                        .permitAll()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
