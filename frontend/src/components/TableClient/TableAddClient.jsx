@@ -119,9 +119,10 @@ const TableClient = () => {
             </Form.Group>
 
         <Link to={PATH.CLIENT}>
-          <Button variant="primary" onClick={handleAddClient}>
-            Add Client
-          </Button>
+        <Button variant="primary" onClick={handleAddClient} style={{ marginTop: "10px", fontSize: "16px" }}>
+          Add Client
+        </Button>
+
         </Link>
       </Form>
     </div>
