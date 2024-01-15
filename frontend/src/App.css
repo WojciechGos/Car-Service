@@ -80,15 +80,16 @@ border-radius: 10px;
   background-color: grey; 
 }
 
-
-
-/* TableClient.css */
 .table-container {
   margin-top: 10px;
 }
 
 .overflow-container {
-  max-height: 300px; /* Set your desired maximum height */
+  max-height: 400px; 
+  overflow-y: auto;
+}
+.overflow-container2 {
+  max-height: 430px; 
   overflow-y: auto;
 }
 

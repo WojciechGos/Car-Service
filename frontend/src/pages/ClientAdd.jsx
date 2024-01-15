@@ -9,7 +9,7 @@ const ClientAdd = ()=>{
             
             <div>
             <HeaderClient />
-           <TableAddClient />
+            <TableAddClient />
            
            </div>
         </div>

@@ -1,22 +1,37 @@
-import Sidebar from "../components/Sidebar/SideBar"
-import HeaderClient from "../components/HeaderClient/HeaderClient"
-import TableClient from "../components/TableClient/TableClient"
+import React, { useState } from "react";
+import Sidebar from "../components/Sidebar/SideBar";
+import HeaderClient from "../components/HeaderClient/HeaderClient";
+import TableClient from "../components/TableClient/TableClient";
 
-const Client = ()=>{
-    
-    return (
-        <div style={{display: "flex"}}>
-            <Sidebar />
-            
-            <div>
-                <HeaderClient />
-                <TableClient />
-            </div>
-        </div>
-       
-           
-            
-    )
-}
+const Client = () => {
+  const [filterText, setFilterText] = useState("");
+  const [isEditingClient, setIsEditingClient] = useState(false);
 
-export default Client
+  const handleFilterChange = (text) => {
+    setFilterText(text);
+  };
+
+  const handleEditClient = (editing) => {
+    setIsEditingClient(editing);
+  };
+
+  const handleSaveEdit = () => {
+    setIsEditingClient(false);
+  };
+
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div>
+        <HeaderClient
+          onFilterChange={handleFilterChange}
+          onEditClient={handleEditClient}
+          onSaveEdit={handleSaveEdit}
+        />
+        <TableClient filterText={filterText} isEditingClient={isEditingClient} onEditClient={handleSaveEdit} />
+      </div>
+    </div>
+  );
+};
+
+export default Client;

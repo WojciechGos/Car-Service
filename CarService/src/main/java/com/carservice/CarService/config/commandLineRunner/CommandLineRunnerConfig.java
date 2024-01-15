@@ -63,11 +63,20 @@ public class CommandLineRunnerConfig {
     private void addClients(ClientRepository clientRepository) {
         Client wojtek = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");
         Client alex = new Client("Alex", "Maj", "alex@gmail.com", "555432897");
+        Client john = new Client("John", "Doe", "john@gmail.com", "123456789");
+        Client emily = new Client("Emily", "Smith", "emily@gmail.com", "987654321");
+        Client anna = new Client("Anna", "Johnson", "anna@gmail.com", "456789012");
+        Client robert = new Client("Robert", "Brown", "robert@gmail.com", "876543210");
+        Client maria = new Client("Maria", "Lee", "maria@gmail.com", "321098765");
+        Client james = new Client("James", "Taylor", "james@gmail.com", "654321098");
+        Client lisa = new Client("Lisa", "Anderson", "lisa@gmail.com", "890123456");
+        Client michael = new Client("Michael", "White", "michael@gmail.com", "234567890");
 
         clientRepository.saveAll(
-                List.of(wojtek, alex)
+                List.of(wojtek, alex, john, emily, anna, robert, maria, james, lisa, michael)
         );
     }
+
 
     private void addVehicles(VehicleRepository vehicleRepository) {
         Vehicle vehicle1 = new Vehicle("opel", "astra", "123123", "TKI 5VF5","2001");
