@@ -12,7 +12,7 @@ public record LocalOrderDTO (
         LocalDateTime createDate,
         LocalDateTime receiveDate,
         OrderStatus orderStatus,
-        List<Commission> commissionList,
+        Commission commission,
         List<OrderSparePartDTO> orderSparePartList
 
 ){

@@ -26,8 +26,7 @@ public class CostMapper {
                 cost.getId(),
                 cost.getName(),
                 orderSparePartDTOS,
-                cost.getLaborPrice(),
-                cost.getTotalCost()
+                cost.getLaborPrice()
         );
     }
 }

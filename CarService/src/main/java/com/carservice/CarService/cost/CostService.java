@@ -10,7 +10,6 @@ import com.carservice.CarService.sparePart.SparePartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +53,7 @@ public class CostService {
         Cost cost = new Cost(
                 costRequest.name(),
                 spareParts,
-                costRequest.laborPrice(),
-                costRequest.totalCost()
+                costRequest.laborPrice()
         );
 
 
@@ -107,12 +105,6 @@ public class CostService {
         if(costRequest.laborPrice() != null) {
             updatedCost.setLaborPrice(costRequest.laborPrice());
         }
-
-        if(costRequest.totalCost() != null) {
-            updatedCost.setTotalCost(costRequest.totalCost());
-        }
-
-
 
         costRepository.save(updatedCost);
     }
