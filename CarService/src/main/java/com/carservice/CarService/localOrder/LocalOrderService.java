@@ -194,4 +194,13 @@ public class LocalOrderService {
         localOrderRepository.save(workerLocalOrder);
     }
 
+    public LocalOrderDTO getLocalOrderByWorkerEmail(String workerEmail) {
+        Worker worker = workerService.getWorkerByEmail(workerEmail);
+
+        LocalOrder localOrder = getLocalOrderByWorkerId(worker.getId());
+        if(localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
+            return localOrderMapper.map(localOrder);
+        }
+        return null;
+    }
 }
