@@ -7,6 +7,11 @@ const PATH = {
     WAREHOUSE: "/warehouse",
     VEHICLE: "/vehicle",
     ORDER: "/order",
+    WHOLESALERS: "/wholesalers",
+    IPART: "/ipart",
+    STARHURT: "/starhurt",
+    SALERSORDERS: "/salersorders",
+    CART: "/cart",
 }
 
 
