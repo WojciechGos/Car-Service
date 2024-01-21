@@ -118,3 +118,28 @@ border-radius: 10px;
 .custom-table tbody tr:hover {
   background-color: #f2f2f2;
 }
+
+.commission-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commission-details-row {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%;
+  padding-right:62px ;
+}
+
+.IdCommission{
+  margin-top: -42px;
+  margin-bottom: 50px;
+}
+
+.description{
+  background-color: #f2f2f2;
+  width: 95%;
+  margin-right: 60px;
+  height: 400px;
+}
