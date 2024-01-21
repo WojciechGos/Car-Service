@@ -19,11 +19,13 @@ public class LocalOrderController {
         return new ResponseEntity<>(localOrders, HttpStatus.OK);
     }
 
-//    @PostMapping
-//    public ResponseEntity<Long> createLocalOrder(@RequestBody CreateLocalOrderRequest localOrderRequest){
-//        Long savedLocalOrder = localOrderService.createLocalOrder(localOrderRequest);
-//        return new ResponseEntity<>(savedLocalOrder, HttpStatus.CREATED);
-//    }
+    @GetMapping("{workerEmail}")
+    public ResponseEntity<LocalOrderDTO> getLocalOrderByWorkerEmail(
+            @PathVariable("workerEmail") String workerEmail
+    ) {
+        LocalOrderDTO localOrder =  localOrderService.getLocalOrderByWorkerEmail(workerEmail);
+        return new ResponseEntity<>(localOrder, HttpStatus.OK);
+    }
 
     @PostMapping("/item/{sparePartID}")
     public ResponseEntity<Long> addItemToLocalOrder(

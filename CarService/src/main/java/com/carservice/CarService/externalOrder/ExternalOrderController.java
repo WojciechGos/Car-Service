@@ -1,6 +1,5 @@
 package com.carservice.CarService.externalOrder;
 
-import com.carservice.CarService.localOrder.UpdateLocalOrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +18,14 @@ public class ExternalOrderController {
     public ResponseEntity<List<ExternalOrderDTO>> getExternalOrders() {
         List<ExternalOrderDTO> externalOrders =  externalOrderService.getAllExternalOrders();
         return new ResponseEntity<>(externalOrders, HttpStatus.OK);
+    }
+
+    @GetMapping("{workerEmail}")
+    public ResponseEntity<ExternalOrderDTO> getExternalOrderByWorkerEmail(
+            @PathVariable("workerEmail") String workerEmail
+    ) {
+        ExternalOrderDTO externalOrder =  externalOrderService.getExternalOrderByWorkerEmail(workerEmail);
+        return new ResponseEntity<>(externalOrder, HttpStatus.OK);
     }
 
     @PutMapping("{orderId}")

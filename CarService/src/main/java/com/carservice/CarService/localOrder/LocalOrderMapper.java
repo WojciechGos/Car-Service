@@ -1,6 +1,5 @@
 package com.carservice.CarService.localOrder;
 
-import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.OrderSparePart.OrderSparePartDTO;
 import com.carservice.CarService.OrderSparePart.OrderSparePartMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class LocalOrderMapper {
                 localOrder.getCreateDate(),
                 localOrder.getReceiveDate(),
                 localOrder.getOrderStatus(),
-                localOrder.getCommissionList(),
+                localOrder.getCommission(),
                 orderSparePartDTOList
         );
     }

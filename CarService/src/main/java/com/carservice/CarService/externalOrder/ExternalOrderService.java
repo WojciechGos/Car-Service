@@ -1,7 +1,6 @@
 package com.carservice.CarService.externalOrder;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
-import com.carservice.CarService.localOrder.LocalOrder;
 import com.carservice.CarService.order.OrderStatus;
 import com.carservice.CarService.orderItem.OrderItem;
 import com.carservice.CarService.orderItem.OrderItemDTO;
@@ -54,9 +53,8 @@ public class ExternalOrderService {
         Worker worker = workerService.getWorkerEntityById(workerId);
         ExternalOrder externalOrder = new ExternalOrder(worker, LocalDateTime.now());
 
-        ExternalOrder saved = externalOrderRepository.save(externalOrder);
-//        externalOrder.submitOrder();
-        return saved;
+        //        externalOrder.submitOrder();
+        return externalOrderRepository.save(externalOrder);
     }
 
     public Long addItemToExternalOrder(CreateExternalOrderRequest externalOrderRequest, OrderItemDTO orderItemDTO) {
@@ -162,5 +160,15 @@ public class ExternalOrderService {
 
         externalOrderRepository.save(updateExternalOrder);
 
+    }
+
+    public ExternalOrderDTO getExternalOrderByWorkerEmail(String workerEmail) {
+        Worker worker = workerService.getWorkerByEmail(workerEmail);
+
+       ExternalOrder externalOrder = getExternalOrderByWorkerId(worker.getId());
+       if(externalOrder != null && externalOrder.getOrderStatus() == OrderStatus.CREATING) {
+           return externalOrderMapper.map(externalOrder);
+       }
+       return null;
     }
 }

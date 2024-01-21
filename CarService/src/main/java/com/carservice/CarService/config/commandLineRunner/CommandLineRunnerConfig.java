@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -220,15 +219,13 @@ public class CommandLineRunnerConfig {
                         "Cost 1",
                         LocalDateTime.now(),
                         orderSpareParts.subList(0, 2),
-                        new BigDecimal("50.00"),
-                        new BigDecimal("70.00")
+                        new BigDecimal("50.00")
                 ),
                 new Cost(
                         "Cost 2",
                         LocalDateTime.now(),
                         orderSpareParts.subList(2, 3),
-                        new BigDecimal("30.00"),
-                        new BigDecimal("80.00")
+                        new BigDecimal("30.00")
                 )
         );
 
