@@ -57,8 +57,6 @@ public class CommissionBuilder {
         commission.setCommissionStatus(CommissionStatus.PENDING);
         commission.setDescription(description);
 
-        commission.setDescription(description);
-
         return commission;
     }
 }
