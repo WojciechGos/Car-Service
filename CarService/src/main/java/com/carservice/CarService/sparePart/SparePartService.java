@@ -50,4 +50,8 @@ public class SparePartService {
 
         sparePartRepository.save(updatedSparePart);
     }
+
+    public void createSparePart(SparePart sparePart) {
+        sparePartRepository.save(sparePart);
+    }
 }

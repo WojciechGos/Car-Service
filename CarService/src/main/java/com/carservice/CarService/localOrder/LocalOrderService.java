@@ -2,13 +2,11 @@ package com.carservice.CarService.localOrder;
 
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.OrderSparePart.OrderSparePartService;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionService;
+import com.carservice.CarService.cost.Cost;
 import com.carservice.CarService.exception.ResourceNotFoundException;
-import com.carservice.CarService.externalOrder.ExternalOrder;
-import com.carservice.CarService.item.Item;
 import com.carservice.CarService.order.OrderStatus;
-import com.carservice.CarService.orderItem.OrderItemDTO;
-import com.carservice.CarService.producer.Producer;
-import com.carservice.CarService.producer.ProducerService;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
 import com.carservice.CarService.warehouse.Warehouse;
@@ -17,7 +15,9 @@ import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +29,7 @@ public class LocalOrderService {
     private final WorkerService workerService;
     private final SparePartService sparePartService;
     private final OrderSparePartService orderSparePartService;
+    private final CommissionService commissionService;
     private Warehouse warehouse;
 
     private final LocalOrderMapper localOrderMapper;
@@ -43,9 +44,7 @@ public class LocalOrderService {
         Worker worker = workerService.getWorkerEntityById(workerId);
         LocalOrder localOrder = new LocalOrder(worker, LocalDateTime.now());
 
-        LocalOrder saved = localOrderRepository.save(localOrder);
-
-        return saved;
+        return localOrderRepository.save(localOrder);
     }
 
     public LocalOrder getLocalOrderByWorkerId(Long workerId) {
@@ -92,6 +91,9 @@ public class LocalOrderService {
         }
 
         localOrder.setItems(orderSparePartList);
+
+        Commission commission = commissionService.getCommissionById(localOrderRequest.commissionId());
+        localOrder.setCommission(commission);
         localOrderRepository.save(localOrder);
 
 
@@ -136,13 +138,42 @@ public class LocalOrderService {
             updateLocalOrder.setOrderStatus(OrderStatus.COMPLETED);
             updateLocalOrder.setReceiveDate(LocalDateTime.now());
 
+            Commission commission = commissionService.getCommissionById(updateLocalOrder.getCommission().getId());
+
+            if(commission.getTotalCost() == null) {
+                Cost totalCost = new Cost(
+                     "Cost123",
+                     LocalDateTime.now(),
+                     new ArrayList<>(),
+                     BigDecimal.valueOf(0)
+                );
+
+                commission.setTotalCost(totalCost);
+            }
+
+            List<OrderSparePart> existingSpareParts = commission.getTotalCost().getSpareParts();
+            List<OrderSparePart> newSpareParts = updateLocalOrder.getItems();
+
+            for (OrderSparePart newSparePart : newSpareParts) {
+                boolean found = false;
+                for (OrderSparePart existingSparePart : existingSpareParts) {
+                    if (newSparePart.getSparePart().getId().equals(existingSparePart.getSparePart().getId())) {
+                        existingSparePart.setQuantity(existingSparePart.getQuantity() + newSparePart.getQuantity());
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    existingSpareParts.add(newSparePart);
+                }
+            }
+
         }else if(localOrderRequest.orderStatus() == OrderStatus.CANCELLED ){
 
             updateLocalOrder.setReceiveDate(LocalDateTime.now());
             updateLocalOrder.setOrderStatus(OrderStatus.CANCELLED);
 
-
-            // release ordered spare parts
             LocalOrder localOrder = getLocalOrderById(localOrderId);
             warehouse = Warehouse.getInstance(sparePartService);
             warehouse.releaseSparePartListFromOrder(localOrder);
@@ -163,4 +194,13 @@ public class LocalOrderService {
         localOrderRepository.save(workerLocalOrder);
     }
 
+    public LocalOrderDTO getLocalOrderByWorkerEmail(String workerEmail) {
+        Worker worker = workerService.getWorkerByEmail(workerEmail);
+
+        LocalOrder localOrder = getLocalOrderByWorkerId(worker.getId());
+        if(localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
+            return localOrderMapper.map(localOrder);
+        }
+        return null;
+    }
 }

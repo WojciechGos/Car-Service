@@ -93,6 +93,7 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/spareParts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/spareParts/**").hasAnyRole("MANAGER")
 
+
                         // Vehicles endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")
                         .requestMatchers(HttpMethod.POST, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST")

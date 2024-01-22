@@ -2,8 +2,10 @@ package com.carservice.CarService.warehouse;
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.localOrder.LocalOrder;
 import com.carservice.CarService.order.Order;
+import com.carservice.CarService.orderItem.OrderItem;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
+import com.carservice.CarService.sparePart.SparePartState;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,7 @@ public class Warehouse {
 
 
     public synchronized void takeSparePart(SparePart sparePart, Integer orderedQuantity){
-        System.out.println("takeSparePart //////////////////////////////////////////////////////////////////////////");
+//        System.out.println("takeSparePart //////////////////////////////////////////////////////////////////////////");
         sparePart.setQuantity(sparePart.getQuantity() - orderedQuantity);
         sparePartService.updateSparePart(sparePart);
     }
@@ -65,8 +67,15 @@ public class Warehouse {
         }
     }
 
-    public synchronized void addSparePart(SparePart sparePart){
-
+    public synchronized void addSparePart(List<OrderItem> orderItemList){
+        for(OrderItem item : orderItemList){
+            sparePartService.createSparePart(new SparePart(
+                item.getName(),
+                item.getPrice(),
+                item.getQuantity(),
+                SparePartState.WHOLE
+            ));
+        }
     }
 
 

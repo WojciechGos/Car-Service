@@ -5,9 +5,7 @@ public record UpdateCommissionRequest(
     Long clientId,
     Long workerId,
     String description,
-    CommissionStatus commissionStatus,
-    Long costEstimateId,
-    Long totalCostId
+    CommissionStatus commissionStatus
 ) {
 
 }

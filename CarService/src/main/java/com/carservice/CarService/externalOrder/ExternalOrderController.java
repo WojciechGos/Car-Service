@@ -19,4 +19,21 @@ public class ExternalOrderController {
         List<ExternalOrderDTO> externalOrders =  externalOrderService.getAllExternalOrders();
         return new ResponseEntity<>(externalOrders, HttpStatus.OK);
     }
+
+    @GetMapping("{workerEmail}")
+    public ResponseEntity<ExternalOrderDTO> getExternalOrderByWorkerEmail(
+            @PathVariable("workerEmail") String workerEmail
+    ) {
+        ExternalOrderDTO externalOrder =  externalOrderService.getExternalOrderByWorkerEmail(workerEmail);
+        return new ResponseEntity<>(externalOrder, HttpStatus.OK);
+    }
+
+    @PutMapping("{orderId}")
+    public ResponseEntity<HttpStatus> updateExternalOrderStatus(
+            @PathVariable("orderId") Long externalOrderId,
+            @RequestBody UpdateExternalOrder externalOrder
+    ){
+        externalOrderService.updateExternalOrder(externalOrderId, externalOrder);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

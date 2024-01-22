@@ -2,6 +2,8 @@ package com.carservice.CarService.cost;
 
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.OrderSparePart.OrderSparePartRepository;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionService;
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartService;
@@ -18,6 +20,7 @@ public class CostService {
     private final CostRepository costRepository;
     private final SparePartService sparePartService;
     private final OrderSparePartRepository orderSparePartRepository;
+    private final CommissionService commissionService;
 
     public List<Cost> getAllCosts() {
         return costRepository.findAll();
@@ -32,6 +35,10 @@ public class CostService {
 
 
     public Long createCost(CostRequest costRequest) {
+
+
+
+
         List<OrderSparePart> spareParts = new ArrayList<>();
 
         for (Map.Entry<Long, Integer> entry : costRequest.sparePartQuantities().entrySet()) {
@@ -45,15 +52,31 @@ public class CostService {
 
         Cost cost = new Cost(
                 costRequest.name(),
-                costRequest.createDate(),
                 spareParts,
-                costRequest.laborPrice(),
-                costRequest.totalCost()
+                costRequest.laborPrice()
         );
 
+
+
         Cost createdCost = costRepository.save(cost);
+
+        Commission commission = commissionService.getCommissionById(costRequest.commissionId());
+        if(costRequest.costType().equals("estimate")){
+            commission.setCostEstimate(createdCost);
+
+        }else if(costRequest.costType().equals("total")){
+            commission.setTotalCost(createdCost);
+        }
+        commissionService.saveCommission(commission);
         return createdCost.getId();
     }
+
+
+
+    /*
+           update
+
+     */
 
     public void updateCost(Long costId, CostRequest costRequest) {
         Cost updatedCost = costRepository.findById(costId)
@@ -63,10 +86,6 @@ public class CostService {
 
         if(costRequest.name() != null) {
             updatedCost.setName(costRequest.name());
-        }
-
-        if(costRequest.createDate() != null) {
-            updatedCost.setCreateDate(costRequest.createDate());
         }
 
         if(!costRequest.sparePartQuantities().isEmpty()) {
@@ -87,12 +106,9 @@ public class CostService {
             updatedCost.setLaborPrice(costRequest.laborPrice());
         }
 
-        if(costRequest.totalCost() != null) {
-            updatedCost.setTotalCost(costRequest.totalCost());
-        }
-
         costRepository.save(updatedCost);
     }
+
 
     public void deleteCost(Long costId) {
         costRepository.deleteById(costId);

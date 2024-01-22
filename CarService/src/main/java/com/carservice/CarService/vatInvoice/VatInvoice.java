@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
 @NoArgsConstructor
 @Entity
 @Getter
@@ -30,6 +34,18 @@ public class VatInvoice extends Invoice {
 
     @Override
     public byte[] generateInvoice(Commission commission) {
-        return printInvoice.generateInvoice(commission);
+        Callable<byte[]> invoiceGenerationCallable = () -> printInvoice.generateInvoice(commission);
+
+        FutureTask<byte[]> futureTask = new FutureTask<>(invoiceGenerationCallable);
+
+        Thread invoiceGenerationThread = new Thread(futureTask);
+        invoiceGenerationThread.start();
+
+        try {
+            return futureTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

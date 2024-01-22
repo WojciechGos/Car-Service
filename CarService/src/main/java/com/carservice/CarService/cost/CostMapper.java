@@ -25,10 +25,8 @@ public class CostMapper {
         return new CostDTO(
                 cost.getId(),
                 cost.getName(),
-                cost.getCreateDate(),
                 orderSparePartDTOS,
-                cost.getLaborPrice(),
-                cost.getTotalCost()
+                cost.getLaborPrice()
         );
     }
 }

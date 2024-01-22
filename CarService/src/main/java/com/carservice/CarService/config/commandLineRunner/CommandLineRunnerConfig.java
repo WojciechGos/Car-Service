@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -62,11 +62,20 @@ public class CommandLineRunnerConfig {
     private void addClients(ClientRepository clientRepository) {
         Client wojtek = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");
         Client alex = new Client("Alex", "Maj", "alex@gmail.com", "555432897");
+        Client john = new Client("John", "Doe", "john@gmail.com", "123456789");
+        Client emily = new Client("Emily", "Smith", "emily@gmail.com", "987654321");
+        Client anna = new Client("Anna", "Johnson", "anna@gmail.com", "456789012");
+        Client robert = new Client("Robert", "Brown", "robert@gmail.com", "876543210");
+        Client maria = new Client("Maria", "Lee", "maria@gmail.com", "321098765");
+        Client james = new Client("James", "Taylor", "james@gmail.com", "654321098");
+        Client lisa = new Client("Lisa", "Anderson", "lisa@gmail.com", "890123456");
+        Client michael = new Client("Michael", "White", "michael@gmail.com", "234567890");
 
         clientRepository.saveAll(
-                List.of(wojtek, alex)
+                List.of(wojtek, alex, john, emily, anna, robert, maria, james, lisa, michael)
         );
     }
+
 
     private void addVehicles(VehicleRepository vehicleRepository) {
         Vehicle vehicle1 = new Vehicle("opel", "astra", "123123", "TKI 5VF5","2001");
@@ -208,17 +217,15 @@ public class CommandLineRunnerConfig {
         List<Cost> costs = List.of(
                 new Cost(
                         "Cost 1",
-                        LocalDate.now(),
+                        LocalDateTime.now(),
                         orderSpareParts.subList(0, 2),
-                        new BigDecimal("50.00"),
-                        new BigDecimal("70.00")
+                        new BigDecimal("50.00")
                 ),
                 new Cost(
                         "Cost 2",
-                        LocalDate.now(),
+                        LocalDateTime.now(),
                         orderSpareParts.subList(2, 3),
-                        new BigDecimal("30.00"),
-                        new BigDecimal("80.00")
+                        new BigDecimal("30.00")
                 )
         );
 
@@ -249,7 +256,8 @@ public class CommandLineRunnerConfig {
                 .buildDescription("Commission 2")
                 .build();
 
-//        commissionRepository.saveAll(List.of(commission1, commission2));
+
+        commissionRepository.saveAll(List.of(commission1, commission2));
     }
 
     private void addPayments(
