@@ -17,7 +17,7 @@ public class PrintPDFInvoice implements PrintInvoice {
             PdfWriter.getInstance(document, outputStream);
             document.open();
 
-            document.add(new Paragraph("Invoice for Commission: " + commission.getId()));
+            document.add(new Paragraph("Invoice for Commission with ID: " + commission.getId()));
             document.add(new Paragraph("Customer: " + commission.getClient().getName() + " " + commission.getClient().getSurname()));
             document.add(new Paragraph("Total Commission Value: " + commission.getTotalCost().getTotalCost()));
 
