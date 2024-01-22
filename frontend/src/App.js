@@ -12,6 +12,7 @@ import Vehicle from './pages/Vehicle';
 import Order from './pages/Order';
 import ClientAdd from './pages/ClientAdd';
 import Details from './pages/Details';
+import Invoice from './pages/Invoice';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,6 +27,7 @@ function App() {
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
       <Route path={PATH.ORDER} element={<Order/>}/>
       <Route path={`${PATH.DETAILS}/:id`} element={<Details/>}/>
+      <Route path={`${PATH.INVOICE}/:type/:id`} element={<Invoice/>}/>
 
       <Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
     </Routes>
