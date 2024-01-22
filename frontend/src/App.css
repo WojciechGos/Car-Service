@@ -177,6 +177,7 @@ border-radius: 10px;
   border-radius: 8px;
   max-width: 730px;
   margin: auto;
+  margin-top: 10px;
 }
 
 .invoice-title {
@@ -186,6 +187,7 @@ border-radius: 10px;
 
 .invoice-type {
   text-align: center;
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
@@ -196,7 +198,7 @@ border-radius: 10px;
 
 .invoice-button2 {
   padding: 10px 5px;
-  background-color: #67b5ab;
+  background-color: #6da6cb;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -208,7 +210,7 @@ border-radius: 10px;
 }
 
 .invoice-button2:hover {
-  background-color: #46839d;
+  background-color: #2980b9;
 }
 
 .generated-html-container {
