@@ -8,8 +8,45 @@ const TableCommission = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    //symulacja dodawania total costu do commission o id 1
+    addTotalCost();
     fetchCommissions();
   }, []);
+
+  const addTotalCost = async () => {
+    try {
+      const requestData = {
+        commissionId: 1,
+        costType: "total",
+        name: "Service123",
+        createDate: "2023-01-01",
+        sparePartQuantities: {
+          "1": 10,
+          "2": 5,
+          "3": 8
+        },
+        laborPrice: 100.00
+      };
+  
+      const response = await fetch("http://localhost:5001/api/v1/costs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get("jwt")}`
+        },
+        body: JSON.stringify(requestData),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        
+      } else {
+        console.error("Server error:", response.status);
+      }
+    } catch (error) {
+      console.error("Error during adding cost", error);
+    }
+  };
 
   const fetchCommissions = async () => {
     try {
