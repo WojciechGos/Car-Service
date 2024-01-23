@@ -33,7 +33,8 @@ public class OrderItemMapper {
                 orderItem.getQuantity(),
                 producerId,
                 producerName,
-                orderItem.getWholesaler()
+                orderItem.getWholesaler(),
+                orderItem.getParameters()
         );
     }
 
@@ -58,7 +59,8 @@ public class OrderItemMapper {
                 requestItemDTO.quantity(),
                 producerId,
                 producerName,
-                requestItemDTO.wholesaler()
+                requestItemDTO.wholesaler(),
+                requestItemDTO.parameters()
         );
     }
 }

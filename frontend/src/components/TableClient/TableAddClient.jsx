@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
+import Cookies from "js-cookie";
 
 const TableClient = () => {
   const [clients, setClients] = useState([]);
@@ -44,6 +45,7 @@ const TableClient = () => {
       const response = await fetch("http://localhost:5001/api/v1/clients", {
         method: "POST",
         headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({

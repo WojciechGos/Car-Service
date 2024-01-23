@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Cookies from "js-cookie";
 
 const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterChange }) => {
   const [vehicles, setVehicles] = useState([]);
@@ -21,7 +22,11 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
 
   const fetchVehicles = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/vehicles");
+      const response = await fetch("http://localhost:5001/api/v1/vehicles", {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setVehicles(data);

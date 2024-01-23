@@ -55,6 +55,7 @@ public class CommissionBuilder {
         commission.setClient(client);
         commission.setContractor(contractor);
         commission.setCommissionStatus(CommissionStatus.PENDING);
+        commission.setDescription(description);
 
         return commission;
     }

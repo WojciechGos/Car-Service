@@ -118,3 +118,114 @@ border-radius: 10px;
 .custom-table tbody tr:hover {
   background-color: #f2f2f2;
 }
+
+.commission-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commission-details-row {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%;
+  padding-right:62px ;
+}
+
+.IdCommission{
+  margin-top: -42px;
+  margin-bottom: 50px;
+}
+
+.description{
+  background-color: #f2f2f2;
+  width: 95%;
+  margin-right: 60px;
+  height: 400px;
+}
+
+.invoice-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.invoice-button {
+  background-color: #6da6cb;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 130px;
+}
+
+.invoice-button:hover {
+  background-color: #2980b9;
+}
+
+.invoice-button + .invoice-button {
+  margin-left: 10px;
+}
+
+/* InvoiceStyles.css */
+
+.invoice-container {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 730px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.invoice-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.invoice-type {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.invoice-button2 {
+  padding: 10px 5px;
+  background-color: #6da6cb;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin: 10px;
+  width: 150px;
+}
+
+.invoice-button2:hover {
+  background-color: #2980b9;
+}
+
+.generated-html-container {
+  margin-top: 50px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.generated-html-container h3 {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.generated-html-container div {
+  font-family: 'Courier New', monospace;
+}
+

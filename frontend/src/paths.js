@@ -12,6 +12,8 @@ const PATH = {
     STARHURT: "/starhurt",
     SALERSORDERS: "/salersorders",
     CART: "/cart",
+    DETAILS: "/CommissionDetails",
+    INVOICE: "/invoice"
 }
 
 
