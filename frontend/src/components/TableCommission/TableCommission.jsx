@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const TableCommission = () => {
+const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filterText, activeFilter }) => {
   const [commissions, setCommissions] = useState([]);
-  const [selectedCommissionId, setSelectedCommissionId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    //symulacja dodawania total costu do commission o id 1
     addTotalCost();
     fetchCommissions();
   }, []);
@@ -39,7 +37,7 @@ const TableCommission = () => {
   
       if (response.ok) {
         const data = await response.json();
-        
+        // Możesz tutaj coś zrobić z odpowiedzi, jeśli to konieczne
       } else {
         console.error("Server error:", response.status);
       }
@@ -58,7 +56,6 @@ const TableCommission = () => {
       if (response.ok) {
         const data = await response.json();
         setCommissions(data);
-        console.log(data);
       } else {
         console.error("Failed to fetch commissions");
       }
@@ -67,13 +64,43 @@ const TableCommission = () => {
     }
   };
 
-  const handleCommissionClick = (commissionId) => {
+  const handleCommissionClick = (commissionId) => { 
     if (selectedCommissionId === commissionId) {
       navigate(`/CommissionDetails/${commissionId}`);
     } else {
       setSelectedCommissionId(commissionId);
     }
   };
+
+  const filteredCommissions = commissions.filter((commission) => {
+
+    console.log(activeFilter)
+    const vehicleId = commission.vehicle?.id?.toString() || '';
+    const clientId = commission.client?.id?.toString() || '';
+
+    let filterCondition = true;
+
+    switch (activeFilter) {
+      case 'id':
+        filterCondition = commission.id?.toString().includes(filterText);
+        break;
+      case 'idVehicle':
+        filterCondition = vehicleId.includes(filterText);
+        break;
+      case 'idClient':
+        filterCondition = clientId.includes(filterText);
+        break;
+      default:
+        filterCondition =
+          vehicleId.includes(filterText) ||
+          clientId.includes(filterText) ||
+          commission.costEstimate?.toString().includes(filterText) ||
+          (commission.contractor.name + " " + commission.contractor.surname).toLowerCase().includes(filterText.toLowerCase());
+        break;
+    }
+
+    return filterCondition;
+  });
 
   return (
     <div className="table-container">
@@ -90,7 +117,7 @@ const TableCommission = () => {
           </tr>
         </thead>
         <tbody>
-          {commissions.map((commission) => (
+          {filteredCommissions.map((commission) => (
             <tr
               key={commission.id}
               onClick={() => handleCommissionClick(commission.id)}
