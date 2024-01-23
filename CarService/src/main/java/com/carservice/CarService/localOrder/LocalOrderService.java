@@ -13,7 +13,9 @@ import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,11 +50,17 @@ public class LocalOrderService {
     }
 
     public LocalOrder getLocalOrderByWorkerId(Long workerId) {
-        List<LocalOrder> localOrder = localOrderRepository.findByWorkerId(workerId);
-        if(localOrder.isEmpty())
-            return null;
-        return localOrder.get(0);
+        List<LocalOrder> localOrders = localOrderRepository.findByWorkerId(workerId);
+
+        for (LocalOrder order : localOrders) {
+            if (order.getOrderStatus() == OrderStatus.CREATING) {
+                return order;
+            }
+        }
+
+        return null;
     }
+
 
     public Long addItemToLocalOrder(Long sparePartId,CreateLocalOrderRequest localOrderRequest){
 
@@ -130,7 +138,7 @@ public class LocalOrderService {
             updateLocalOrder.setOrderStatus(OrderStatus.NEW);
 
         }else  if(localOrderRequest.orderStatus() == OrderStatus.IN_PROGRESS && currentState < OrderStatus.IN_PROGRESS.getValue()){
-
+            System.out.println("hej");
             updateLocalOrder.setOrderStatus(OrderStatus.IN_PROGRESS);
 
         } else if(localOrderRequest.orderStatus() == OrderStatus.COMPLETED && currentState < OrderStatus.COMPLETED.getValue()){
@@ -198,9 +206,10 @@ public class LocalOrderService {
         Worker worker = workerService.getWorkerByEmail(workerEmail);
 
         LocalOrder localOrder = getLocalOrderByWorkerId(worker.getId());
-        if(localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
+        if (localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
             return localOrderMapper.map(localOrder);
         }
-        return null;
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Local order not found");
     }
 }

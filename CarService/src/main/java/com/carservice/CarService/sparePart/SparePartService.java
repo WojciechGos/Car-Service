@@ -40,8 +40,11 @@ public class SparePartService {
     }
 
     public void updateSparePart(SparePart sparePart) {
+        SparePart updatedSparePart = sparePartRepository.findById(sparePart.getId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Spare part with id [%s] not found.".formatted(sparePart.getId())
+                ));
 
-        SparePart updatedSparePart = new SparePart();
         updatedSparePart.setName(sparePart.getName());
         updatedSparePart.setPrice(sparePart.getPrice());
         updatedSparePart.setQuantity(sparePart.getQuantity());
