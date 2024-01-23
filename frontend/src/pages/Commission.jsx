@@ -1,3 +1,4 @@
+
 import Sidebar from "../components/Sidebar/SideBar"
 import React, { useState } from "react";
 import TableCommission from "../components/TableCommission/TableCommission"
@@ -5,17 +6,8 @@ import HeaderCommission from "../components/HeaderCommission/HeaderCommission"
 
 const Commission = () => {
   const [selectedCommissionId, setSelectedCommissionId] = useState(null);
-  const [filterText, setFilterText] = useState("");
-  const [activeFilter, setActiveFilter] = useState(null);
-
-  const handleFilterChange = (text) => {
-    setFilterText(text);
-  };
-
-  const handleFilterButtonClick = (filterType) => {
-    setActiveFilter(filterType);
-    setFilterText("");
-  };
+  const [rerender, setRerender] = useState(false);
+  const [filterText, setFilterText] = useState('');
 
   return (
     <div style={{ display: "flex" }}>
@@ -23,14 +15,16 @@ const Commission = () => {
       <div>
         <HeaderCommission
           selectedCommissionId={selectedCommissionId}
-          onFilterChange={handleFilterChange}
-          onFilterButtonClick={handleFilterButtonClick}
+          rerender={rerender}
+          setrerender={setRerender}
+          onFilterChange={setFilterText}
         />
         <TableCommission
           selectedCommissionId={selectedCommissionId}
           setSelectedCommissionId={setSelectedCommissionId}
+          rerender={rerender}
+          setrerender={setRerender}
           filterText={filterText}
-          activeFilter={activeFilter}
         />
       </div>
     </div>

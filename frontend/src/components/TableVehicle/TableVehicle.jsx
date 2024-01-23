@@ -169,8 +169,8 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
                   <td>{vehicle.brand}</td>
                   <td>{vehicle.model}</td>
                   <td>{vehicle.vin}</td>
-                  <td>{vehicle.licensePlate}</td>
-                  <td>{vehicle.year}</td>
+                  <td>{vehicle.registrationNumber}</td>
+                  <td>{vehicle.registrationDate}</td>
                   <td>
                     <button type="button" onClick={() => handleEditVehicle(vehicle.id)}>
                       Edit

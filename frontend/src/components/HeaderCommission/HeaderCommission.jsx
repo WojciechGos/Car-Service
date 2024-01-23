@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from 'react-bootstrap/Form';
@@ -6,19 +7,12 @@ import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
 
-const HeaderCommission = ({ selectedCommissionId, onCommissionDeleted, onFilterChange, onFilterButtonClick }) => {
+const HeaderCommission = ({ selectedCommissionId, onFilterChange,rerender,setrerender }) => {
   const [searchName, setSearchName] = useState('');
 
   const buttonStyle = {
     marginTop: "0px",
     fontSize: "32px",
-    fontFamily: "'Extra Bolt Italic', sans-serif"
-  };
-
-  const buttonStyleCommission = {
-    fontSize: "32px",
-    marginLeft: "150px",
-    marginRight: "150px",
     fontFamily: "'Extra Bolt Italic', sans-serif"
   };
 
@@ -34,7 +28,7 @@ const HeaderCommission = ({ selectedCommissionId, onCommissionDeleted, onFilterC
         });
 
         if (response.ok) {
-          onCommissionDeleted(selectedCommissionId);
+          setrerender(!rerender);
         } else {
           console.error("Server error:", response.status);
         }
@@ -48,10 +42,6 @@ const HeaderCommission = ({ selectedCommissionId, onCommissionDeleted, onFilterC
 
   const handleSearch = () => {
     onFilterChange(searchName);
-  };
-
-  const handleFilterButtonClick = (filterType) => {
-    onFilterButtonClick(filterType);
   };
 
   return (
@@ -70,23 +60,11 @@ const HeaderCommission = ({ selectedCommissionId, onCommissionDeleted, onFilterC
       </InputGroup>
 
       <br />
-
-      <p style={buttonStyle}>Filters:</p>
-      <Button variant="light" style={buttonStyle} onClick={() => handleFilterButtonClick('id')}>
-        id
-      </Button>{' '}
-      <Button variant="light" style={buttonStyle} onClick={() => handleFilterButtonClick('idVehicle')}>
-        id Vehicle
-      </Button>{' '}
-      <Button variant="light" style={buttonStyle} onClick={() => handleFilterButtonClick('idClient')}>
-        id client
-      </Button>{' '}
-
       <br />
       <Link to={PATH.COMMISSIONADD}>
         <Button variant="light" style={buttonStyle} >Add commission</Button>
       </Link>
-      <Button variant="light" style={buttonStyleCommission}>Edit commission</Button>{' '}
+      <Button variant="light" style={{ fontSize: "32px", marginLeft: "150px", marginRight: "150px", fontFamily: "'Extra Bolt Italic', sans-serif" }}>Edit commission</Button>{' '}
       <Button variant="light" style={buttonStyle} onClick={handleDeleteClick}>
         Delete commission
       </Button>{' '}
