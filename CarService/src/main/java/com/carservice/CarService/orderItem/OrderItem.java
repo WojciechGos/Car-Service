@@ -27,10 +27,12 @@ public class OrderItem extends Item {
     private Long id;
     private Long externalOrderItemId;
     private String wholesaler;
+    private String parameters;
 
-    public OrderItem(String name, BigDecimal price, Integer quantity, Producer producer, String wholesaler, Long externalOrderItemId) {
+    public OrderItem(String name, BigDecimal price, Integer quantity, Producer producer, String wholesaler, Long externalOrderItemId, String parameters) {
         super(name, price, quantity, producer);
         this.wholesaler = wholesaler;
         this.externalOrderItemId = externalOrderItemId;
+        this.parameters = parameters;
     }
 }

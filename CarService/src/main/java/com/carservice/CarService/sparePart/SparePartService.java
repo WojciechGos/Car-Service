@@ -34,7 +34,7 @@ public class SparePartService {
         updatedSparePart.setPrice(sparePart.getPrice());
         updatedSparePart.setQuantity(sparePart.getQuantity());
         updatedSparePart.setProducer(sparePart.getProducer());
-        updatedSparePart.setSparePartState(sparePart.getSparePartState());
+        updatedSparePart.setParameters(sparePart.getParameters());
 
         sparePartRepository.save(updatedSparePart);
     }
@@ -46,7 +46,7 @@ public class SparePartService {
         updatedSparePart.setPrice(sparePart.getPrice());
         updatedSparePart.setQuantity(sparePart.getQuantity());
         updatedSparePart.setProducer(sparePart.getProducer());
-        updatedSparePart.setSparePartState(sparePart.getSparePartState());
+        updatedSparePart.setParameters(sparePart.getParameters());
 
         sparePartRepository.save(updatedSparePart);
     }
