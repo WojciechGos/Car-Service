@@ -9,7 +9,8 @@ public record OrderItemDTO (
     Integer quantity,
     Long producerId,
     String producerName,
-    String wholesaler
+    String wholesaler,
+    String parameters
 ) {
 
 }

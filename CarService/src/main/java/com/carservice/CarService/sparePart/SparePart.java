@@ -26,12 +26,11 @@ public class SparePart extends Item {
     )
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private SparePartState sparePartState;
+    private String parameters;
 
-    public SparePart(String name, BigDecimal price, Integer quantity, SparePartState sparePartState) {
+    public SparePart(String name, BigDecimal price, Integer quantity, String parameters) {
         super(name, price, quantity);
-        this.sparePartState = sparePartState;
+        this.parameters = parameters;
     }
 
     public SparePart(
@@ -39,10 +38,10 @@ public class SparePart extends Item {
             BigDecimal price,
             Integer quantity,
             Producer producer,
-            SparePartState sparePartState
+            String parameters
     ) {
         super(name, price, quantity, producer);
-        this.sparePartState = sparePartState;
+        this.parameters = parameters;
     }
 
 }
