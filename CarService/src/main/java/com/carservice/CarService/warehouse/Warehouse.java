@@ -73,7 +73,7 @@ public class Warehouse {
                 item.getName(),
                 item.getPrice(),
                 item.getQuantity(),
-                SparePartState.WHOLE
+                item.getParameters()
             ));
         }
     }
