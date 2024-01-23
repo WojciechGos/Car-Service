@@ -18,6 +18,9 @@ import SalersOrders from './pages/SalersOrders';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
 import Invoice from './pages/Invoice';
+import CostEstimateCreator from './pages/CostEstimateCreator';
+import CostEstimateDetails from './pages/CostEstimateDetails';
+import CostTotalDetails from './pages/CostTotalDetails';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -38,6 +41,11 @@ function App() {
       <Route path={PATH.CART} element={<Cart/>}/>
       <Route path={`${PATH.DETAILS}/:id`} element={<Details/>}/>
       <Route path={`${PATH.INVOICE}/:type/:id`} element={<Invoice/>}/>
+
+      <Route path={`${PATH.COST_ESTIMATE_CREATOR}/:id`} element={<CostEstimateCreator/>}/>
+      <Route path={`${PATH.COST_ESTIMATE_DETAILS}/:id`} element={<CostEstimateDetails/>}/>
+      <Route path={`${PATH.COST_TOTAL_DETAILS}/:id`} element={<CostTotalDetails/>}/>
+      
 
       <Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
     </Routes>

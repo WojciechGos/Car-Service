@@ -40,25 +40,44 @@ const CommissionDetails = () => {
     navigate(`/invoice/VAT/${id}`);
   };
 
+  const handleShowTotalCost = ()=>{
+    navigate(`/cost-total-details/${id}`);
+  }
+
   return (
       <div className="commission-details">
         <div className="IdCommission">
           <p><b>ID Commission: {commissionDetails.id}</b></p>
+          
         </div>
         <div className="commission-details-row">
+          <div>
+
           <p><b>Commission status: {commissionDetails.commissionStatus}</b></p>
+          <button className="commission-status mb-4" >Finish Commission</button>
+          </div>
+          <div>
           <p><b>Total cost: {commissionDetails.totalCost ? commissionDetails.totalCost.totalCost : '-'}</b></p>
+          <button className="cost-estimate mb-4 " onClick={handleShowTotalCost} >Show details</button>
+
+          </div>
           <p><b>Payment status: Paid</b></p>
         </div>
+
+  
         <div className="description">
           <p>Description: {commissionDetails.description}</p>
         </div>
+
+    
         {commissionDetails.totalCost && (
           <div className="invoice-buttons">
             <button className="invoice-button" onClick={handleGenerateInvoiceSale}>Sales Invoice</button>
             <button className="invoice-button" onClick={handleGenerateInvoiceVAT}>VAT Invoice</button>
           </div>
         )}
+
+        
 
       </div>
       

@@ -159,6 +159,31 @@ border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   width: 130px;
+  height: 50px;
+}
+
+.commission-status {
+  background-color: #6da6cb;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 130px;
+  height: 70px;
+}
+
+.cost-estimate {
+  background-color: #6da6cb;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 150px;
+  height: 50px;
 }
 
 .invoice-button:hover {
