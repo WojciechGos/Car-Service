@@ -19,6 +19,7 @@ import SalersOrders from './pages/SalersOrders';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
 import Invoice from './pages/Invoice';
+import CartWarehouse from './pages/CartWarehouse';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -33,6 +34,7 @@ function App() {
       <Route path={PATH.COMMISSIONADD} element={<CommissionAdd />}/>
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
       <Route path={PATH.ORDER} element={<Order/>}/>
+      <Route path={PATH.CARTWAREHOUSE} element={<CartWarehouse/>}/>
       <Route path={PATH.WHOLESALERS} element={<Wholesalers/>}/>
       <Route path={PATH.IPART} element={<IPART/>}/>
       <Route path={PATH.STARHURT} element={<StarHurt/>}/>

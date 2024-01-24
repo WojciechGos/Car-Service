@@ -1,4 +1,19 @@
+.centerDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../src/components/Sidebar/tlo.png');
+  background-size: cover;
+  background-repeat: repeat-y;
+  height: 100vh;
+  color: white;
+}
 
+.whiteWritings{
+  text-align: center;
+  color: white;
+}
 .slideBarContainer {
   background: linear-gradient(to right, #560101, #141414);
   height: 100vh;
@@ -91,6 +106,13 @@ border-radius: 10px;
   max-height: 570px; 
   overflow-y: auto;
 }
+
+.overflow-container4 {
+  max-height: 550px; 
+  overflow-y: auto;
+  width: 1258px;
+}
+
 .custom-table {
   border-collapse: collapse;
   width: 100%;
@@ -216,7 +238,7 @@ border-radius: 10px;
 }
 
 .generated-html-container {
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -229,6 +251,14 @@ border-radius: 10px;
 
 .generated-html-container div {
   font-family: 'Courier New', monospace;
+}
+
+.invoice-title-div {
+  margin-top: -50px;
+}
+
+.invoice-title-div {
+  margin-top: -50px;
 }
 
 .logoutButton {

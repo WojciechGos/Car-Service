@@ -1,7 +1,7 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 import com.carservice.CarService.OrderSparePart.*;
 import com.carservice.CarService.exception.ResourceNotFoundException;
-import com.carservice.CarService.sparePart.SparePart;
+import com.carservice.CarService.sparePart.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,24 +40,26 @@ class OrderSparePartServiceTest {
         assertNotNull(result);
         assertEquals(orderSparePart, result);
     }
-/*
+
     @Test
     void createOrderSparePartWithDetails() {
         // Mock data
         SparePart sparePart = new SparePart();
         Integer quantity = 2;
         OrderSparePart orderSparePart = new OrderSparePart(sparePart, quantity);
-        when(orderSparePartRepository.save(orderSparePart)).thenReturn(orderSparePart);
+
+        // when
+        when(orderSparePartRepository.save(any(OrderSparePart.class))).thenReturn(orderSparePart);
 
         // Call the method
         OrderSparePart result = orderSparePartService.createOrderSparePart(sparePart, quantity);
 
         // Assertions
-        verify(orderSparePartRepository, times(1)).save(orderSparePart);
+        verify(orderSparePartRepository, times(1)).save(any(OrderSparePart.class));
         assertNotNull(result);
         assertEquals(orderSparePart, result);
     }
-    */
+
 
 
     @Test

@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -77,9 +76,10 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")
 
                         // LocalOrder endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/localorders/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/order/local/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/order/local/**").hasAnyRole("MANAGER", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/order/local/**").hasAnyRole("MANAGER", "CONTRACTOR")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/order/local/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
 
                         // Payment endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
