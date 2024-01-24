@@ -231,3 +231,7 @@ border-radius: 10px;
   font-family: 'Courier New', monospace;
 }
 
+.invoice-title-div {
+  margin-top: -50px;
+}
+
