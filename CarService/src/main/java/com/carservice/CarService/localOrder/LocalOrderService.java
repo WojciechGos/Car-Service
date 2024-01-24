@@ -13,7 +13,9 @@ import com.carservice.CarService.warehouse.Warehouse;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,11 +50,17 @@ public class LocalOrderService {
     }
 
     public LocalOrder getLocalOrderByWorkerId(Long workerId) {
-        List<LocalOrder> localOrder = localOrderRepository.findByWorkerId(workerId);
-        if(localOrder.isEmpty())
-            return null;
-        return localOrder.get(0);
+        List<LocalOrder> localOrders = localOrderRepository.findByWorkerId(workerId);
+
+        for (LocalOrder order : localOrders) {
+            if (order.getOrderStatus() == OrderStatus.CREATING) {
+                return order;
+            }
+        }
+
+        return null;
     }
+
 
     public Long addItemToLocalOrder(Long sparePartId,CreateLocalOrderRequest localOrderRequest){
 
@@ -73,10 +81,11 @@ public class LocalOrderService {
         LocalOrder localOrder = getOrCreateLocalOrder(worker, workerLocalOrder);
         List<OrderSparePart> orderSparePartList = localOrder.getItems();
 
-        Optional<OrderSparePart> existingOrderSparePart = localOrder.getItems().stream().filter(item-> item.getId().equals(sparePartId)).findFirst();
+        Optional<OrderSparePart> existingOrderSparePart = localOrder.getItems().stream().filter(item -> item.getSparePart().getId().equals(sparePartId)).findFirst();
 
 
         if(existingOrderSparePart.isPresent()){
+            System.out.println("tutaj");
             Integer actualSparePartQuantity = existingOrderSparePart.get().getQuantity();
             existingOrderSparePart.get().setQuantity(actualSparePartQuantity + localOrderRequest.quantity());
         }
@@ -92,14 +101,9 @@ public class LocalOrderService {
 
         localOrder.setItems(orderSparePartList);
 
-        Commission commission = commissionService.getCommissionById(localOrderRequest.commissionId());
-        localOrder.setCommission(commission);
         localOrderRepository.save(localOrder);
 
-
-
         return localOrder.getId();
-
     }
     private LocalOrder getOrCreateLocalOrder(Worker worker, LocalOrder workerLocalOrder) {
         if (workerLocalOrder != null && workerLocalOrder.getOrderStatus() == OrderStatus.CREATING) {
@@ -130,7 +134,7 @@ public class LocalOrderService {
             updateLocalOrder.setOrderStatus(OrderStatus.NEW);
 
         }else  if(localOrderRequest.orderStatus() == OrderStatus.IN_PROGRESS && currentState < OrderStatus.IN_PROGRESS.getValue()){
-
+            System.out.println("hej");
             updateLocalOrder.setOrderStatus(OrderStatus.IN_PROGRESS);
 
         } else if(localOrderRequest.orderStatus() == OrderStatus.COMPLETED && currentState < OrderStatus.COMPLETED.getValue()){
@@ -180,6 +184,11 @@ public class LocalOrderService {
 
         }
 
+        if(localOrderRequest.commissionId() != null) {
+            Commission commission = commissionService.getCommissionById(localOrderRequest.commissionId());
+            updateLocalOrder.setCommission(commission);
+        }
+
         localOrderRepository.save(updateLocalOrder);
     }
 
@@ -198,9 +207,10 @@ public class LocalOrderService {
         Worker worker = workerService.getWorkerByEmail(workerEmail);
 
         LocalOrder localOrder = getLocalOrderByWorkerId(worker.getId());
-        if(localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
+        if (localOrder != null && localOrder.getOrderStatus() == OrderStatus.CREATING) {
             return localOrderMapper.map(localOrder);
         }
-        return null;
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Local order not found");
     }
 }
