@@ -81,10 +81,11 @@ public class LocalOrderService {
         LocalOrder localOrder = getOrCreateLocalOrder(worker, workerLocalOrder);
         List<OrderSparePart> orderSparePartList = localOrder.getItems();
 
-        Optional<OrderSparePart> existingOrderSparePart = localOrder.getItems().stream().filter(item-> item.getId().equals(sparePartId)).findFirst();
+        Optional<OrderSparePart> existingOrderSparePart = localOrder.getItems().stream().filter(item -> item.getSparePart().getId().equals(sparePartId)).findFirst();
 
 
         if(existingOrderSparePart.isPresent()){
+            System.out.println("tutaj");
             Integer actualSparePartQuantity = existingOrderSparePart.get().getQuantity();
             existingOrderSparePart.get().setQuantity(actualSparePartQuantity + localOrderRequest.quantity());
         }
@@ -100,14 +101,9 @@ public class LocalOrderService {
 
         localOrder.setItems(orderSparePartList);
 
-        Commission commission = commissionService.getCommissionById(localOrderRequest.commissionId());
-        localOrder.setCommission(commission);
         localOrderRepository.save(localOrder);
 
-
-
         return localOrder.getId();
-
     }
     private LocalOrder getOrCreateLocalOrder(Worker worker, LocalOrder workerLocalOrder) {
         if (workerLocalOrder != null && workerLocalOrder.getOrderStatus() == OrderStatus.CREATING) {
@@ -186,6 +182,11 @@ public class LocalOrderService {
             warehouse = Warehouse.getInstance(sparePartService);
             warehouse.releaseSparePartListFromOrder(localOrder);
 
+        }
+
+        if(localOrderRequest.commissionId() != null) {
+            Commission commission = commissionService.getCommissionById(localOrderRequest.commissionId());
+            updateLocalOrder.setCommission(commission);
         }
 
         localOrderRepository.save(updateLocalOrder);

@@ -153,13 +153,12 @@ public class CommandLineRunnerConfig {
                 new BigDecimal("30.00"),
                 10,
                 producerRepository.findById(1L).orElse(null),
-                """
-                        Producent\\tBRAKE-MAX\\n
-                        Indeks\\tBMX123\\n
-                        Kod EAN\\t1234567890123\\n
-                        Typ klocka\\tStandardowy\\n
-                        Grubość [mm]\\t15\\n
-                        Materiał\\tKeramika"""
+                "Producent\tBRAKE-MAX\n" +
+                        "Indeks\tBMX123\n" +
+                        "Kod EAN\t1234567890123\n" +
+                        "Typ klocka\tStandardowy\n" +
+                        "Grubość [mm]\t15\n" +
+                        "Materiał\tKeramika"
         );
         SparePart oilFilter = new SparePart(
                 "Oil Filter",
@@ -167,12 +166,12 @@ public class CommandLineRunnerConfig {
                 10,
                 producerRepository.findById(2L).orElse(null),
                 """
-                        Producent\\tXYZ\\n
-                        Indeks\\tABC123\\n
-                        Kod EAN\\t1234567890123\\n
-                        Typ filtra\\tFiltr oleju\\n
-                        Wysokość [mm]\\t90\\n
-                        Wysokość 2 [mm]\\t85,5
+                        Producent\tXYZ\n
+                        Indeks\tABC123\n
+                        Kod EAN\t1234567890123\n
+                        Typ filtra\tFiltr oleju\n
+                        Wysokość [mm]\t90\n
+                        Wysokość 2 [mm]\t85,5
                         """
         );
         SparePart sparkPlug = new SparePart(
@@ -181,12 +180,12 @@ public class CommandLineRunnerConfig {
                 10,
                 producerRepository.findById(3L).orElse(null),
                 """
-                        Producent\\tIGNITE-PLUS\\n
-                        Indeks\\tIP123\\n
-                        Kod EAN\\t1234567890123\\n
-                        Typ świecy\\tStandardowa\\n
-                        Rozmiar gwintu\\tM14x1.25\\n
-                        Elektroda odstająca [mm]\\t0,8
+                        Producent\tIGNITE-PLUS\n
+                        Indeks\tIP123\n
+                        Kod EAN\t1234567890123\n
+                        Typ świecy\tStandardowa\n
+                        Rozmiar gwintu\tM14x1.25\n
+                        Elektroda odstająca [mm]\t0,8
                         """
         );
         SparePart airFilter = new SparePart(
@@ -195,12 +194,12 @@ public class CommandLineRunnerConfig {
                 50,
                 producerRepository.findById(3L).orElse(null),
                 """
-                        Producent\\tACME\\n
-                        Indeks\\tXY789\\n
-                        Kod EAN\\t9876543210987\\n
-                        Typ filtra\\tFiltr powietrza\\n
-                        Wysokość [mm]\\t150\\n
-                        Wysokość 2 [mm]\\t145,2
+                        Producent\tACME\n
+                        Indeks\tXY789\n
+                        Kod EAN\t9876543210987\n
+                        Typ filtra\tFiltr powietrza\n
+                        Wysokość [mm]\t150\n
+                        Wysokość 2 [mm]\t145,2
                         """
         );
 
@@ -210,12 +209,12 @@ public class CommandLineRunnerConfig {
                 50,
                 producerRepository.findById(3L).orElse(null),
                 """
-                        Producent\\tECOBOOST\\n
-                        Numer modelu\\tEB456\\n
-                        Typ silnika\\tBenzynowy\\n
-                        Pojemność skokowa [cm³]\\t1600\\n
-                        Moc [kW]\\t120\\n
-                        Maksymalny moment obrotowy [Nm]\\t200
+                        Producent\tECOBOOST\n
+                        Numer modelu\tEB456\n
+                        Typ silnika\tBenzynowy\n
+                        Pojemność skokowa [cm³]\t1600\n
+                        Moc [kW]\t120\n
+                        Maksymalny moment obrotowy [Nm]\t200
                         """
         );
         SparePart sparePart2 = new SparePart(
@@ -224,12 +223,12 @@ public class CommandLineRunnerConfig {
                 50,
                 producerRepository.findById(3L).orElse(null),
                 """
-                        Producent\\tTIRE-MAX\\n
-                        Indeks opony\\tTM123\\n
-                        Rozmiar\\t205/55R16\\n
-                        Typ opony\\tLetnia\\n
-                        Indeks prędkości\\tH\\n
-                        Indeks nośności\\t91
+                        Producent\tTIRE-MAX\n
+                        Indeks opony\tTM123\n
+                        Rozmiar\t205/55R16\n
+                        Typ opony\tLetnia\n
+                        Indeks prędkości\tH\n
+                        Indeks nośności\t91
                         """
         );
 
