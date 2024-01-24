@@ -179,7 +179,6 @@ class ExternalOrderServiceTest {
         when(orderItemService.createOrderItem(any(OrderItem.class))).thenReturn(orderItem);
 
         assertDoesNotThrow(() -> externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO));
-
     }
 
     @Test
