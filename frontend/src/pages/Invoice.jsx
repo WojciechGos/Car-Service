@@ -87,23 +87,30 @@ const Invoice = () => {
 
   return (
     <div ref={invoiceRef} className="invoice-container">
-      <h2 className="invoice-title">Invoice Generator</h2>
-      <p className="invoice-type">Invoice Type: {type} Invoice</p>
+      
+      <div className="invoice-header">
+        <div className="back-button-container">
+          <Link to={`${PATH.DETAILS}/${id}`}>
+            <Button variant="light" style={buttonStyle}>Back</Button>
+          </Link>
+          <h2 className="invoice-title">Invoice Generator</h2>
+        </div>
+        <p className="invoice-type">Invoice Type: {type} Invoice</p>
+      </div>
       <div className="button-container">
         <button className="invoice-button2" onClick={generatePDF}>Generate PDF</button>
         <button className="invoice-button2" onClick={generateHTML}>Generate HTML</button>
       </div>
       {generatedHTML && (
         <div className="generated-html-container">
-           <h3>Generated {type === 'Sales' ? 'Sales' : type === 'VAT' ? 'VAT' : ''} Invoice</h3>
+          <h3>Generated {type === 'Sales' ? 'Sales' : type === 'VAT' ? 'VAT' : ''} Invoice</h3>
           <div dangerouslySetInnerHTML={{ __html: generatedHTML }} />
         </div>
       )}
-       <Link to={`${PATH.DETAILS}/${id}`}>
-        <Button variant="light" style={buttonStyle}>Back</Button>{' '}
-      </Link>
     </div>
   );
+   
+  
 };
 
 export default Invoice;

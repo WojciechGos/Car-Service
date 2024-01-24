@@ -5,7 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
 
-const HeaderOrder = ()=>{
+const HeaderCartWarehouse = ()=>{
 
     const buttonStyle = {
         marginTop: "10px",
@@ -24,16 +24,17 @@ const HeaderOrder = ()=>{
     return (
         <div >
              <Link to={PATH.WAREHOUSE}>
-            <Button variant="light" style={buttonStyle} >List</Button>
+              <Button variant="light" style={buttonStyle} >List</Button>
             </Link>
-            <Button variant="danger" style={buttonStyle}>Orders</Button>
-            <Link to={PATH.CARTWAREHOUSE}>
-             <Button variant="light" style={buttonStyle}>Cart</Button>
+            <Link to={PATH.ORDER}>
+              <Button variant="light" style={buttonStyle}>Orders</Button>
             </Link>
+            <Button variant="danger" style={buttonStyle}>Cart</Button>
             <br/>
             <div style={{height: "60px"}}/>
+
         </div>
     )
  
 }
-export default HeaderOrder
+export default HeaderCartWarehouse

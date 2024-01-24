@@ -100,8 +100,12 @@ const TableCommission = () => {
               }}
             >
               <td>{commission.id}</td>
-              <td>{commission.createDate instanceof Date ? commission.createDate.toLocaleString() : commission.createDate}</td>
-              <td>{commission.endDate instanceof Date ? commission.endDate.toLocaleString() : commission.endDate}</td>
+              <td>{new Date(commission.createDate).toLocaleString()}</td>
+              {commission.endDate ? (
+                <td>{new Date(commission.endDate).toLocaleString()}</td>
+              ) : (
+                <td></td>
+              )}
               <td>{commission.vehicle.id}</td>
               <td>{commission.client.id}</td>
               <td>{commission.costEstimate}</td>

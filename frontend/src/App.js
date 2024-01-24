@@ -13,6 +13,7 @@ import Order from './pages/Order';
 import ClientAdd from './pages/ClientAdd';
 import Details from './pages/Details';
 import Invoice from './pages/Invoice';
+import CartWarehouse from './pages/CartWarehouse';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,6 +27,7 @@ function App() {
       <Route path={PATH.COMMISSION} element={<Commission/>}/>
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
       <Route path={PATH.ORDER} element={<Order/>}/>
+      <Route path={PATH.CARTWAREHOUSE} element={<CartWarehouse/>}/>
       <Route path={`${PATH.DETAILS}/:id`} element={<Details/>}/>
       <Route path={`${PATH.INVOICE}/:type/:id`} element={<Invoice/>}/>
 
