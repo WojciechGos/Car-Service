@@ -1,4 +1,4 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleRepository;

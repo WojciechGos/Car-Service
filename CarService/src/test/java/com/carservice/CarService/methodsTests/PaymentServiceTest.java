@@ -1,4 +1,4 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 
 import com.carservice.CarService.client.Client;
 import com.carservice.CarService.client.ClientService;
