@@ -1,7 +1,6 @@
 package com.carservice.CarService;
 import com.carservice.CarService.commission.*;
 import com.carservice.CarService.saleInvoice.*;
-import com.carservice.CarService.printInvoice.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -46,35 +45,39 @@ class SaleInvoiceServiceTest {
         assertEquals(expectedSaleInvoices, actualSaleInvoices);
         verify(saleInvoiceRepository, times(1)).findByCommissionId(commissionId);
     }
+/*
+    @Test
+    void generateSaleInvoicePDF() {
+        // Mock data
+        Long commissionId = 1L;
+        Commission commission = new Commission();
+        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
 
-   /* public byte[] generateSaleInvoicePDF(Long commissionId) {
-        Commission commission = commissionService.getCommissionById(commissionId);
+        // Call the method
+        byte[] result = saleInvoiceService.generateSaleInvoicePDF(commissionId);
 
-        SaleInvoice saleInvoice = new SaleInvoice(new PrintPDFInvoice());
-        saleInvoice.setCommission(commission);
-
-        saleInvoiceRepository.save(saleInvoice);
-
-
-        String clientName = (commission.getClient() != null) ? commission.getClient().getName() : "Unknown";
-
-        return saleInvoice.generateInvoice(commission, clientName);
+        // Assertions
+        assertNotNull(result);
+        verify(saleInvoiceRepository, times(1)).save(any(SaleInvoice.class));
+        // Add additional assertions for the generated PDF content if needed
     }
 
-    public byte[] generateSaleInvoiceHTML(Long commissionId) {
-        Commission commission = commissionService.getCommissionById(commissionId);
+    @Test
+    void generateSaleInvoiceHTML() {
+        // Mock data
+        Long commissionId = 1L;
+        Commission commission = new Commission();
+        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
 
-        SaleInvoice saleInvoice = new SaleInvoice(new PrintHTMLInvoice());
-        saleInvoice.setCommission(commission);
+        // Call the method
+        byte[] result = saleInvoiceService.generateSaleInvoiceHTML(commissionId);
 
-        saleInvoiceRepository.save(saleInvoice);
-
-
-        String clientName = (commission.getClient() != null) ? commission.getClient().getName() : "Unknown";
-
-        return saleInvoice.generateInvoice(commission, clientName);
+        // Assertions
+        assertNotNull(result);
+        verify(saleInvoiceRepository, times(1)).save(any(SaleInvoice.class));
+        // Add additional assertions for the generated HTML content if needed
     }
 
-    */
 
+ */
 }
