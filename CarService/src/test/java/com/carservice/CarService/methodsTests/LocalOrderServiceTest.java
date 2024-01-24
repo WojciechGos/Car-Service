@@ -1,4 +1,4 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 import com.carservice.CarService.OrderSparePart.OrderSparePart;
 import com.carservice.CarService.OrderSparePart.OrderSparePartService;
 import com.carservice.CarService.commission.Commission;

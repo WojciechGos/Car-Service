@@ -1,4 +1,4 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 import com.carservice.CarService.worker.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

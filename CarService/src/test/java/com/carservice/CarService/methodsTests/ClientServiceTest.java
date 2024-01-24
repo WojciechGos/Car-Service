@@ -1,4 +1,4 @@
-package com.carservice.CarService;
+package com.carservice.CarService.methodsTests;
 
 import com.carservice.CarService.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
