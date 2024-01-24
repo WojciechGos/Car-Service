@@ -87,12 +87,13 @@ const Invoice = () => {
 
   return (
     <div ref={invoiceRef} className="invoice-container">
-      
       <div className="invoice-header">
         <div className="back-button-container">
           <Link to={`${PATH.DETAILS}/${id}`}>
             <Button variant="light" style={buttonStyle}>Back</Button>
           </Link>
+        </div>
+        <div className="invoice-title-div">
           <h2 className="invoice-title">Invoice Generator</h2>
         </div>
         <p className="invoice-type">Invoice Type: {type} Invoice</p>
