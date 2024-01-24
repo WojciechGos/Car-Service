@@ -88,10 +88,11 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/payments/**").hasAnyRole("MANAGER", "RECEPTIONIST")
 
                         // SparePart endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/v1/spareparts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/spareparts/**").hasAnyRole("MANAGER")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/spareparts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/spareparts/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/spareParts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/spareParts/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/spareParts/**").hasAnyRole("MANAGER", "CONTRACTOR", "WAREHOUSEMAN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/spareParts/**").hasAnyRole("MANAGER")
+
 
                         // Vehicles endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST", "CONTRACTOR")

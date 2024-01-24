@@ -84,7 +84,8 @@ public class ExternalOrderService {
                             externalOrderRequest.quantity(),
                             producer,
                             orderItemDTO.wholesaler(),
-                            orderItemDTO.id()
+                            orderItemDTO.id(),
+                            orderItemDTO.parameters()
                     )
             );
             orderItems.add(orderItem);
@@ -152,9 +153,6 @@ public class ExternalOrderService {
 
             updateExternalOrder.setReceiveDate(LocalDateTime.now());
             updateExternalOrder.setOrderStatus(OrderStatus.CANCELLED);
-
-
-
 
         }
 

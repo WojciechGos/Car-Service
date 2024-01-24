@@ -16,12 +16,18 @@ import com.carservice.CarService.producer.Producer;
 import com.carservice.CarService.producer.ProducerRepository;
 import com.carservice.CarService.sparePart.SparePart;
 import com.carservice.CarService.sparePart.SparePartRepository;
-import com.carservice.CarService.sparePart.SparePartState;
 import com.carservice.CarService.vehicles.Vehicle;
 import com.carservice.CarService.vehicles.VehicleRepository;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerRepository;
 import com.carservice.CarService.worker.WorkerRole;
+import com.carservice.CarService.localOrder.LocalOrder;
+import com.carservice.CarService.localOrder.LocalOrderRepository;
+import com.carservice.CarService.orderItem.OrderItem;
+import com.carservice.CarService.orderItem.OrderItemRepository;
+import com.carservice.CarService.externalOrder.ExternalOrderRepository;
+import com.carservice.CarService.externalOrder.ExternalOrder;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +51,12 @@ public class CommandLineRunnerConfig {
             CommissionRepository commissionRepository,
             PaymentRepository paymentRepository,
             PasswordEncoder passwordEncoder,
-            OrderSparePartRepository orderSparePartRepository
+            OrderSparePartRepository orderSparePartRepository,
+            OrderItemRepository orderItemRepository,
+            LocalOrderRepository localOrderRepository,
+            ExternalOrderRepository externalOrderRepository
+
+
             ){
         return args -> {
             addClients(clientRepository);
@@ -56,8 +67,22 @@ public class CommandLineRunnerConfig {
             addCosts(costRepository, sparePartRepository, orderSparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
             addPayments(paymentRepository, clientRepository);
+            addLocalOrder(workerRepository, localOrderRepository);
         };
     }
+    private void addLocalOrder(WorkerRepository workerRepository,LocalOrderRepository localOrderRepository)
+    {
+        List<Worker> worker = workerRepository.findAll();
+        LocalDateTime createDate = LocalDateTime.now();
+
+        LocalOrder localOrder1 = new LocalOrder(worker.get(0), createDate);
+
+        LocalOrder localOrder2 = new LocalOrder(worker.get(1), createDate);
+        localOrderRepository.saveAll(
+            List.of(localOrder1, localOrder2)
+        );
+    }
+
 
     private void addClients(ClientRepository clientRepository) {
         Client wojtek = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");
@@ -154,28 +179,55 @@ public class CommandLineRunnerConfig {
                 new BigDecimal("30.00"),
                 10,
                 producerRepository.findById(1L).orElse(null),
-                SparePartState.WHOLE
+                """
+                        Producent\\tBRAKE-MAX\\n
+                        Indeks\\tBMX123\\n
+                        Kod EAN\\t1234567890123\\n
+                        Typ klocka\\tStandardowy\\n
+                        Grubość [mm]\\t15\\n
+                        Materiał\\tKeramika"""
         );
         SparePart oilFilter = new SparePart(
                 "Oil Filter",
                 new BigDecimal("8.50"),
                 10,
                 producerRepository.findById(2L).orElse(null),
-                SparePartState.DAMAGED
+                """
+                        Producent\\tXYZ\\n
+                        Indeks\\tABC123\\n
+                        Kod EAN\\t1234567890123\\n
+                        Typ filtra\\tFiltr oleju\\n
+                        Wysokość [mm]\\t90\\n
+                        Wysokość 2 [mm]\\t85,5
+                        """
         );
         SparePart sparkPlug = new SparePart(
                 "Spark Plug",
                 new BigDecimal("4.00"),
                 10,
                 producerRepository.findById(3L).orElse(null),
-                SparePartState.MISS
+                """
+                        Producent\\tIGNITE-PLUS\\n
+                        Indeks\\tIP123\\n
+                        Kod EAN\\t1234567890123\\n
+                        Typ świecy\\tStandardowa\\n
+                        Rozmiar gwintu\\tM14x1.25\\n
+                        Elektroda odstająca [mm]\\t0,8
+                        """
         );
         SparePart airFilter = new SparePart(
                 "Air filter",
                 new BigDecimal("4.00"),
                 50,
                 producerRepository.findById(3L).orElse(null),
-                SparePartState.WHOLE
+                """
+                        Producent\\tACME\\n
+                        Indeks\\tXY789\\n
+                        Kod EAN\\t9876543210987\\n
+                        Typ filtra\\tFiltr powietrza\\n
+                        Wysokość [mm]\\t150\\n
+                        Wysokość 2 [mm]\\t145,2
+                        """
         );
 
         SparePart sparePart1 = new SparePart(
@@ -183,14 +235,28 @@ public class CommandLineRunnerConfig {
                 new BigDecimal("4.00"),
                 50,
                 producerRepository.findById(3L).orElse(null),
-                SparePartState.WHOLE
+                """
+                        Producent\\tECOBOOST\\n
+                        Numer modelu\\tEB456\\n
+                        Typ silnika\\tBenzynowy\\n
+                        Pojemność skokowa [cm³]\\t1600\\n
+                        Moc [kW]\\t120\\n
+                        Maksymalny moment obrotowy [Nm]\\t200
+                        """
         );
         SparePart sparePart2 = new SparePart(
                 "Tire",
                 new BigDecimal("4.00"),
                 50,
                 producerRepository.findById(3L).orElse(null),
-                SparePartState.WHOLE
+                """
+                        Producent\\tTIRE-MAX\\n
+                        Indeks opony\\tTM123\\n
+                        Rozmiar\\t205/55R16\\n
+                        Typ opony\\tLetnia\\n
+                        Indeks prędkości\\tH\\n
+                        Indeks nośności\\t91
+                        """
         );
 
         sparePartRepository.saveAll(
