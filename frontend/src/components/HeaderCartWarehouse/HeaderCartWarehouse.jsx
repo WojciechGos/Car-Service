@@ -1,7 +1,5 @@
 import React from "react"
 import Button from "react-bootstrap/Button"
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
 
@@ -13,13 +11,6 @@ const HeaderCartWarehouse = ()=>{
         fontFamily: "'Extra Bolt Italic', sans-serif",
         
       };
-
-      const buttonStyleWarehouse = {
-        fontSize: "32px", 
-        marginLeft: "500px",
-        fontFamily: "'Extra Bolt Italic', sans-serif"
-      };
-
 
     return (
         <div >

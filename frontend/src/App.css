@@ -14,69 +14,76 @@
   text-align: center;
   color: white;
 }
-.slideBarContainer{
-  background-image: url('../src/components/Sidebar/tlo.png');
-  background-size: cover;
-  background-position: left; 
-  background-repeat: repeat-y;
+.slideBarContainer {
+  background: linear-gradient(to right, #560101, #141414);
   height: 100vh;
-  padding: 10px;
+  padding: 20px;
   width: 30vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   margin-right: 10vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
 }
-.grayTable{
-  background-color: gray;
+
+.slideBarContainer h4 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: white; 
 }
-.grayTable th, .grayTable td {
-  border-color: grey; 
-  
+
+.slideBarContainer Button {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  border-radius: 5px;
+  color: white;
+  background: none; 
+  border: none; 
+  transition: background-color 0.3s;
 }
+
+.slideBarContainer Button:hover {
+  background-color:white; 
+}
+.slideBarContainer a {
+  text-decoration: none; 
+}
+
+.icon {
+  margin-right: 10px;
+}
+.slideBarContainer .icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.slideBarContainer Button:hover .icon {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: scale(1.3) rotate(-5deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: scale(1.3) rotate(5deg);
+  }
+}
+
 .inputSearch{
 margin-top: 20px;
 max-width: 350px;
 border: 3px solid gray;
 border-radius: 10px;
 }
-.loginDiv{
-  margin-top: 40px;
-  border-color:white;
-  border: 2px solid white;
-  border-radius: 10px;
-  width: 30vw;
-  padding: 5px;
-  padding-left: 20px;
-}
-.passwordDiv{
-  margin-top: 20px;
-  border-color:white;
-  border: 2px solid white;
-  border-radius: 10px;
-  width: 30vw;
-  padding: 5px;
-  padding-left: 20px;
-}
-.input
-{
-  border-color:transparent;
-  background: transparent;
-  margin-left: 20px;
-  color: white;
-  width: 85%;
-}
-.input:focus {
-  outline: none; 
-  border-color: none; 
-}
 ::placeholder {
-  color: white;
   font-size: 15px;
-}
-.button{
-  width: 30vw;
-  margin-top: 50px;
 }
 .selected-row {
   background-color: grey; 
@@ -93,6 +100,17 @@ border-radius: 10px;
 .overflow-container2 {
   max-height: 430px; 
   overflow-y: auto;
+}
+
+.overflow-container3 {
+  max-height: 570px; 
+  overflow-y: auto;
+}
+
+.overflow-container4 {
+  max-height: 550px; 
+  overflow-y: auto;
+  width: 1258px;
 }
 
 .custom-table {
@@ -171,7 +189,6 @@ border-radius: 10px;
   margin-left: 10px;
 }
 
-/* InvoiceStyles.css */
 
 .invoice-container {
   padding: 20px;
@@ -180,6 +197,11 @@ border-radius: 10px;
   max-width: 730px;
   margin: auto;
   margin-top: 10px;
+}
+
+.parametrsView
+{
+  max-width: 400px;
 }
 
 .invoice-title {
@@ -235,3 +257,78 @@ border-radius: 10px;
   margin-top: -50px;
 }
 
+.invoice-title-div {
+  margin-top: -50px;
+}
+
+.logoutButton {
+  border: 2px solid white !important;
+  width: 100% !important;
+  text-align: center ;
+  justify-content: center;
+  margin-top: 230px;
+}
+
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #141414, #560101);
+}
+
+.loginContent {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 500px;
+}
+
+.loginDiv,
+.passwordDiv {
+  display: flex;
+  align-items: center;
+  border: 2px solid #141414;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 10px; 
+}
+
+.loginDiv img,
+.passwordDiv img {
+  margin-right: 10px;
+}
+
+.input {
+  border: none;
+  background: transparent;
+  color: #141414;
+  width: 100%; 
+  padding: 8px; 
+  margin-left: 10px; 
+}
+
+.input:focus {
+  outline: none;
+  border-color: none;
+}
+
+.button4 {
+  width: 100% !important;
+  margin-top: 20px;
+  background-color: #8B0000 !important; 
+  color: #fff !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+  cursor: pointer;
+}
+
+.smaller-error {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

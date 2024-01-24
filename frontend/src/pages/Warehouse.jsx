@@ -16,7 +16,7 @@ const Warehouse = ()=>{
             
             <div>
             <HeaderWarehouse onFilterChange={handleFilterChange}/>
-           <TableWarehouse filterText={filterText} />
+            <TableWarehouse filterText={filterText} />
            
            </div>
         </div>

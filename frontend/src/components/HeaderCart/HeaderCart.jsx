@@ -16,13 +16,13 @@ const HeaderCart = ()=>{
     return (
         <div >
              <Link to={PATH.WHOLESALERS}>
-            <Button variant="light" style={buttonStyle} >Salers</Button>{' '}
+            <Button variant="light" style={buttonStyle} >Salers</Button>
             </Link>
             <Link to={PATH.SALERSORDERS}>
-            <Button variant="light" style={buttonStyle}>Orders</Button>{' '}
+            <Button variant="light" style={buttonStyle}>Orders</Button>
             </Link>
             <Link to={PATH.CART}>
-            <Button variant="danger" style={buttonStyle}>Cart</Button>{' '}
+            <Button variant="danger" style={buttonStyle}>Cart</Button>
             </Link>
            
         </div>
