@@ -24,26 +24,14 @@ const HeaderOrder = ()=>{
     return (
         <div >
              <Link to={PATH.WAREHOUSE}>
-            <Button variant="light" style={buttonStyle} >List</Button>{' '}
+            <Button variant="light" style={buttonStyle} >List</Button>
             </Link>
-            <Button variant="danger" style={buttonStyle}>Order</Button>{' '}
+            <Button variant="danger" style={buttonStyle}>Orders</Button>
+            <Link to={PATH.CARTWAREHOUSE}>
+             <Button variant="light" style={buttonStyle}>Cart</Button>
+            </Link>
             <br/>
-
-            <div style={{display: "flex"}}>
-            <InputGroup className="inputSearch">
-
-                <Form.Control
-                placeholder="Enter name"
-                aria-label="Enter name"
-                aria-describedby="basic-addon2"
-             />
-            <Button variant="secondary" id="button-addon2">Search</Button>
-
-            </InputGroup>
-            
-            <Button variant="secondary" style={buttonStyleWarehouse} >delete</Button>{' '}
-            </div>
-
+            <div style={{height: "60px"}}/>
         </div>
     )
  

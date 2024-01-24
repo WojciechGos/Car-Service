@@ -24,7 +24,8 @@ public class LocalOrderMapper {
                 localOrder.getReceiveDate(),
                 localOrder.getOrderStatus(),
                 localOrder.getCommission(),
-                orderSparePartDTOList
+                orderSparePartDTOList,
+                localOrder.getWorker()
         );
     }
 }

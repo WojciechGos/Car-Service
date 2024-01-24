@@ -25,6 +25,10 @@ const Sidebar = ()=>{
             <Link to={PATH.COMMISSION}>
                 <Button variant="outline-light">Commission</Button>{' '}
             </Link>
+            <br />
+            <Link to={PATH.WHOLESALERS}>
+                <Button variant="outline-light">Wholesalers</Button>{' '}
+            </Link>
         </div>
  
     )

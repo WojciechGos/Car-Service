@@ -1,7 +1,45 @@
-import React from "react"
 import Table from 'react-bootstrap/Table';
+import React, { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const TableOrder = ()=>{
+  const [localOrders, setLocalOrders] = useState([]);
+  const [selectedLocalOrderId, setSelectedLocalOrderId] = useState(null)
+
+  useEffect(() => {
+    fetchLocalOrders();
+  }, []);
+
+  const fetchLocalOrders = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/v1/order/local", {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+
+        console.log(data);
+  
+        setLocalOrders(data);
+      } else {
+        console.error("Failed to fetch local orders");
+      }
+    } catch (error) {
+      console.error("Error fetching local orders:", error);
+    }
+  };
+
+    const calculateTotalCost = (localOrder) => {
+      if (!localOrder.orderSparePartList || localOrder.orderSparePartList.length === 0) {
+        return 0;
+      }
+
+      return localOrder.orderSparePartList.reduce((total, sparePart) => {
+        return total + sparePart.price * sparePart.quantity;
+      }, 0);
+    };
 
     return (
 
@@ -9,46 +47,44 @@ const TableOrder = ()=>{
         <thead>
           <tr>
             <th>id</th>
-          <th>Name</th>
-          <th>Vehicle brand</th>
-          <th>Price</th>
-          <th>Cost</th>
-          <th>Mechanic</th>
-          <th>Date order</th>
-          <th>Status</th>
+            <th>Create date</th>
+            <th>Commission ID</th>
+            <th>Contractor</th>
+            <th>Order status</th>
+            <th>Receive date</th>
+            <th>Ordered spare parts</th>
+            <th>Total cost</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Stinger</td>
-            <td>Kia</td>
-            <td>1</td>
-            <td>1200</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Focus</td>
-            <td>Ford</td>
-            <td>1</td>
-            <td>400</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Seicento</td>
-            <td>Fiat</td>
-            <td>1</td>
-            <td>900</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-          </tr>
+        {localOrders.map((localOrder) => (
+            <tr
+              key={localOrder.id}
+              style={{
+                cursor: "pointer",
+                backgroundColor: selectedLocalOrderId === localOrder.id ? "#f2f2f2" : "transparent",
+              }}
+            >
+              <td>{localOrder.id}</td>
+              <td>{new Date(localOrder.createDate).toLocaleString()}</td>
+              <td>{localOrder.commission ? (localOrder.commission.id || '-') : '-'} </td>
+              <td>{localOrder.worker ? `${localOrder.worker.name} ${localOrder.worker.surname}` : '-'}</td>
+              <td>{localOrder.orderStatus}</td>
+              <td>{localOrder.receiveDate ? (localOrder.receiveDate) : '-'}</td>
+              <td>
+              {localOrder.orderSparePartList ? (
+                <ul>
+                  {localOrder.orderSparePartList.map((sparePart, index) => (
+                    <li key={index}>
+                      {`${sparePart.sparePartName} (${sparePart.quantity})`}
+                    </li>
+                  ))}
+                </ul>
+              ) : '-'}
+            </td>
+            <td>{calculateTotalCost(localOrder).toFixed(2)} zł</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
            
