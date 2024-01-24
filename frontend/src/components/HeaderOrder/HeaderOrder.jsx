@@ -24,9 +24,9 @@ const HeaderOrder = ()=>{
     return (
         <div >
              <Link to={PATH.WAREHOUSE}>
-            <Button variant="light" style={buttonStyle} >List</Button>{' '}
+            <Button variant="light" style={buttonStyle} >List</Button>
             </Link>
-            <Button variant="danger" style={buttonStyle}>Order</Button>{' '}
+            <Button variant="danger" style={buttonStyle}>Order</Button>
             <br/>
 
             <div style={{display: "flex"}}>
@@ -41,7 +41,7 @@ const HeaderOrder = ()=>{
 
             </InputGroup>
             
-            <Button variant="secondary" style={buttonStyleWarehouse} >delete</Button>{' '}
+            <Button variant="secondary" style={buttonStyleWarehouse} >delete</Button>
             </div>
 
         </div>

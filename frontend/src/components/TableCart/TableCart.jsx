@@ -1,95 +1,73 @@
-import React from "react"
+import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+import Cookies from "js-cookie";
 
-const TableCart = ()=>{
+const TableCart = () => {
+  const [items, setItems] = useState([]);
 
-    const tableStyle = {
-        fontSize: '1.5rem', 
-        marginTop: '40px',
-        textAlign: 'center'
-      };
+  useEffect(() => {
+    fetchItems();
+  }, []);
 
-    return (
+  const fetchItems = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/v1/order/external", {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setItems(data);
+        console.log(data);
+      } else {
+        console.error("Failed to fetch items");
+      }
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
 
-        <Table className="grayTable" bordered hover variant="secondary" style={tableStyle}>
-        <thead>
-          <tr>
-            <th>id</th>
-          <th>name</th>
-          <th>quantity</th>
-          <th>producer</th>
-          <th>parameters</th>
-          <th>price</th>
-          <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>kierownica z manetkami</td>
-            <td>2</td>
-            <td>xyz</td>
-            <td>wełna</td>
-            <td>120</td>
-            <td>
-            <InputGroup className="mb-3">
-        <Form.Control
-          placeholder="quantity"
-          aria-label="quantity"
-        />
-        <Button variant="danger" id="button-addon2">
-          delete
-        </Button>
-      </InputGroup>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>kierownica</td>
-            <td>1</td>
-            <td>xxx</td>
-            <td>plastik</td>
-            <td>130</td>
-            <td>
-            <InputGroup className="mb-3">
-        <Form.Control
-          placeholder="quantity"
-          aria-label="quantity"
-        />
-        <Button variant="danger" id="button-addon2">
-          delete
-        </Button>
-      </InputGroup>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>okno</td>
-            <td>2</td>
-            <td>vvv</td>
-            <td>obszycie alkantara</td>
-            <td>400</td>
-            <td>
-            <InputGroup className="mb-3">
-        <Form.Control
-          placeholder="quantity"
-          aria-label="quantity"
-        />
-        <Button variant="danger" id="button-addon2">
-          delete
-        </Button>
-      </InputGroup>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-           
+  return (
+    <div className="table-container">
+      <div className="overflow-container3">
+        <Table className="custom-table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Producer</th>
+              <th>Parameters</th>
+              <th>Total cost</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map(item => (
+              <tr key={item.id}>
+                <td>{item.id}</td>
+                <td>{item.sparePartName}</td>
+                <td>{item.quantity}</td>
+                <td>{item.producer}</td>
+                <td>{item.parameters}</td>
+                <td>{item.totalCost}</td>
+                <td>
+                  <InputGroup className="mb-3">
+                    <Button variant="danger" id="button-addon2">
+                      delete
+                    </Button>
+                  </InputGroup>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  );
+};
 
-       
-    )
- 
-}
-export default TableCart
+export default TableCart;

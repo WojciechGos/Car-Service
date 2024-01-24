@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
@@ -6,31 +6,12 @@ import PATH from "../../paths";
 import Cookies from "js-cookie";
 
 const TableClient = () => {
-  const [clients, setClients] = useState([]);
   const [newClient, setNewClient] = useState({
     name: "",
     surname: "",
     email: "",
     phoneNumber: ""
   });
-
-  useEffect(() => {
-    fetchClients();
-  }, []);
-
-  const fetchClients = async () => {
-    try {
-      const response = await fetch("http://localhost:5001/api/v1/clients");
-      if (response.ok) {
-        const data = await response.json();
-        setClients(data);
-      } else {
-        console.error("Failed to fetch clients");
-      }
-    } catch (error) {
-      console.error("Error fetching clients:", error);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,8 +38,6 @@ const TableClient = () => {
       });
   
       if (response.ok) {
-        fetchClients();
-  
         setNewClient({
           name: "",
           surname: "",
