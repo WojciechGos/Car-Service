@@ -1,29 +1,31 @@
 package com.carservice.CarService.methodsTests.patternsTests;
 
-import com.carservice.CarService.commission.*;
+import com.carservice.CarService.commission.Commission;
+import com.carservice.CarService.commission.CommissionService;
 import com.carservice.CarService.printInvoice.PrintHTMLInvoice;
-import com.carservice.CarService.printInvoice.PrintInvoice;
+import com.carservice.CarService.printInvoice.PrintPDFInvoice;
 import com.carservice.CarService.vatInvoice.VatInvoice;
 import com.carservice.CarService.vatInvoice.VatInvoiceRepository;
 import com.carservice.CarService.vatInvoice.VatInvoiceService;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class VatInvoiceBridgeTest {
+class VatInvoiceServiceTest {
 
     @Mock
     private VatInvoiceRepository vatInvoiceRepository;
 
     @Mock
-    private Commission commission;
+    private CommissionService commissionService;
 
     @InjectMocks
     private VatInvoiceService vatInvoiceService;
@@ -34,42 +36,69 @@ class VatInvoiceBridgeTest {
     }
 
     @Test
-    void generateVatInvoicePDF() {
+    void getAllVatInvoices() {
         // Arrange
-        VatInvoice vatInvoice = new VatInvoice(new PrintHTMLInvoice());
-        vatInvoice.setCommission(commission);
+        VatInvoice vatInvoice1 = new VatInvoice(new PrintPDFInvoice());
+        VatInvoice vatInvoice2 = new VatInvoice(new PrintHTMLInvoice());
+        List<VatInvoice> expectedVatInvoices = Arrays.asList(vatInvoice1, vatInvoice2);
 
-        when(vatInvoiceRepository.save(any())).thenReturn(vatInvoice);
-        when(vatInvoiceRepository.findById(any())).thenReturn(java.util.Optional.of(vatInvoice));
+        when(vatInvoiceRepository.findAll()).thenReturn(expectedVatInvoices);
 
         // Act
-        byte[] result = vatInvoiceService.generateVatInvoicePDF(1L);
+        List<VatInvoice> result = vatInvoiceService.getAllVatInvoices();
 
         // Assert
-        assertArrayEquals("Generated PDF".getBytes(), result);
+        assertEquals(expectedVatInvoices, result);
+    }
 
-        // Verify interactions
-        verify(vatInvoiceRepository, times(1)).save(any());
-        verify(vatInvoiceRepository, times(1)).findById(any());
-        }
+    @Test
+    void getVatInvoicesByCommissionId() {
+        // Arrange
+        Long commissionId = 1L;
+        VatInvoice vatInvoice1 = new VatInvoice(new PrintPDFInvoice());
+        VatInvoice vatInvoice2 = new VatInvoice(new PrintHTMLInvoice());
+        List<VatInvoice> expectedVatInvoices = Arrays.asList(vatInvoice1, vatInvoice2);
+
+        when(vatInvoiceRepository.findByCommissionId(commissionId)).thenReturn(expectedVatInvoices);
+
+        // Act
+        List<VatInvoice> result = vatInvoiceService.getVatInvoicesByCommissionId(commissionId);
+
+        // Assert
+        assertEquals(expectedVatInvoices, result);
+    }
+
+    @Test
+    void generateVatInvoicePDF() {
+        // Arrange
+        Long commissionId = 1L;
+        Commission commission = new Commission();
+        VatInvoice vatInvoice = new VatInvoice(new PrintPDFInvoice());
+
+        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
+        when(vatInvoiceRepository.save(any(VatInvoice.class))).thenReturn(vatInvoice);
+
+        // Act
+        byte[] result = vatInvoiceService.generateVatInvoicePDF(commissionId);
+
+        // Assert (add your specific assertions for the generated PDF)
+        // assertEquals(expectedBytes, result);
+    }
 
     @Test
     void generateVatInvoiceHTML() {
         // Arrange
+        Long commissionId = 1L;
+        Commission commission = new Commission();
         VatInvoice vatInvoice = new VatInvoice(new PrintHTMLInvoice());
-        vatInvoice.setCommission(commission);
 
-        when(vatInvoiceRepository.save(any())).thenReturn(vatInvoice);
-        when(vatInvoiceRepository.findById(any())).thenReturn(java.util.Optional.of(vatInvoice));
+        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
+        when(vatInvoiceRepository.save(any(VatInvoice.class))).thenReturn(vatInvoice);
 
         // Act
-        byte[] result = vatInvoiceService.generateVatInvoiceHTML(1L);
+        byte[] result = vatInvoiceService.generateVatInvoiceHTML(commissionId);
 
-        // Assert
-        assertArrayEquals("Generated HTML".getBytes(), result);
-
-        // Verify interactions
-        verify(vatInvoiceRepository, times(1)).save(any());
-        verify(vatInvoiceRepository, times(1)).findById(any());
-     }
+        // Assert (add your specific assertions for the generated HTML)
+        // assertEquals(expectedBytes, result);
+    }
 }

@@ -27,13 +27,11 @@ public class WarehouseSingletonTest {
 
     @Test
     void getInstance_ShouldBeThreadSafe() {
-        // This test checks if the getInstance method is thread-safe.
 
         // Arrange
         SparePartService mockSparePartService = Mockito.mock(SparePartService.class);
 
         // Act
-        // Run multiple threads to get instances concurrently
         Warehouse[] instances = new Warehouse[10];
         Thread[] threads = new Thread[10];
 
@@ -43,7 +41,6 @@ public class WarehouseSingletonTest {
             threads[i].start();
         }
 
-        // Wait for all threads to finish
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -53,7 +50,6 @@ public class WarehouseSingletonTest {
         }
 
         // Assert
-        // Ensure that all instances are the same (singleton pattern)
         for (int i = 1; i < 10; i++) {
             assertSame(instances[i - 1], instances[i], "All instances should be the same");
         }

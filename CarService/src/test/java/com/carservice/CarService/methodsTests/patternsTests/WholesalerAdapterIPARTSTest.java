@@ -5,57 +5,76 @@ import com.carservice.CarService.orderItem.*;
 import com.carservice.CarService.requestItem.*;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import java.util.Arrays;
 import java.util.List;
 import java.math.BigDecimal;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class WholesalerAdapterIPARTSTest {
 
     @Mock
-    private WholesalerIPARTS wholesalerIPARTS;
+    private OrderItemMapper orderItemMapper;
 
     @Mock
-    private OrderItemMapper orderItemMapper;
+    private WholesalerIPARTS wholesalerIPARTS;
 
     @InjectMocks
     private WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
 
     @Test
-    public void OrderItem() {
+    public void orderItem() {
+        // Arrange
+        Long itemId = 1L;
+        RequestItemDTO requestItemDTO = new RequestItemDTO(1L, "TIRE-MAX", "IPART", "Description", "Tire", new BigDecimal("4.00"), 10);
+        OrderItemDTO expectedOrderItemDTO = new OrderItemDTO(
+            2L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Description");
 
-        Long id = 1L;
-        RequestItemDTO requestItemDTO = new RequestItemDTO(1L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91", "Tire",new BigDecimal("4.00"), 10);
+        when(wholesalerIPARTS.post(itemId)).thenReturn(requestItemDTO);
+        when(orderItemMapper.map(requestItemDTO)).thenReturn(expectedOrderItemDTO);
 
-        OrderItemDTO orderItemDTO = new OrderItemDTO(   2L,
-            "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
+        // Act
+        OrderItemDTO result = wholesalerAdapterIPARTS.orderItem(itemId);
 
-        when(wholesalerIPARTS.post(id)).thenReturn(requestItemDTO);
-        when(orderItemMapper.map(requestItemDTO)).thenReturn(orderItemDTO);
+        // Assert
+        assertEquals(expectedOrderItemDTO, result);
 
-        OrderItemDTO result = wholesalerAdapterIPARTS.orderItem(id);
-
-        assertEquals(orderItemDTO, result);
+        verify(wholesalerIPARTS, times(1)).post(itemId);
+        verify(orderItemMapper, times(1)).map(requestItemDTO);
     }
 
     @Test
     public void getOrderItem() {
-        List<RequestItemDTO> response = List.of(new RequestItemDTO(1L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91", "Tire",new BigDecimal("4.00"), 10));
-        when(wholesalerIPARTS.get()).thenReturn(response);
+        // Arrange
+        List<RequestItemDTO> requestItemList = Arrays.asList(
+            new RequestItemDTO(1L, "TIRE1", "IPART", "Description1", "Tire", new BigDecimal("5.00"), 20),
+            new RequestItemDTO(2L, "TIRE2", "IPART", "Description2", "Tire", new BigDecimal("6.00"), 15)
+        );
+        List<OrderItemDTO> expectedOrderItemList = Arrays.asList(
+            new OrderItemDTO(1L, "Tire", new BigDecimal("5.00"), 20, 4L, "TIRE1", "IPART", "Description1"),
+            new OrderItemDTO(2L, "Tire", new BigDecimal("6.00"), 15, 6L, "TIRE2", "IPART", "Description2")
+        );
 
-        OrderItemDTO orderItemDTO = new OrderItemDTO(   null, // Możesz ustawić null, jeśli id jest generowane automatycznie
-            "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
-        when(orderItemMapper.map(response.get(0))).thenReturn(orderItemDTO);
+        when(wholesalerIPARTS.get()).thenReturn(requestItemList);
+        when(orderItemMapper.map(any(RequestItemDTO.class))).thenReturn(expectedOrderItemList.get(0), expectedOrderItemList.get(1));
 
+        // Act
         List<OrderItemDTO> result = wholesalerAdapterIPARTS.getOrderItemList();
 
-        assertEquals(List.of(orderItemDTO), result);
+        // Assert
+        assertEquals(expectedOrderItemList, result);
+
+        verify(wholesalerIPARTS, times(1)).get();
+        verify(orderItemMapper, times(2)).map(any(RequestItemDTO.class));
     }
 }
