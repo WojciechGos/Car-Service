@@ -23,7 +23,7 @@ class ClientServiceTest {
         Client clientToCreate = new Client();
         clientToCreate.setName("John");
         clientToCreate.setSurname("Doe");
-        clientToCreate.setEmail("john.doe@example.com");
+        clientToCreate.setEmail("john.doe@gmail.com");
         clientToCreate.setPhoneNumber("123456789");
 
         Mockito.when(clientRepository.save(Mockito.any(Client.class))).thenReturn(clientToCreate);
@@ -76,7 +76,7 @@ class ClientServiceTest {
         Long clientId = 1L;
         Client existingClient = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");
         existingClient.setId(clientId);
-        Client updatedClientData = new Client("Updated", "Client", "updated@gmail.com", "999999999");
+        Client updatedClientData = new Client("Michael", "White", "michael@gmail.com", "234567890");
 
         when(clientRepository.findById(clientId)).thenReturn(Optional.of(existingClient));
 

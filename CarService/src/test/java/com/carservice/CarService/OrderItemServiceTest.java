@@ -64,21 +64,29 @@ class OrderItemServiceTest {
         // Assertions
         assertEquals(orderItems, result);
     }
-/*
+
     @Test
     void createOrderItem() {
-        // Mock data
-        OrderItem orderItem = new OrderItem();
+        OrderItemRepository orderItemRepository = mock(OrderItemRepository.class);
 
-        // Call the method
-        OrderItem result = orderItemService.createOrderItem(orderItem);
+        OrderItemService orderItemService = new OrderItemService(orderItemRepository);
+        OrderItem orderItemToSave = new OrderItem();
 
-        // Assertions
-        verify(orderItemRepository, times(1)).save(orderItem);
+        when(orderItemRepository.save(any())).thenAnswer(invocation -> {
+            OrderItem savedOrderItem = invocation.getArgument(0);
+            savedOrderItem.setId(1L);
+            return savedOrderItem;
+        });
+
+        OrderItem result = orderItemService.createOrderItem(orderItemToSave);
+
+        verify(orderItemRepository, times(1)).save(any());
         assertNotNull(result);
-        assertEquals(orderItem, result);
+
+        assertNotNull(result.getId());
+        assertEquals(1L, result.getId());
     }
 
- */
+
 
 }

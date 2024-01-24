@@ -109,7 +109,7 @@ class CommissionServiceTest {
     @Test
     void testUpdateCommissionNotFound() {
         Long commissionId = 1L;
-        UpdateCommissionRequest request = new UpdateCommissionRequest(3L, 3L, 3L, "Commission 3",  CommissionStatus.IN_PROGRESS);
+        UpdateCommissionRequest request = new UpdateCommissionRequest(2L, 2L, 2L, "Commission 3",  CommissionStatus.IN_PROGRESS);
 
         when(commissionRepository.findById(commissionId)).thenReturn(Optional.empty());
 

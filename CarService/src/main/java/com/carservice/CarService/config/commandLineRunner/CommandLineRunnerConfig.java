@@ -21,6 +21,13 @@ import com.carservice.CarService.vehicles.VehicleRepository;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerRepository;
 import com.carservice.CarService.worker.WorkerRole;
+import com.carservice.CarService.localOrder.LocalOrder;
+import com.carservice.CarService.localOrder.LocalOrderRepository;
+import com.carservice.CarService.orderItem.OrderItem;
+import com.carservice.CarService.orderItem.OrderItemRepository;
+import com.carservice.CarService.externalOrder.ExternalOrderRepository;
+import com.carservice.CarService.externalOrder.ExternalOrder;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +51,12 @@ public class CommandLineRunnerConfig {
             CommissionRepository commissionRepository,
             PaymentRepository paymentRepository,
             PasswordEncoder passwordEncoder,
-            OrderSparePartRepository orderSparePartRepository
+            OrderSparePartRepository orderSparePartRepository,
+            OrderItemRepository orderItemRepository,
+            LocalOrderRepository localOrderRepository,
+            ExternalOrderRepository externalOrderRepository
+
+
             ){
         return args -> {
             addClients(clientRepository);
@@ -55,8 +67,22 @@ public class CommandLineRunnerConfig {
             addCosts(costRepository, sparePartRepository, orderSparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
             addPayments(paymentRepository, clientRepository);
+            addLocalOrder(workerRepository, localOrderRepository);
         };
     }
+    private void addLocalOrder(WorkerRepository workerRepository,LocalOrderRepository localOrderRepository)
+    {
+        List<Worker> worker = workerRepository.findAll();
+        LocalDateTime createDate = LocalDateTime.now();
+
+        LocalOrder localOrder1 = new LocalOrder(worker.get(0), createDate);
+
+        LocalOrder localOrder2 = new LocalOrder(worker.get(1), createDate);
+        localOrderRepository.saveAll(
+            List.of(localOrder1, localOrder2)
+        );
+    }
+
 
     private void addClients(ClientRepository clientRepository) {
         Client wojtek = new Client("Wojciech", "Kowalski", "wojtek@gmail.com", "345234876");

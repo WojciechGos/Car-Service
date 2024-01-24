@@ -31,7 +31,7 @@ class VatInvoiceServiceTest {
 
     @InjectMocks
     private VatInvoiceService vatInvoiceService;
-/*
+
     @Test
     void generateVatInvoicePDF() {
 
@@ -53,7 +53,7 @@ class VatInvoiceServiceTest {
 
         assertEquals(0, result.length);
     }
-
+/*
     @Test
     void generateVatInvoiceHTML() {
 
@@ -76,4 +76,5 @@ class VatInvoiceServiceTest {
     }
 
  */
+
 }
