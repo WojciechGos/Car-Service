@@ -189,6 +189,7 @@ class LocalOrderServiceTest {
         LocalOrder existingLocalOrder = new LocalOrder();
         existingLocalOrder.setId(localOrderId);
         existingLocalOrder.setOrderStatus(OrderStatus.CREATING);
+
         when(localOrderRepository.findById(localOrderId)).thenReturn(Optional.of(existingLocalOrder));
 
         // Call the method
