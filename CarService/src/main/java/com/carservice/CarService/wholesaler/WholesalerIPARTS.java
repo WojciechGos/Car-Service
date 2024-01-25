@@ -181,4 +181,23 @@ public class WholesalerIPARTS {
                     requestItemDTOList.set(requestItemDTOList.indexOf(item), updatedItem);
                 });
     }
+
+    public void increaseQuantity(Long targetId, int quantity) {
+        requestItemDTOList.stream()
+                .filter(item -> Objects.equals(item.id(), targetId))
+                .findFirst()
+                .ifPresent(item -> {
+                    RequestItemDTO updatedItem = new RequestItemDTO(
+                            item.id(),
+                            item.producerName(),
+                            item.wholesaler(),
+                            item.parameters(),
+                            item.itemName(),
+                            item.price(),
+                            item.quantity() + quantity
+                    );
+
+                    requestItemDTOList.set(requestItemDTOList.indexOf(item), updatedItem);
+                });
+    }
 }

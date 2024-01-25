@@ -1,7 +1,6 @@
 package com.carservice.CarService.orderItem;
 
 import com.carservice.CarService.producer.Producer;
-import com.carservice.CarService.producer.ProducerRepository;
 import com.carservice.CarService.producer.ProducerService;
 import com.carservice.CarService.requestItem.RequestItemDTO;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,7 @@ public class OrderItemMapper {
 
         return new OrderItemDTO(
                 orderItem.getId(),
+                orderItem.getExternalOrderItemId(),
                 orderItem.getName(),
                 orderItem.getPrice(),
                 orderItem.getQuantity(),
@@ -53,6 +53,7 @@ public class OrderItemMapper {
         }
 
         return new OrderItemDTO(
+                requestItemDTO.id(),
                 requestItemDTO.id(),
                 requestItemDTO.itemName(),
                 requestItemDTO.price(),

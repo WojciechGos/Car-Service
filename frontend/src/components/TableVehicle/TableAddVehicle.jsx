@@ -97,7 +97,7 @@ const TableAddVehicle = () => {
                 type="text"
                 placeholder="Enter license plate"
                 name="licensePlate"
-                value={newVehicle.licensePlate}
+                value={newVehicle.registrationNumber}
                 onChange={handleInputChange}
             />
             </Form.Group>
@@ -108,7 +108,7 @@ const TableAddVehicle = () => {
                 type="text"
                 placeholder="Enter year"
                 name="year"
-                value={newVehicle.year}
+                value={newVehicle.registrationDate}
                 onChange={handleInputChange}
             />
             </Form.Group>

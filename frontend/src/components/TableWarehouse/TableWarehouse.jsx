@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from 'jwt-decode';
+import add from "./add-to-cart.png";
 
 const TableWarehouse = ( {filterText} )=>{
   const [spareParts, setSpareParts] = useState([]);
@@ -117,7 +118,6 @@ const TableWarehouse = ( {filterText} )=>{
               <th>Parameters</th>
               <th>Quantity</th>
               <th>Price</th>
-              <th>Quantity:</th>
               <th/>
             </tr>
           </thead>
@@ -136,17 +136,19 @@ const TableWarehouse = ( {filterText} )=>{
                 <td>{sparePart.quantity}</td>
                 <td>{sparePart.price} zł</td>
                 <td style={inputButtonStyle}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',width:'100px'}}>
                     <label>
                       <input
-                        style={{ width: "85px"}}
+                        style={{ width: "120px",marginRight:"20px"}}
                         type="text"
                         placeholder="Enter quantity..."
                         value={quantities[sparePart.id] || ''}
                         onChange={(e) => handleQuantityChange(e, sparePart.id)}
                       />
                     </label>
-                    <button onClick={() => handleAddToCart(sparePart.id, getUserInfoFromToken()?.sub)}>add</button>
+                    <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() => handleAddToCart(sparePart.id, getUserInfoFromToken()?.sub)}>
+                      <img src={add} alt="Add to Cart" style={{ width: '40px', height: '40px' }} />
+                    </button>
                   </div>
                 </td>
               </tr>
