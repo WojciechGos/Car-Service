@@ -357,3 +357,9 @@ border-radius: 10px;
   align-items: center;
   justify-content: center;
 }
+
+.order-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px; 
+}

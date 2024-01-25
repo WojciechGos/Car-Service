@@ -130,7 +130,7 @@ const TableCartWarehouse = ()=>{
         <tr>
           <th>Spare Part ID</th>
           <th>Name</th>
-          <th>Producent</th>
+          <th>Producer</th>
           <th>Quantity</th>
           <th>Total Cost</th>
           <th />

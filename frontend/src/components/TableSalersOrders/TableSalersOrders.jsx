@@ -5,13 +5,13 @@ import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
 
 const TableSalersOrders = ()=>{
-  const [items, setItems] = useState([]);
+  const [externalOrders, setExternalOrders] = useState([]);
 
   useEffect(() => {
-    fetchItems();
+    fetchExternalOrders();
   }, []);
 
-  const fetchItems = async () => {
+  const fetchExternalOrders = async () => {
     try {
       const response = await fetch("http://localhost:5001/api/v1/order/external", {
         headers: {
@@ -20,14 +20,24 @@ const TableSalersOrders = ()=>{
       });
       if (response.ok) {
         const data = await response.json();
-        setItems(data);
+        setExternalOrders(data);
         console.log(data)
       } else {
-        console.error("Failed to fetch items");
+        console.error("Failed to fetch external orders");
       }
     } catch (error) {
-      console.error("Error fetching items:", error);
+      console.error("Error fetching external orders:", error);
     }
+  };
+
+  const calculateTotalCost = (externalOrder) => {
+    if (!externalOrder.items || externalOrder.items.length === 0) {
+      return 0;
+    }
+
+    return externalOrder.items.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
   };
 
   return (
@@ -37,34 +47,36 @@ const TableSalersOrders = ()=>{
         <thead>
           <tr>
             <th>Id</th>
-            <th>Name</th>
-            <th>Ordered quantity</th>
-            <th>Producer</th>
-            <th>Parameters</th>
-            <th>Price</th>
+            <th>Create date</th>
+            <th>Contractor</th>
+            <th>Order status</th>
+            <th>Receive date</th>
+            <th>Ordered items</th>
+            <th>Total cost</th>
           </tr>
         </thead>
         <tbody>
-          {items.map(item => (
+          {externalOrders.map(externalOrder => (
             <tr
-              key={item.id}
+              key={externalOrder.id}
             >
-              <td>{item.id}</td>
-              <td>{item.sparePartName}</td>
-              <td>{item.quantity}</td>
-              <td className="parametrsView">{item.parameters}</td>
-              <td>{item.price}</td>
+              <td>{externalOrder.id}</td>
+              <td>{new Date(externalOrder.createDate).toLocaleString()}</td>
+              <td>{externalOrder.worker ? `${externalOrder.worker.name} ${externalOrder.worker.surname}` : '-'}</td>
+              <td>{externalOrder.orderStatus}</td>
+              <td>{externalOrder.receiveDate ? (externalOrder.receiveDate) : '-'}</td>
               <td>
-                <InputGroup className="mb-3">
-                  <Form.Control
-                    placeholder="quantity"
-                    aria-label="quantity"
-                  />
-                  <Button variant="primary" id="button-addon2">
-                    add
-                  </Button>
-                </InputGroup>
-              </td>
+              {externalOrder.items ? (
+                <ul>
+                  {externalOrder.items.map((item, index) => (
+                    <li key={index}>
+                      {`${item.sparePartName} (${item.quantity})`}
+                    </li>
+                  ))}
+                </ul>
+              ) : '-'}
+            </td>
+            <td>{calculateTotalCost(externalOrder).toFixed(2)} zł</td>
             </tr>
           ))}
           </tbody>
