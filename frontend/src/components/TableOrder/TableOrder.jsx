@@ -1,8 +1,7 @@
-import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-const TableOrder = ()=>{
+const TableOrder = ({filterText} )=>{
   const [localOrders, setLocalOrders] = useState([]);
   const [selectedLocalOrderId, setSelectedLocalOrderId] = useState(null)
 
@@ -42,8 +41,9 @@ const TableOrder = ()=>{
     };
 
     return (
-
-        <Table className="grayTable" bordered hover variant="secondary" style={{ marginTop: "10px" }}>
+      <div className="table-container">
+        <div className="overflow-container5">
+        <table className="custom-table">
         <thead>
           <tr>
             <th>id</th>
@@ -86,10 +86,9 @@ const TableOrder = ()=>{
             </tr>
           ))}
         </tbody>
-      </Table>
-           
-
-       
+        </table>
+      </div>
+      </div>
     )
  
 }
