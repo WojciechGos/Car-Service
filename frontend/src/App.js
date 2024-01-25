@@ -10,6 +10,7 @@ import Warehouse from './pages/Warehouse';
 import Commission from './pages/Commission';
 import CommissionAdd from './pages/CommissionAdd';
 import Vehicle from './pages/Vehicle';
+import VehicleAdd from './pages/VehicleAdd';
 import Order from './pages/Order';
 import ClientAdd from './pages/ClientAdd';
 import Wholesalers from './pages/Wholesalers';
@@ -33,6 +34,7 @@ function App() {
       <Route path={PATH.COMMISSION} element={<Commission/>}/>
       <Route path={PATH.COMMISSIONADD} element={<CommissionAdd />}/>
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
+      <Route path={PATH.VEHICLEADD} element={<VehicleAdd/>}/>
       <Route path={PATH.ORDER} element={<Order/>}/>
       <Route path={PATH.CARTWAREHOUSE} element={<CartWarehouse/>}/>
       <Route path={PATH.WHOLESALERS} element={<Wholesalers/>}/>
