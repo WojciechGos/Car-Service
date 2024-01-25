@@ -13,13 +13,6 @@ const CostHeader = ({ setSelected, selected, showChoice }) => {
     fontFamily: "'Extra Bolt Italic', sans-serif",
   };
 
-  const buttonStyleClient = {
-    fontSize: "32px",
-    marginTop: "10px",
-    marginLeft: "700px",
-    fontFamily: "'Extra Bolt Italic', sans-serif",
-  };
-
   const changeTab = (endPoint) => {
     setSelected(endPoint);
   };
