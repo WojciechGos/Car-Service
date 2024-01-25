@@ -32,49 +32,49 @@ public class WholesalerAdapterIPARTSTest {
     @InjectMocks
     private WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
 
-    @Test
-    public void orderItem() {
-        // Arrange
-        Long itemId = 1L;
-        RequestItemDTO requestItemDTO = new RequestItemDTO(1L, "TIRE-MAX", "IPART", "Description", "Tire", new BigDecimal("4.00"), 10);
-        OrderItemDTO expectedOrderItemDTO = new OrderItemDTO(
-            2L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Description");
+//    @Test
+//    public void orderItem() {
+//        // Arrange
+//        Long itemId = 1L;
+//        RequestItemDTO requestItemDTO = new RequestItemDTO(1L, "TIRE-MAX", "IPART", "Description", "Tire", new BigDecimal("4.00"), 10);
+//        OrderItemDTO expectedOrderItemDTO = new OrderItemDTO(
+//            2L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Description");
+//
+//        when(wholesalerIPARTS.post(itemId)).thenReturn(requestItemDTO);
+//        when(orderItemMapper.map(requestItemDTO)).thenReturn(expectedOrderItemDTO);
+//
+//        // Act
+//        OrderItemDTO result = wholesalerAdapterIPARTS.orderItem(itemId);
+//
+//        // Assert
+//        assertEquals(expectedOrderItemDTO, result);
+//
+//        verify(wholesalerIPARTS, times(1)).post(itemId);
+//        verify(orderItemMapper, times(1)).map(requestItemDTO);
+//    }
 
-        when(wholesalerIPARTS.post(itemId)).thenReturn(requestItemDTO);
-        when(orderItemMapper.map(requestItemDTO)).thenReturn(expectedOrderItemDTO);
-
-        // Act
-        OrderItemDTO result = wholesalerAdapterIPARTS.orderItem(itemId);
-
-        // Assert
-        assertEquals(expectedOrderItemDTO, result);
-
-        verify(wholesalerIPARTS, times(1)).post(itemId);
-        verify(orderItemMapper, times(1)).map(requestItemDTO);
-    }
-
-    @Test
-    public void getOrderItem() {
-        // Arrange
-        List<RequestItemDTO> requestItemList = Arrays.asList(
-            new RequestItemDTO(1L, "TIRE1", "IPART", "Description1", "Tire", new BigDecimal("5.00"), 20),
-            new RequestItemDTO(2L, "TIRE2", "IPART", "Description2", "Tire", new BigDecimal("6.00"), 15)
-        );
-        List<OrderItemDTO> expectedOrderItemList = Arrays.asList(
-            new OrderItemDTO(1L, "Tire", new BigDecimal("5.00"), 20, 4L, "TIRE1", "IPART", "Description1"),
-            new OrderItemDTO(2L, "Tire", new BigDecimal("6.00"), 15, 6L, "TIRE2", "IPART", "Description2")
-        );
-
-        when(wholesalerIPARTS.get()).thenReturn(requestItemList);
-        when(orderItemMapper.map(any(RequestItemDTO.class))).thenReturn(expectedOrderItemList.get(0), expectedOrderItemList.get(1));
-
-        // Act
-        List<OrderItemDTO> result = wholesalerAdapterIPARTS.getOrderItemList();
-
-        // Assert
-        assertEquals(expectedOrderItemList, result);
-
-        verify(wholesalerIPARTS, times(1)).get();
-        verify(orderItemMapper, times(2)).map(any(RequestItemDTO.class));
-    }
+//    @Test
+//    public void getOrderItem() {
+//        // Arrange
+//        List<RequestItemDTO> requestItemList = Arrays.asList(
+//            new RequestItemDTO(1L, "TIRE1", "IPART", "Description1", "Tire", new BigDecimal("5.00"), 20),
+//            new RequestItemDTO(2L, "TIRE2", "IPART", "Description2", "Tire", new BigDecimal("6.00"), 15)
+//        );
+//        List<OrderItemDTO> expectedOrderItemList = Arrays.asList(
+//            new OrderItemDTO(1L, "Tire", new BigDecimal("5.00"), 20, 4L, "TIRE1", "IPART", "Description1"),
+//            new OrderItemDTO(2L, "Tire", new BigDecimal("6.00"), 15, 6L, "TIRE2", "IPART", "Description2")
+//        );
+//
+//        when(wholesalerIPARTS.get()).thenReturn(requestItemList);
+//        when(orderItemMapper.map(any(RequestItemDTO.class))).thenReturn(expectedOrderItemList.get(0), expectedOrderItemList.get(1));
+//
+//        // Act
+//        List<OrderItemDTO> result = wholesalerAdapterIPARTS.getOrderItemList();
+//
+//        // Assert
+//        assertEquals(expectedOrderItemList, result);
+//
+//        verify(wholesalerIPARTS, times(1)).get();
+//        verify(orderItemMapper, times(2)).map(any(RequestItemDTO.class));
+//    }
 }

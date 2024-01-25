@@ -5,19 +5,19 @@ import { jwtDecode } from "jwt-decode";
 import CostEstimateContext from "../../context/CostEstimateContext";
 import Button from "react-bootstrap/esm/Button";
 
-const CostEstimateTable = ({commissionId}) => {
-
-  const {costData, sparePartList, acceptCostEstimate} = useContext(CostEstimateContext);
-  console.log(sparePartList)
+const CostEstimateTable = ({ commissionId, showSaveButton }) => {
+  const { costData, sparePartList, acceptCostEstimate } =
+    useContext(CostEstimateContext);
+  console.log(sparePartList);
 
   const buttonStyle = {
     marginTop: "10px",
     fontSize: "32px",
     fontFamily: "'Extra Bolt Italic', sans-serif",
-    backgroundColor: 'red'
+    backgroundColor: "red",
   };
 
-
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -67,9 +67,20 @@ const CostEstimateTable = ({commissionId}) => {
         <h4>Labor cost: {costData.laborPrice} zł</h4>
         <h3>Total cost: {costData.totalCost} zł</h3>
       </div>
-      <Button variant="light" style={buttonStyle} onClick={()=>{ acceptCostEstimate(commissionId)}}>
+
+      {showSaveButton === true ? (
+        <Button
+          variant="light"
+          style={buttonStyle}
+          onClick={() => {
+            acceptCostEstimate(commissionId);
+          }}
+        >
           Save
         </Button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

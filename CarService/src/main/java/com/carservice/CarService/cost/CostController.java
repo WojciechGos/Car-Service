@@ -26,6 +26,7 @@ public class CostController {
 
     @PostMapping
     public ResponseEntity<Long> createCost(@RequestBody CostRequest costRequest) {
+        System.out.println(costRequest);
         Long savedCostId = costService.createCost(costRequest);
         return new ResponseEntity<>(savedCostId, HttpStatus.CREATED);
     }
