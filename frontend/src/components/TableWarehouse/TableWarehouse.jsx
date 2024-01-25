@@ -9,7 +9,7 @@ const TableWarehouse = ( {filterText} )=>{
   const [quantities, setQuantities] = useState({});
 
   const tdShort = {
-    width: "222px", 
+    width: "300px", 
   };
 
   const inputButtonStyle = {
