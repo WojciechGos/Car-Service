@@ -51,23 +51,25 @@ export function CostEstimateContextProvider({ children }) {
     const sparePartIdQuantity = sparePartList.reduce((map, obj)=>{
         map[obj.id] = obj.quantity
         return map
-    })
+    }, {})
 
     const bodyObject = {
         costType: 'estimate',
         name: costData.name,
         sparePartQuantities : sparePartIdQuantity,
-        commissionId: commissionId
+        commissionId: 1,
+        laborPrice: 100.00,
     }
     console.log(bodyObject)
 
     try {
       const response = await fetch(
-        `http://localhost:5001/api/v1/cost`,
+        `http://localhost:5001/api/v1/costs`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${Cookies.get("jwt")}`,
+            'Content-Type' : 'Application/json',
+            'Authorization': `Bearer ${Cookies.get("jwt")}`,
           },
           body: JSON.stringify(bodyObject)
         }
@@ -83,7 +85,7 @@ export function CostEstimateContextProvider({ children }) {
         }
       } else {
         console.error(
-          "Failed to fetch local order by worker email:",
+          "Failed to create cost",
           response.statusText
         );
 

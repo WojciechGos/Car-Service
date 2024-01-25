@@ -153,7 +153,6 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
             {renderHeaderCell("End date", "endDate")}
             {renderHeaderCell("ID vehicle", "vehicle.id")}
             {renderHeaderCell("ID client", "client.id")}
-            {renderHeaderCell("Cost estimate", "costEstimate")}
             {renderHeaderCell("Contractor", "contractor.name")}
           </tr>
         </thead>
@@ -176,7 +175,6 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
               )}
               <td>{commission.vehicle.id}</td>
               <td>{commission.client.id}</td>
-              <td>{commission.costEstimate}</td>
               <td>{commission.contractor.name} {commission.contractor.surname}</td>
             </tr>
           ))}
