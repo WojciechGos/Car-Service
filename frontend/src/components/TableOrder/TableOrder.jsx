@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 const TableOrder = ({filterText} )=>{
   const [localOrders, setLocalOrders] = useState([]);
   const [selectedLocalOrderId, setSelectedLocalOrderId] = useState(null)
+  const [selectedLocalOrderStatus, setSelectedLocalOrderStatus] = useState({});
 
   useEffect(() => {
     fetchLocalOrders();
@@ -22,6 +23,12 @@ const TableOrder = ({filterText} )=>{
         console.log(data);
   
         setLocalOrders(data);
+
+        const initialSelectedOrderStatus = {};
+        data.forEach(order => {
+          initialSelectedOrderStatus[order.id] = order.orderStatus;
+        });
+        setSelectedLocalOrderStatus(initialSelectedOrderStatus);
       } else {
         console.error("Failed to fetch local orders");
       }
@@ -38,6 +45,31 @@ const TableOrder = ({filterText} )=>{
       return localOrder.orderSparePartList.reduce((total, sparePart) => {
         return total + sparePart.price * sparePart.quantity;
       }, 0);
+    };
+
+    const handleOrderStatusChange = async (orderId, newStatus) => {
+      try {
+        const response = await fetch(`http://localhost:5001/api/v1/order/local/${orderId}`, {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Cookies.get("jwt")}`,
+          },
+          body: JSON.stringify({ orderStatus: newStatus }),
+        });
+  
+        if (response.ok) {
+          setSelectedLocalOrderStatus({
+            ...selectedLocalOrderStatus,
+            [orderId]: newStatus,
+          });
+          fetchLocalOrders();
+        } else {
+          console.error(`Failed to update order status for order ${orderId}`);
+        }
+      } catch (error) {
+        console.error("Error updating order status:", error);
+      }
     };
 
     return (
@@ -69,8 +101,20 @@ const TableOrder = ({filterText} )=>{
               <td>{new Date(localOrder.createDate).toLocaleString()}</td>
               <td>{localOrder.commission ? (localOrder.commission.id || '-') : '-'} </td>
               <td>{localOrder.worker ? `${localOrder.worker.name} ${localOrder.worker.surname}` : '-'}</td>
-              <td>{localOrder.orderStatus}</td>
-              <td>{localOrder.receiveDate ? (localOrder.receiveDate) : '-'}</td>
+              <td>
+                  {/* Dropdown for Order status */}
+                  <select
+                    value={selectedLocalOrderStatus[localOrder.id]}
+                    onChange={(e) => handleOrderStatusChange(localOrder.id, e.target.value)}
+                  >
+                    {Object.values(OrderStatus).map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              <td>{localOrder.receiveDate ? (new Date(localOrder.createDate).toLocaleString()) : '-'}</td>
               <td>
               {localOrder.orderSparePartList ? (
                 <ul>
@@ -91,5 +135,13 @@ const TableOrder = ({filterText} )=>{
       </div>
     )
  
-}
+};
+
+const OrderStatus = {
+  CREATING: "CREATING",
+  IN_PROGRESS: "IN_PROGRESS",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
+};
+
 export default TableOrder
