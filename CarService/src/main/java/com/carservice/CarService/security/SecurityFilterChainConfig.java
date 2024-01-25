@@ -100,6 +100,8 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/vehicles/**").hasAnyRole("MANAGER", "RECEPTIONIST")
 
+                        .requestMatchers(HttpMethod.GET, "/api/v1/workers/**").hasAnyRole("MANAGER", "RECEPTIONIST")
+
                     .requestMatchers(
                         HttpMethod.POST,
                         "/api/v1/auth/login"

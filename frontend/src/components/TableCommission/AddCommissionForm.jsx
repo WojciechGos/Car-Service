@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
+import TableWorker from "../TableWorker/TableWorker";
 
 const AddCommissionForm = () => {
   const [newCommission, setNewCommission] = useState({
     vehicleId: "",
     clientId: "",
-    costEstimate: "",
-    contractor: "",
-    // Add more fields as needed
+    workerId: "",
+    description: "",
   });
 
   const handleInputChange = (e) => {
@@ -23,11 +23,14 @@ const AddCommissionForm = () => {
 
   const handleAddCommission = async () => {
     try {
+      console.log("newCommission")
+      console.log(newCommission)
+
       const response = await fetch("http://localhost:5001/api/v1/commissions", {
         method: "POST",
         headers: {
+          "Content-Type": "Application/json",
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
-          "Content-Type": "application/json"
         },
         body: JSON.stringify(newCommission)
       });
@@ -68,25 +71,27 @@ const AddCommissionForm = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="formCostEstimate">
-          <Form.Label>Cost Estimate</Form.Label>
+        <Form.Group controlId="formContractor">
+          <Form.Label>Worker ID</Form.Label>
           <Form.Control
             type="text"
-            name="costEstimate"
-            value={newCommission.costEstimate}
+            name="workerId"
+            value={newCommission.workerId}
             onChange={handleInputChange}
           />
         </Form.Group>
 
-        <Form.Group controlId="formContractor">
-          <Form.Label>Contractor</Form.Label>
+        <Form.Group controlId="formCostEstimate">
+          <Form.Label>Description</Form.Label>
           <Form.Control
             type="text"
-            name="contractor"
-            value={newCommission.contractor}
+            name="description"
+            value={newCommission.description}
             onChange={handleInputChange}
           />
         </Form.Group>
+
+
 
         {/* Add more Form.Group elements for other fields as needed */}
         
@@ -94,6 +99,7 @@ const AddCommissionForm = () => {
           Add Commission
         </Button>
       </Form>
+      <TableWorker/>
     </div>
   );
 };
