@@ -9,17 +9,17 @@ import { useParams } from "react-router-dom";
 const CostEstimate = () => {
   const [selected, setSelected] = useState("details");
 
-  const {commissionId} = useParams()
-
+  const {id} = useParams()
+  console.log(id+ "commission id asdasdasdas"  )
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
 
       <div>
-        <CostHeader selected={selected} setSelected={setSelected} id={commissionId} />
+        <CostHeader selected={selected} setSelected={setSelected} id={id} />
         <CostEstimateContextProvider>
           {selected === "details" ? (
-            <CostEstimateTable filterText='' />
+            <CostEstimateTable filterText='' commissionId={id} />
           ) : (
             <CostEstimateCreator filterText='' />
           )}

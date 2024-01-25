@@ -3,11 +3,22 @@ import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import CostEstimateContext from "../../context/CostEstimateContext";
+import Button from "react-bootstrap/esm/Button";
 
-const CostEstimateTable = () => {
+const CostEstimateTable = ({commissionId}) => {
 
-  const {costData, sparePartList} = useContext(CostEstimateContext);
+  const {costData, sparePartList, acceptCostEstimate} = useContext(CostEstimateContext);
   console.log(sparePartList)
+
+  const buttonStyle = {
+    marginTop: "10px",
+    fontSize: "32px",
+    fontFamily: "'Extra Bolt Italic', sans-serif",
+    backgroundColor: 'red'
+  };
+
+
+
   return (
     <div
       style={{
@@ -56,6 +67,9 @@ const CostEstimateTable = () => {
         <h4>Labor cost: {costData.laborPrice} zł</h4>
         <h3>Total cost: {costData.totalCost} zł</h3>
       </div>
+      <Button variant="light" style={buttonStyle} onClick={()=>{ acceptCostEstimate(commissionId)}}>
+          Save
+        </Button>
     </div>
   );
 };

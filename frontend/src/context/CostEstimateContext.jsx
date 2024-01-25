@@ -46,12 +46,20 @@ export function CostEstimateContextProvider({ children }) {
     console.log("delete");
   };
 
-  const acceptCostEstimate = async () => {
+  const acceptCostEstimate = async (commissionId) => {
+
+    const sparePartIdQuantity = sparePartList.reduce((map, obj)=>{
+        map[obj.id] = obj.quantity
+        return map
+    })
 
     const bodyObject = {
+        costType: 'estimate',
         name: costData.name,
-
+        sparePartQuantities : sparePartIdQuantity,
+        commissionId: commissionId
     }
+    console.log(bodyObject)
 
     try {
       const response = await fetch(
@@ -61,6 +69,7 @@ export function CostEstimateContextProvider({ children }) {
           headers: {
             Authorization: `Bearer ${Cookies.get("jwt")}`,
           },
+          body: JSON.stringify(bodyObject)
         }
       );
 
