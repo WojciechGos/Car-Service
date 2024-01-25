@@ -36,9 +36,6 @@ public class CostService {
 
     public Long createCost(CostRequest costRequest) {
 
-
-
-
         List<OrderSparePart> spareParts = new ArrayList<>();
 
         for (Map.Entry<Long, Integer> entry : costRequest.sparePartQuantities().entrySet()) {
@@ -55,8 +52,6 @@ public class CostService {
                 spareParts,
                 costRequest.laborPrice()
         );
-
-
 
         Cost createdCost = costRepository.save(cost);
 

@@ -57,6 +57,7 @@ public class CommandLineRunnerConfig {
             ExternalOrderRepository externalOrderRepository
 
 
+
             ){
         return args -> {
             addClients(clientRepository);
@@ -65,7 +66,7 @@ public class CommandLineRunnerConfig {
             addWorkers(workerRepository, passwordEncoder);
             addSpareParts(sparePartRepository, producerRepository);
             addCosts(costRepository, sparePartRepository, orderSparePartRepository);
-            addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository);
+            addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository, costRepository);
             addPayments(paymentRepository, clientRepository);
             addLocalOrder(workerRepository, localOrderRepository);
         };
@@ -283,7 +284,7 @@ public class CommandLineRunnerConfig {
                 new Cost(
                         "Cost 1",
                         LocalDateTime.now(),
-                        orderSpareParts.subList(0, 2),
+                        orderSpareParts.subList(1, 2),
                         new BigDecimal("50.00")
                 ),
                 new Cost(
@@ -301,11 +302,16 @@ public class CommandLineRunnerConfig {
             CommissionRepository commissionRepository,
             VehicleRepository vehicleRepository,
             ClientRepository clientRepository,
-            WorkerRepository workerRepository
+            WorkerRepository workerRepository,
+            CostRepository costRepository
     ) {
         List<Vehicle> vehicles = vehicleRepository.findAll();
         List<Client> clients = clientRepository.findAll();
         List<Worker> workers = workerRepository.findAll();
+        List<Cost> costs = costRepository.findAll();
+
+//        System.out.println(costs.get(0).toString());
+//        System.out.println(costs.get(0));
 
         Commission commission1 = CommissionBuilder.getBase()
                 .buildVehicle(vehicles.get(0))
@@ -313,6 +319,8 @@ public class CommandLineRunnerConfig {
                 .buildWorker(workers.get(0))
                 .buildDescription("Commission 1")
                 .build();
+
+
 
         Commission commission2 = CommissionBuilder.getBase()
                 .buildVehicle(vehicles.get(1))
@@ -322,7 +330,11 @@ public class CommandLineRunnerConfig {
                 .build();
 
 
+//        commissionRepository.saveAll(List.of(commission1, commission2));
         commissionRepository.saveAll(List.of(commission1, commission2));
+        commission1.setTotalCost(costs.get(0));
+        commission1.setCostEstimate(costs.get(1));
+        commissionRepository.saveAll(List.of(commission1));
     }
 
     private void addPayments(

@@ -47,52 +47,46 @@ export function CostEstimateContextProvider({ children }) {
   };
 
   const acceptCostEstimate = async (commissionId) => {
-
-    const sparePartIdQuantity = sparePartList.reduce((map, obj)=>{
-        map[obj.id] = obj.quantity
-        return map
-    })
+    const sparePartIdQuantity = sparePartList.reduce((map, obj) => {
+      map[obj.id] = obj.quantity;
+      return map;
+    }, {});
 
     const bodyObject = {
-        costType: 'estimate',
-        name: costData.name,
-        sparePartQuantities : sparePartIdQuantity,
-        commissionId: commissionId
-    }
-    console.log(bodyObject)
+      costType: "estimate",
+      name: costData.name,
+      sparePartQuantities: sparePartIdQuantity,
+      commissionId: 1,
+      laborPrice: 100.0,
+    };
+    console.log(bodyObject);
 
     try {
-      const response = await fetch(
-        `http://localhost:5001/api/v1/cost`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${Cookies.get("jwt")}`,
-          },
-          body: JSON.stringify(bodyObject)
-        }
-      );
+      const response = await fetch(`http://localhost:5001/api/v1/costs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
+        },
+        body: JSON.stringify(bodyObject),
+      });
 
       if (response.ok) {
         const data = await response.json();
 
         if (data !== null) {
-         
         } else {
           console.warn("Received null data from the server");
         }
       } else {
-        console.error(
-          "Failed to fetch local order by worker email:",
-          response.statusText
-        );
-
+        console.error("Failed to create cost", response.statusText);
       }
     } catch (error) {
-
       console.error("Network error:", error.message);
     }
   };
+ 
+  
 
   return (
     <CostEstimateContext.Provider

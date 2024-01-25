@@ -11,41 +11,11 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    addTotalCost();
+    // addTotalCost();
     fetchCommissions();
   }, [rerender,sortColumn, sortOrder, filterText]);
 
-  const addTotalCost = async () => {
-    try {
-      const requestData = {
-        commissionId: 1,
-        costType: "total",
-        name: "Service123",
-        createDate: "2023-01-01",
-        sparePartQuantities: {
-          "1": 10,
-          "2": 5,
-          "3": 8
-        },
-        laborPrice: 100.00
-      };
-
-      const response = await fetch("http://localhost:5001/api/v1/costs", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Cookies.get("jwt")}`
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (!response.ok) {
-        console.error("Server error:", response.status);
-      }
-    } catch (error) {
-      console.error("Error during adding cost", error);
-    }
-  };
+  
 
   const fetchCommissions = async () => {
     try {
@@ -153,8 +123,8 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
             {renderHeaderCell("End date", "endDate")}
             {renderHeaderCell("ID vehicle", "vehicle.id")}
             {renderHeaderCell("ID client", "client.id")}
-            {renderHeaderCell("Cost estimate", "costEstimate")}
             {renderHeaderCell("Contractor", "contractor.name")}
+            {renderHeaderCell("Status", "commissionStatus")}
           </tr>
         </thead>
         <tbody>
@@ -176,8 +146,8 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
               )}
               <td>{commission.vehicle.id}</td>
               <td>{commission.client.id}</td>
-              <td>{commission.costEstimate}</td>
               <td>{commission.contractor.name} {commission.contractor.surname}</td>
+              <td>{commission.commissionStatus}</td>
             </tr>
           ))}
         </tbody>
