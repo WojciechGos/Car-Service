@@ -11,6 +11,12 @@ const CostHeader = ({ setSelected, selected, showChoice }) => {
     marginTop: "10px",
     fontSize: "32px",
     fontFamily: "'Extra Bolt Italic', sans-serif",
+    marginRight:"20px",
+  };
+
+  const containerStyle = {
+    display: "flex",
+    alignItems: "center", 
   };
 
   const changeTab = (endPoint) => {
@@ -18,7 +24,7 @@ const CostHeader = ({ setSelected, selected, showChoice }) => {
   };
 
   return (
-    <>
+    <div style={containerStyle}>
       <Link to={`${PATH.DETAILS}/${id}`}>
         <Button variant="light" style={buttonStyle}>
           Back
@@ -41,27 +47,12 @@ const CostHeader = ({ setSelected, selected, showChoice }) => {
           >
             Cost details
           </Button>
-
-          <br />
-          <InputGroup className="inputSearch">
-            <Form.Control
-              placeholder="Enter name"
-              aria-label="Enter name"
-              aria-describedby="basic-addon2"
-              // value={searchName}
-              // onChange={(e) => setSearchName(e.target.value)}
-            />
-            <Button variant="secondary" id="button-addon2">
-              {/* onClick={handleSearch} */}
-              Search
-            </Button>
-          </InputGroup>
-          <br />
         </div>
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
+
 export default CostHeader;
