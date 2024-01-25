@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
 import { jwtDecode } from 'jwt-decode';
+import add from "./add-to-cart.png";
 
 const TableIPART = () => {
   const [items, setItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+
+  const inputButtonStyle = {
+    justifyContent: 'center'
+  };
 
   useEffect(() => {
     fetchItems();
@@ -91,7 +93,7 @@ const TableIPART = () => {
 
   return (
     <div className="table-container">
-      <div className="overflow-container3">
+      <div className="overflow-container6">
       <table className="custom-table">
         <thead>
           <tr>
@@ -100,7 +102,7 @@ const TableIPART = () => {
             <th>Quantity</th>
             <th>Parameters</th>
             <th>Price</th>
-            <th></th>
+            <th/>
           </tr>
         </thead>
         <tbody>
@@ -113,19 +115,22 @@ const TableIPART = () => {
               <td>{item.quantity}</td>
               <td className="parametrsView">{item.parameters}</td>
               <td>{item.price.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' })}</td>
-              <td>
-                <InputGroup className="mb-3">
-                  <Form.Control
-                    placeholder="quantity"
-                    aria-label="quantity"
-                    value={quantities[item.id] || ''}
-                    onChange={(e) => handleQuantityChange(e, item.id)}
-                  />
-                  <Button variant="primary" id="button-addon2" onClick={() => handleAddToCart(item.id, getUserInfoFromToken()?.sub)}>
-                    add
-                  </Button>
-                </InputGroup>
-              </td>
+              <td style={inputButtonStyle}>
+                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',width:'100px'}}>
+                    <label>
+                      <input
+                        style={{ width: "120px",marginRight:"20px"}}
+                        type="text"
+                        placeholder="Enter quantity..."
+                        value={quantities[item.id] || ''}
+                        onChange={(e) => handleQuantityChange(e, item.id)}
+                      />
+                    </label>
+                    <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() => handleAddToCart(item.id, getUserInfoFromToken()?.sub)}>
+                      <img src={add} alt="Add to Cart" style={{ width: '40px', height: '40px' }} />
+                    </button>
+                  </div>
+                </td>
             </tr>
           ))}
           </tbody>
