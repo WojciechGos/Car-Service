@@ -22,7 +22,8 @@ public class ExternalOrderMapper {
                 externalOrder.getCreateDate(),
                 externalOrder.getReceiveDate(),
                 externalOrder.getOrderStatus(),
-                orderItemDTOList
+                orderItemDTOList,
+                externalOrder.getWorker()
         );
     }
 }

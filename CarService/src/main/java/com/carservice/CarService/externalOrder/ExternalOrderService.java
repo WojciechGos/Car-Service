@@ -14,7 +14,9 @@ import com.carservice.CarService.wholesaler.WholesalerAdapterSTARTHURT;
 import com.carservice.CarService.worker.Worker;
 import com.carservice.CarService.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,9 +46,14 @@ public class ExternalOrderService {
 
     public ExternalOrder getExternalOrderByWorkerId(Long workerId) {
         List<ExternalOrder> externalOrders = externalOrderRepository.findByWorkerId(workerId);
-        if(externalOrders.isEmpty())
-            return null;
-        return externalOrders.get(0);
+
+        for (ExternalOrder order : externalOrders) {
+            if (order.getOrderStatus() == OrderStatus.CREATING) {
+                return order;
+            }
+        }
+
+        return null;
     }
 
     private ExternalOrder createExternalOrder(Long workerId) {
@@ -167,6 +174,37 @@ public class ExternalOrderService {
        if(externalOrder != null && externalOrder.getOrderStatus() == OrderStatus.CREATING) {
            return externalOrderMapper.map(externalOrder);
        }
-       return null;
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "External order not found");
+    }
+
+    public void deleteSparePartFromLocalOrderIPART(Long sparePartId, String email, Integer quantity) {
+        final Worker worker = workerService.getWorkerByEmail(email);
+        ExternalOrder workerExternalOrder = getExternalOrderByWorkerId(worker.getId());
+
+        for(OrderItem item : workerExternalOrder.getItems()){
+            if(item.getExternalOrderItemId().equals(sparePartId)){
+                wholesalerAdapterIPARTS.increaseQuantity(sparePartId, quantity);
+                workerExternalOrder.getItems().remove(item);
+                break;
+            }
+        }
+
+        externalOrderRepository.save(workerExternalOrder);
+    }
+
+    public void deleteSparePartFromLocalOrderSTARTHURT(Long sparePartId, String email, Integer quantity) {
+        final Worker worker = workerService.getWorkerByEmail(email);
+        ExternalOrder workerExternalOrder = getExternalOrderByWorkerId(worker.getId());
+
+        for(OrderItem item : workerExternalOrder.getItems()){
+            if(item.getExternalOrderItemId().equals(sparePartId)){
+                wholesalerAdapterSTARTHURT.increaseQuantity(sparePartId, quantity);
+                workerExternalOrder.getItems().remove(item);
+                break;
+            }
+        }
+
+        externalOrderRepository.save(workerExternalOrder);
     }
 }

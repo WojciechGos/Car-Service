@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record OrderItemDTO (
     Long id,
+    Long externalOrderItemId,
     String sparePartName,
     BigDecimal price,
     Integer quantity,
