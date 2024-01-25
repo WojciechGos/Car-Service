@@ -22,7 +22,7 @@ const Details = () => {
       <Sidebar />
       <div style={contentStyle}>
         <Link to={PATH.COMMISSION}>
-          <Button variant="light" style={buttonStyle}>Back</Button>{' '}
+          <Button variant="light" style={buttonStyle}>Back</Button>
         </Link>
         <CommissionDetails/>
       </div>

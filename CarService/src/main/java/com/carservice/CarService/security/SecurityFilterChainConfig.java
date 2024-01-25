@@ -68,6 +68,7 @@ public class SecurityFilterChainConfig {
                         // Wholesaler endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/wholesalers/**").hasAnyRole("MANAGER")
                         .requestMatchers(HttpMethod.POST, "/api/v1/wholesalers/**").hasAnyRole("MANAGER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/wholesalers/**").hasAnyRole("MANAGER")
 
                         // Invoice endpoints
                         .requestMatchers(HttpMethod.GET, "/api/v1/invoices/**").hasAnyRole("MANAGER", "RECEPTIONIST")

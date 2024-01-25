@@ -10,6 +10,7 @@ import Warehouse from './pages/Warehouse';
 import Commission from './pages/Commission';
 import CommissionAdd from './pages/CommissionAdd';
 import Vehicle from './pages/Vehicle';
+import VehicleAdd from './pages/VehicleAdd';
 import Order from './pages/Order';
 import ClientAdd from './pages/ClientAdd';
 import Wholesalers from './pages/Wholesalers';
@@ -20,6 +21,8 @@ import Cart from './pages/Cart';
 import Details from './pages/Details';
 import Invoice from './pages/Invoice';
 import CartWarehouse from './pages/CartWarehouse';
+import CostEstimate from './pages/CostEstimate';
+import CostTotalDetails from './pages/CostTotal';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -33,6 +36,7 @@ function App() {
       <Route path={PATH.COMMISSION} element={<Commission/>}/>
       <Route path={PATH.COMMISSIONADD} element={<CommissionAdd />}/>
       <Route path={PATH.VEHICLE} element={<Vehicle/>}/>
+      <Route path={PATH.VEHICLEADD} element={<VehicleAdd/>}/>
       <Route path={PATH.ORDER} element={<Order/>}/>
       <Route path={PATH.CARTWAREHOUSE} element={<CartWarehouse/>}/>
       <Route path={PATH.WHOLESALERS} element={<Wholesalers/>}/>
@@ -42,6 +46,10 @@ function App() {
       <Route path={PATH.CART} element={<Cart/>}/>
       <Route path={`${PATH.DETAILS}/:id`} element={<Details/>}/>
       <Route path={`${PATH.INVOICE}/:type/:id`} element={<Invoice/>}/>
+
+      <Route path={`${PATH.COST_ESTIMATE}/:id`} element={<CostEstimate/>}/>
+      <Route path={`${PATH.COST_TOTAL}/:id`} element={<CostTotalDetails/>}/>
+      
 
       <Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
     </Routes>

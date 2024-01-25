@@ -7,6 +7,7 @@ const PATH = {
     COMMISSIONADD: "/commissionAdd",
     WAREHOUSE: "/warehouse",
     VEHICLE: "/vehicle",
+    VEHICLEADD: "/addvehicle",
     ORDER: "/order",
     WHOLESALERS: "/wholesalers",
     IPART: "/ipart",
@@ -15,6 +16,8 @@ const PATH = {
     CART: "/cart",
     DETAILS: "/CommissionDetails",
     INVOICE: "/invoice",
+    COST_ESTIMATE: "/cost-estimate",
+    COST_TOTAL: "/cost-total",
     CARTWAREHOUSE: "/cartWarehouse"
 }
 
