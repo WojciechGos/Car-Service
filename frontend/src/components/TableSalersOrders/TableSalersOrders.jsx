@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
 
 const TableSalersOrders = ()=>{
@@ -42,7 +39,7 @@ const TableSalersOrders = ()=>{
 
   return (
     <div className="table-container">
-      <div className="overflow-container3">
+      <div className="overflow-container5">
       <table className="custom-table">
         <thead>
           <tr>

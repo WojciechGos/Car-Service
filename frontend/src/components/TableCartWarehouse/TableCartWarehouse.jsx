@@ -162,17 +162,17 @@ const TableCartWarehouse = ()=>{
             </Table>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
               <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-              <label>Commission ID: </label>
-              <input
-                type="text"
-                value={commissionId}
-                style={{width: "56px", marginLeft: "10px",marginRight:"10px"}}
-                onChange={(e) => setCommissionId(e.target.value)}
-              />
-            <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() => handleOrder(localOrder.id, commissionId)}>
-              <img src={order} alt="order" style={{ width: '40px', height: '40px' }} />
-            </button>
-            </div>
+                <label>Commission ID: </label>
+                <input
+                  type="text"
+                  value={commissionId}
+                  style={{width: "56px", marginLeft: "10px",marginRight:"10px"}}
+                  onChange={(e) => setCommissionId(e.target.value)}
+                />
+                <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() => handleOrder(localOrder.id, commissionId)}>
+                  <img src={order} alt="order" style={{ width: '40px', height: '40px' }} />
+                </button>
+              </div>
             </div>
           </div>
       </div>

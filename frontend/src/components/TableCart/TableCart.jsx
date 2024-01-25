@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Table from 'react-bootstrap/Table';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
 import { jwtDecode } from 'jwt-decode';
+import bin from "./trash-bin.png";
+import order from "./order.png";
 
 const TableCart = () => {
   const [externalOrder, setExternalOrder] = useState([]);
+
+  const inputButtonStyle = {
+    justifyContent: 'center'
+  };
 
   useEffect(() => {
     const workerEmail = getUserInfoFromToken()?.sub;
@@ -117,14 +121,13 @@ const TableCart = () => {
 
   return (
     <div className="table-container">
-      <div className="overflow-container3">
+      <div className="overflow-container5">
         <Table className="custom-table">
           <thead>
             <tr>
               <th>Item ID</th>
               <th>Name</th>
               <th>Wholesaler</th>
-              {/* <th>Parameters</th> */}
               <th>Quantity</th>
               <th>Total cost</th>
               <th></th>
@@ -135,28 +138,28 @@ const TableCart = () => {
           externalOrder.items &&
           externalOrder.items.map((item, index) => (
               <tr key={item.id}>
-                <td>{item.externalOrderItemId}</td>
-                <td>{item.sparePartName}</td>
-                <td>{item.wholesaler}</td>
-                {/* <td>{item.parameters}</td> */}
-                <td>{item.quantity}</td>
-                <td>{(item.price * item.quantity).toFixed(2)} zł</td>
-                <td>
-                  <InputGroup className="mb-3">
-                    <Button variant="danger" id="button-addon2" onClick={() => deleteFromOrder(item.externalOrderItemId, getUserInfoFromToken()?.sub, item.wholesaler, item.quantity)}>
-                      delete
-                    </Button>
-                  </InputGroup>
+                <td style={{ verticalAlign: 'middle'}}>{item.externalOrderItemId}</td>
+                <td style={{ verticalAlign: 'middle'}}>{item.sparePartName}</td>
+                <td style={{ verticalAlign: 'middle'}}>{item.wholesaler}</td>
+                <td style={{ verticalAlign: 'middle'}}>{item.quantity}</td>
+                <td style={{ verticalAlign: 'middle'}}>{(item.price * item.quantity).toFixed(2)} zł</td>
+                <td style={inputButtonStyle}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <button style={{border:'none', backgroundColor: 'transparent'}}  onClick={() => deleteFromOrder(item.externalOrderItemId, getUserInfoFromToken()?.sub, item.wholesaler, item.quantity)}>
+                      <img src={bin} alt="bin" style={{ width: '40px', height: '40px' }} />
+                    </button>
+                  </div>
                 </td>
+
               </tr>
             ))}
           </tbody>
         </Table>
-      </div>
-        <div className="order-button-container">
-        <button onClick={() => handleOrder(externalOrder.id)}>
-          Order
-        </button>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() => handleOrder(externalOrder.id)}>
+            <img src={order} alt="order" style={{ width: '40px', height: '40px' }} />
+          </button>
+        </div>
       </div>
     </div>
   );

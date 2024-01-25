@@ -118,6 +118,18 @@ border-radius: 10px;
   width: 1180px;
 }
 
+.overflow-container6 {
+  max-height: 613px; 
+  overflow-y: auto;
+  width: 1258px;
+}
+
+.overflow-container7 {
+  max-height: 613px; 
+  overflow-y: auto;
+  width: 1290px;
+}
+
 .custom-table {
   border-collapse: collapse;
   width: 100%;
@@ -231,7 +243,7 @@ border-radius: 10px;
 
 .parametrsView
 {
-  max-width: 400px;
+  width: 300px;
 }
 
 .invoice-title {
@@ -363,8 +375,51 @@ border-radius: 10px;
   justify-content: center;
 }
 
-.order-button-container {
+.cardStyle{
+  background-image: url('../src/components/SquareWholesalers/ipart_logo.png');
+  background-size: cover;
+  background-position: center;
+  margin: 20px;
+  border: 2px solid #141414; 
+  margin-top: 100px;
+  margin-left: 150px;
+  width: 400px;
+  height: 400px;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 10px; 
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0px 0px 30px rgba(125, 2, 2, 1);
 }
+
+.cardStyle2{
+  background-image: url('../src/components/SquareWholesalers/star_hurt_logo.png');
+  background-size: cover;
+  background-position: center;
+  margin: 20px;
+  margin-right: 100px;
+  border: 2px solid #141414; 
+  margin-top: 100px;
+  margin-left: 100px;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0px 0px 30px rgba(125, 2, 2, 1);
+}
+
+.selectButton {
+  font-size: 18px;
+  padding: 10px 20px;
+  background: linear-gradient(to right, red, #141414);
+  color: #fff; 
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 5px; 
+}
+
+.selectButton:hover {
+  background: linear-gradient(to right, #141414, #ff0101);
+}
+

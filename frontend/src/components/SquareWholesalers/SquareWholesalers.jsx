@@ -1,58 +1,28 @@
-import React from "react"
-import Button from "react-bootstrap/Button"
+import React from "react";
 import { Link } from "react-router-dom";
 import PATH from "../../paths";
-import Card from 'react-bootstrap/Card';
 
-
-const SquareWholesalers = ()=>{
-
-    const buttonStyle = {
-        fontSize: "32px", 
-        fontFamily: "'Extra Bolt Italic', sans-serif",
-        marginTop: 100,
-        marginRight: 90,
-        marginLeft: 90,
-        marginBottom: 30,
-
-      };
-      const textCard ={
-        fontSize: '3rem', 
-        fontFamily: "'Extra Bolt Italic', sans-serif",
-      }
-      const cardStyle = {
-        backgroundColor: '#D1D1D1',
-        fontsize: "100px",
-        margin: '20px',
-        marginTop: 100,
-        marginLeft: 150
-      };
+const SquareWholesalers = () => {
+    const cardContainerStyle = {
+        display: "flex",
+    };
 
     return (
-        <div style={{display: "flex"}}>
-        <Card className="text-center" style={cardStyle}>
-        <Card.Header style={textCard}> IPART </Card.Header>
-        <Card.Body>
-
-        <Link to={PATH.IPART}>
-                <Button variant="warning"style ={buttonStyle}>Select</Button>
-        </Link>
-        </Card.Body>
-      </Card>
-
-      <Card className="text-center" style={cardStyle}>
-        <Card.Header style={textCard}> StarHurt </Card.Header>
-        <Card.Body>
+        <div style={cardContainerStyle}>
             
-        <Link to={PATH.STARHURT}>
-             <Button variant="warning"style ={buttonStyle}>Select</Button>
-        </Link>
-        </Card.Body>
-      </Card>
-
-
-      </div>
-    )
- 
+              <div className="cardStyle">
+                <Link to={PATH.IPART}>
+                  <button className="selectButton">Select</button>
+                </Link>
+              </div>
+           
+              <div className="cardStyle2">
+                <Link to={PATH.STARHURT}>
+                  <button className="selectButton">Select</button>
+                </Link>
+              </div>
+        </div>
+    );
 }
-export default SquareWholesalers
+
+export default SquareWholesalers;
