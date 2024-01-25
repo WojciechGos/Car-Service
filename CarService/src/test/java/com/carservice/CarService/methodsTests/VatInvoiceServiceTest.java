@@ -1,23 +1,17 @@
 package com.carservice.CarService.methodsTests;
 
-import com.carservice.CarService.commission.Commission;
 import com.carservice.CarService.commission.CommissionService;
-import com.carservice.CarService.printInvoice.PrintHTMLInvoice;
-import com.carservice.CarService.printInvoice.PrintPDFInvoice;
 import com.carservice.CarService.vatInvoice.VatInvoice;
 import com.carservice.CarService.vatInvoice.VatInvoiceRepository;
 import com.carservice.CarService.vatInvoice.VatInvoiceService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -29,52 +23,34 @@ class VatInvoiceServiceTest {
     @Mock
     private CommissionService commissionService;
 
-    @InjectMocks
-    private VatInvoiceService vatInvoiceService;
+        @Test
+        void getAllVatInvoices() {
+            // Arrange
+            VatInvoiceService vatInvoiceService = new VatInvoiceService(vatInvoiceRepository, commissionService);
+            List<VatInvoice> expectedInvoices = Arrays.asList(new VatInvoice(), new VatInvoice());
+            when(vatInvoiceRepository.findAll()).thenReturn(expectedInvoices);
 
-    @Test
-    void generateVatInvoicePDF() {
+            // Act
+            List<VatInvoice> actualInvoices = vatInvoiceService.getAllVatInvoices();
 
-        Long commissionId = 1L;
-        Commission commission = new Commission();
-        VatInvoice vatInvoice = new VatInvoice(new PrintPDFInvoice());
-        vatInvoice.setCommission(commission);
+            // Assert
+            assertEquals(expectedInvoices, actualInvoices);
+            verify(vatInvoiceRepository, times(1)).findAll();
+        }
 
-        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
-        when(vatInvoiceRepository.save(any(VatInvoice.class))).thenReturn(vatInvoice);
+        @Test
+        void getVatInvoicesByCommissionId() {
+            // Arrange
+            VatInvoiceService vatInvoiceService = new VatInvoiceService(vatInvoiceRepository, commissionService);
+            Long commissionId = 1L;
+            List<VatInvoice> expectedInvoices = Arrays.asList(new VatInvoice(), new VatInvoice());
+            when(vatInvoiceRepository.findByCommissionId(commissionId)).thenReturn(expectedInvoices);
 
+            // Act
+            List<VatInvoice> actualInvoices = vatInvoiceService.getVatInvoicesByCommissionId(commissionId);
 
-        byte[] result = vatInvoiceService.generateVatInvoicePDF(commissionId);
-
-
-        verify(commissionService, times(1)).getCommissionById(commissionId);
-        verify(vatInvoiceRepository, times(1)).save(any(VatInvoice.class));
-
-
-        assertEquals(0, result.length);
+            // Assert
+            assertEquals(expectedInvoices, actualInvoices);
+            verify(vatInvoiceRepository, times(1)).findByCommissionId(commissionId);
+        }
     }
-/*
-    @Test
-    void generateVatInvoiceHTML() {
-
-        Long commissionId = 1L;
-        Commission commission = new Commission();
-        VatInvoice vatInvoice = new VatInvoice(new PrintHTMLInvoice());
-        vatInvoice.setCommission(commission);
-
-        when(commissionService.getCommissionById(commissionId)).thenReturn(commission);
-        when(vatInvoiceRepository.save(any(VatInvoice.class))).thenReturn(vatInvoice);
-
-
-        byte[] result = vatInvoiceService.generateVatInvoiceHTML(commissionId);
-
-
-        verify(commissionService, times(1)).getCommissionById(commissionId);
-        verify(vatInvoiceRepository, times(1)).save(any(VatInvoice.class));
-
-        assertEquals(0, result.length);
-    }
-
- */
-
-}

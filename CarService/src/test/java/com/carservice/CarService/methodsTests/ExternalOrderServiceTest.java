@@ -130,56 +130,56 @@ class ExternalOrderServiceTest {
         assertNull(result);
     }
 
-//    @Test
-//    void addItemToExternalOrder_sufficientQuantity() {
-//        // Mock data
-//        Long orderItemId = 1L;
-//        OrderItemDTO orderItemDTO = new OrderItemDTO(1L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-//            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
-//
-//        CreateExternalOrderRequest externalOrderRequest = new CreateExternalOrderRequest("email@example.com", 5);
-//        Worker worker = new Worker();
-//
-//        ExternalOrder existingExternalOrder = new ExternalOrder(worker, LocalDateTime.now());
-//        existingExternalOrder.setId(3L);
-//        OrderItem orderItem = new OrderItem();
-//        orderItem.setExternalOrderItemId(orderItemId);
-//
-//        when(workerService.getWorkerByEmail(anyString())).thenReturn(worker);
-//        when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
-//        when(orderItemService.createOrderItem(any(OrderItem.class))).thenReturn(orderItem);
-//
-//        // Call the method
-//        Long result = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO);
-//
-//        // Assertions
-//        assertNotNull(result);
-//        assertEquals(existingExternalOrder.getId(), result);
-//        verify(externalOrderRepository, times(1)).save(any(ExternalOrder.class));
-//    }
+    @Test
+    void addItemToExternalOrder_sufficientQuantity() {
+        // Mock data
+        Long orderItemId = 1L;
+        OrderItemDTO orderItemDTO = new OrderItemDTO(1L, 1L,"Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
+            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
 
-//    @Test
-//    void addItemToExternalOrder_insufficientQuantity() {
-//        // Mock data
-//        Long orderItemId = 1L;
-//        OrderItemDTO orderItemDTO = new OrderItemDTO(1L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
-//            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
-//
-//        CreateExternalOrderRequest externalOrderRequest = new CreateExternalOrderRequest("email@example.com", 5);
-//        Worker worker = new Worker();
-//
-//        ExternalOrder existingExternalOrder = new ExternalOrder(worker, LocalDateTime.now());
-//        existingExternalOrder.setId(3L);
-//        OrderItem orderItem = new OrderItem();
-//        orderItem.setExternalOrderItemId(orderItemId);
-//        orderItem.setQuantity(2);
-//
-//        when(workerService.getWorkerByEmail(anyString())).thenReturn(worker);
-//        when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
-//        when(orderItemService.createOrderItem(any(OrderItem.class))).thenReturn(orderItem);
-//
-//        assertDoesNotThrow(() -> externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO));
-//    }
+        CreateExternalOrderRequest externalOrderRequest = new CreateExternalOrderRequest("email@example.com", 5);
+        Worker worker = new Worker();
+
+        ExternalOrder existingExternalOrder = new ExternalOrder(worker, LocalDateTime.now());
+        existingExternalOrder.setId(3L);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setExternalOrderItemId(orderItemId);
+
+        when(workerService.getWorkerByEmail(anyString())).thenReturn(worker);
+        when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
+        when(orderItemService.createOrderItem(any(OrderItem.class))).thenReturn(orderItem);
+
+        // Call the method
+        Long result = externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO);
+
+        // Assertions
+        assertNotNull(result);
+        assertEquals(existingExternalOrder.getId(), result);
+        verify(externalOrderRepository, times(1)).save(any(ExternalOrder.class));
+    }
+
+    @Test
+    void addItemToExternalOrder_insufficientQuantity() {
+        // Mock data
+        Long orderItemId = 1L;
+        OrderItemDTO orderItemDTO = new OrderItemDTO(1L, 1L, "Tire", new BigDecimal("4.00"), 50, 3L, "TIRE-MAX", "IPART", "Indeks opony TM123,\n" +
+            "Rozmiar 205/55R16, Typ opony - Letnia, Indeks prędkości -H, Index nośności - 91");
+
+        CreateExternalOrderRequest externalOrderRequest = new CreateExternalOrderRequest("email@example.com", 5);
+        Worker worker = new Worker();
+
+        ExternalOrder existingExternalOrder = new ExternalOrder(worker, LocalDateTime.now());
+        existingExternalOrder.setId(3L);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setExternalOrderItemId(orderItemId);
+        orderItem.setQuantity(2);
+
+        when(workerService.getWorkerByEmail(anyString())).thenReturn(worker);
+        when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
+        when(orderItemService.createOrderItem(any(OrderItem.class))).thenReturn(orderItem);
+
+        assertDoesNotThrow(() -> externalOrderService.addItemToExternalOrder(externalOrderRequest, orderItemDTO));
+    }
 
     @Test
     void updateExternalOrder_statusToNew() {
@@ -257,46 +257,29 @@ class ExternalOrderServiceTest {
         verify(externalOrderRepository, times(1)).save(existingExternalOrder);
     }
 
-//    @Test
-//    void getExternalOrderByWorkerEmail_orderInCreatingStatus() {
-//        // Mock data
-//        String workerEmail = "karol@gmail.com";
-//        Worker worker = new Worker();
-//        worker.setEmail(workerEmail);
-//
-//        ExternalOrder existingExternalOrder = new ExternalOrder();
-//        existingExternalOrder.setOrderStatus(OrderStatus.CREATING);
-//
-//        when(workerService.getWorkerByEmail(workerEmail)).thenReturn(worker);
-//        when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
-//        when(externalOrderMapper.map(existingExternalOrder)).thenReturn(new ExternalOrderDTO(1L,   LocalDateTime.now(),null, OrderStatus.CANCELLED, new ArrayList<>()));
-//
-//        // Call the method
-//        ExternalOrderDTO result = externalOrderService.getExternalOrderByWorkerEmail(workerEmail);
-//
-//        // Assertions
-//        assertNotNull(result);
-//        verify(externalOrderMapper, times(1)).map(existingExternalOrder);
-//    }
-
     @Test
-    void getExternalOrderByWorkerEmail_orderNotInCreatingStatus() {
+    void getExternalOrderByWorkerEmail_orderInCreatingStatus() {
         // Mock data
-        String workerEmail = "worker@example.com";
+        String workerEmail = "karol@gmail.com";
         Worker worker = new Worker();
         worker.setEmail(workerEmail);
 
+        List<OrderItemDTO> orders = new ArrayList<>();
         ExternalOrder existingExternalOrder = new ExternalOrder();
-        existingExternalOrder.setOrderStatus(OrderStatus.COMPLETED);
+        existingExternalOrder.setOrderStatus(OrderStatus.CREATING);
 
         when(workerService.getWorkerByEmail(workerEmail)).thenReturn(worker);
         when(externalOrderRepository.findByWorkerId(worker.getId())).thenReturn(List.of(existingExternalOrder));
+      //  when(externalOrderMapper.map(existingExternalOrder)).thenReturn(new ExternalOrderDTO(1L, ,  LocalDateTime.now(),null, orders));
 
         // Call the method
         ExternalOrderDTO result = externalOrderService.getExternalOrderByWorkerEmail(workerEmail);
 
         // Assertions
         assertNull(result);
+        verify(externalOrderMapper, times(1)).map(existingExternalOrder);
     }
+
+
 
 }

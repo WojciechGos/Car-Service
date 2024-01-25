@@ -1,7 +1,6 @@
 package com.carservice.CarService;
 import com.carservice.CarService.OrderSparePart.*;
 import com.carservice.CarService.exception.ResourceNotFoundException;
-import com.carservice.CarService.sparePart.SparePart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
