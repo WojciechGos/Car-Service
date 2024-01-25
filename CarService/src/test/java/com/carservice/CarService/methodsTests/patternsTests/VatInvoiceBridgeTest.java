@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class VatInvoiceServiceTest {
+class VatInvoiceBridgeTest {
 
     @Mock
     private VatInvoiceRepository vatInvoiceRepository;
