@@ -16,6 +16,8 @@ const PATH = {
     CART: "/cart",
     DETAILS: "/CommissionDetails",
     INVOICE: "/invoice",
+    COST_ESTIMATE: "/cost-estimate",
+    COST_TOTAL: "/cost-total",
     CARTWAREHOUSE: "/cartWarehouse"
 }
 

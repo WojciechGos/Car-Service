@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
-import  "../../App.css";
+import "../../App.css";
 import { useNavigate } from "react-router-dom";
+import PATH from "../../paths";
 
 const CommissionDetails = () => {
   const [commissionDetails, setCommissionDetails] = useState({});
@@ -15,11 +16,14 @@ const CommissionDetails = () => {
 
   const fetchCommissionDetails = async (commissionId) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/commissions/${commissionId}`, {
-        headers: {
-          'Authorization': `Bearer ${Cookies.get("jwt")}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5001/api/v1/commissions/${commissionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("jwt")}`,
+          },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setCommissionDetails(data);
@@ -40,28 +44,76 @@ const CommissionDetails = () => {
     navigate(`/invoice/VAT/${id}`);
   };
 
-  return (
-      <div className="commission-details">
-        <div className="IdCommission">
-          <p><b>ID Commission: {commissionDetails.id}</b></p>
-        </div>
-        <div className="commission-details-row">
-          <p><b>Commission status: {commissionDetails.commissionStatus}</b></p>
-          <p><b>Total cost: {commissionDetails.totalCost ? commissionDetails.totalCost.totalCost : '-'}</b></p>
-          <p><b>Payment status: Paid</b></p>
-        </div>
-        <div className="description">
-          <p>Description: {commissionDetails.description}</p>
-        </div>
-        {commissionDetails.totalCost && (
-          <div className="invoice-buttons">
-            <button className="invoice-button" onClick={handleGenerateInvoiceSale}>Sales Invoice</button>
-            <button className="invoice-button" onClick={handleGenerateInvoiceVAT}>VAT Invoice</button>
-          </div>
-        )}
+  const handleShowCostEstimate = () => {
+    navigate(`/cost-estimate/${id}`);
+  };
+  const handleShowCostTotal = () => {
+    navigate(`/cost-total/${id}`);
+  };
 
+
+
+  return (
+    <div className="commission-details">
+      <div className="IdCommission">
+        <p>
+          <b>ID Commission: {commissionDetails.id}</b>
+        </p>
       </div>
-      
+      <div className="commission-details-row">
+        <div>
+          <p>
+            <b>Commission status: {commissionDetails.commissionStatus}</b>
+          </p>
+          <button className="commission-status mb-4">Finish Commission</button>
+        </div>
+        <div>
+          <p>
+            <b>
+              Total cost:{" "}
+              {commissionDetails.totalCost
+                ? commissionDetails.totalCost.totalCost
+                : "-"}
+            </b>
+          </p>
+          <div className="d-flex flex-column">
+            <button
+              className="commission-status mb-4 "
+              onClick={() => handleShowCostTotal()}
+            >
+              Show total cost details
+            </button>
+            <button
+              className="commission-status mb-4 "
+              onClick={() => handleShowCostEstimate()}
+            >
+              Show cost estimate details
+            </button>
+          </div>
+        </div>
+        <p>
+          <b>Payment status: Paid</b>
+        </p>
+      </div>
+
+      <div className="description">
+        <p>Description: {commissionDetails.description}</p>
+      </div>
+
+      {commissionDetails.totalCost && (
+        <div className="invoice-buttons">
+          <button
+            className="invoice-button"
+            onClick={handleGenerateInvoiceSale}
+          >
+            Sales Invoice
+          </button>
+          <button className="invoice-button" onClick={handleGenerateInvoiceVAT}>
+            VAT Invoice
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 
