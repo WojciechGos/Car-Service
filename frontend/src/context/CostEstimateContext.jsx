@@ -31,8 +31,7 @@ export function CostEstimateContextProvider({ children }) {
       // If the spare part doesn't exist, add it to the list
       const newSparePart = {
         id: item.id, // Assuming each spare part has a unique identifier
-        name: item.name,
-        parameters: item.parameters,
+        sparePart: item,
         quantity: quantity,
       };
 
@@ -56,9 +55,10 @@ export function CostEstimateContextProvider({ children }) {
       costType: "estimate",
       name: costData.name,
       sparePartQuantities: sparePartIdQuantity,
-      commissionId: 1,
+      commissionId: commissionId,
       laborPrice: 100.0,
     };
+    console.log("bodyObject");
     console.log(bodyObject);
 
     try {
@@ -66,7 +66,7 @@ export function CostEstimateContextProvider({ children }) {
         method: "POST",
         headers: {
           "Content-Type": "Application/json",
-          Authorization: `Bearer ${Cookies.get("jwt")}`,
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
         body: JSON.stringify(bodyObject),
       });
@@ -86,6 +86,35 @@ export function CostEstimateContextProvider({ children }) {
     }
   };
  
+  const getSpareParts = async (id)=>{
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/commissions/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "Application/json",
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        if (data !== null) {
+          console.log("getSpareParts")
+          console.log(data)
+          if(data.costEstimate)
+            setSparePartList(data.costEstimate.spareParts)
+          // setSparePartList(data.costEstimate.spareParts)
+        } else {
+          console.warn("Received null data from the server");
+        }
+      } else {
+        console.error("Failed to get cost", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error.message);
+    }
+  }
   
 
   return (
@@ -98,6 +127,7 @@ export function CostEstimateContextProvider({ children }) {
         addSparePart,
         deleteSparePart,
         acceptCostEstimate,
+        getSpareParts
       }}
     >
       {children}

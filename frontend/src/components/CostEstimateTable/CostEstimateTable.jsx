@@ -6,7 +6,7 @@ import CostEstimateContext from "../../context/CostEstimateContext";
 import Button from "react-bootstrap/esm/Button";
 
 const CostEstimateTable = ({ commissionId, showSaveButton }) => {
-  const { costData, sparePartList, acceptCostEstimate } =
+  const { costData, sparePartList, acceptCostEstimate, getSpareParts } =
     useContext(CostEstimateContext);
   console.log(sparePartList);
 
@@ -17,7 +17,10 @@ const CostEstimateTable = ({ commissionId, showSaveButton }) => {
     backgroundColor: "red",
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {getSpareParts(commissionId)}, []);
+
+console.log("sparePartList")
+console.log(sparePartList)
 
   return (
     <div
@@ -52,10 +55,10 @@ const CostEstimateTable = ({ commissionId, showSaveButton }) => {
             sparePartList.map((item, index) => (
               <tr key={index}>
                 <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.parameters}</td>
+                <td>{item.sparePart.name}</td>
+                <td>{item.sparePart.parameters}</td>
                 <td>{item.quantity}</td>
-                <td>{(item.price * item.quantity).toFixed(2)} zł</td>
+                <td>{(item.sparePart.price * item.quantity).toFixed(2)} zł</td>
               </tr>
             ))
           ) : (
