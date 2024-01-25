@@ -28,6 +28,7 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
       });
       if (response.ok) {
         const data = await response.json();
+        const sortedClients = data.sort((a, b) => a.id - b.id);
         setClients(data);
       } else {
         console.error("Failed to fetch clients");
@@ -45,32 +46,49 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
     }
   };
 
-  const handleSaveEdit = () => {
-    const updatedClients = clients.map((client) => {
-      if (client.id === editedClientId) {
-        return { ...client, ...editedClient };
+  const handleSaveEdit = async() => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/clients/${editedClientId}`, {
+        method: "PUT",
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editedClient),
+      });
+
+      if (response.ok) {
+        const updatedClients = clients.map((client) => {
+          if (client.id === editedClientId) {
+            return { ...client, ...editedClient };
+          }
+          return client;
+        });
+
+        setClients(updatedClients);
+        setEditedClientId(null);
+        onEditClient(false); 
+        } else {
+          console.error("Failed to save changes");
+        }
+      } catch (error) {
+        console.error("Error saving changes:", error);
       }
-      return client;
-    });
+    };
 
-    setClients(updatedClients);
-    setEditedClientId(null);
-    onEditClient(false); 
-  };
-
-  const handleEditClient = (clientId) => {
-    const clientToEdit = clients.find((client) => client.id === clientId);
-    setEditedClientId(clientId);
-    setEditedClient(clientToEdit);
-    onEditClient(true); 
-  };
-
-  const filteredClients = clients.filter((client) =>
-    client.name.toLowerCase().includes(filterText.toLowerCase()) ||
-    client.surname.toLowerCase().includes(filterText.toLowerCase()) ||
-    client.email.toLowerCase().includes(filterText.toLowerCase()) ||
-    client.phoneNumber.includes(filterText)
-  );
+    const handleEditClient = (clientId) => {
+      const clientToEdit = clients.find((client) => client.id === clientId);
+      setEditedClientId(clientId);
+      setEditedClient(clientToEdit);
+      onEditClient(true); 
+    };
+  
+    const filteredClients = clients.filter((client) =>
+      client.name.toLowerCase().includes(filterText.toLowerCase()) ||
+      client.surname.toLowerCase().includes(filterText.toLowerCase()) ||
+      client.email.toLowerCase().includes(filterText.toLowerCase()) ||
+      client.phoneNumber.includes(filterText)
+    );
 
   return (
     <div className="table-container">
