@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PATH from "../../paths";
+
 
 const CostHeader = ({ setSelected, selected }) => {
 
-
-
+  const {id} = useParams()
   const buttonStyle = {
     marginTop: "10px",
     fontSize: "32px",
@@ -23,16 +23,30 @@ const CostHeader = ({ setSelected, selected }) => {
   };
 
   const changeTab = (endPoint) => {
-    setSelected(endPoint)
+    setSelected(endPoint);
   };
 
   return (
     <div>
-      <Button variant={selected ==='creator' ? "danger": "light" } style={buttonStyle} onClick={()=>changeTab('creator')}>
+      <Link to={`${PATH.DETAILS}/${id}`}>
+        <Button variant="light" style={buttonStyle}>
+          Back
+        </Button>
+      </Link>
+
+      <Button
+        variant={selected === "creator" ? "danger" : "light"}
+        style={buttonStyle}
+        onClick={() => changeTab("creator")}
+      >
         Cost Creator
       </Button>
 
-      <Button variant={selected ==='details' ? "danger": "light" } style={buttonStyle} onClick={()=>changeTab('details')}>
+      <Button
+        variant={selected === "details" ? "danger" : "light"}
+        style={buttonStyle}
+        onClick={() => changeTab("details")}
+      >
         Cost details
       </Button>
 

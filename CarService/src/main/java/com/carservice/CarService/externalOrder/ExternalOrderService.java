@@ -154,9 +154,6 @@ public class ExternalOrderService {
             updateExternalOrder.setReceiveDate(LocalDateTime.now());
             updateExternalOrder.setOrderStatus(OrderStatus.CANCELLED);
 
-
-
-
         }
 
         externalOrderRepository.save(updateExternalOrder);

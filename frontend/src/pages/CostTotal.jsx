@@ -1,24 +1,35 @@
-import { useParams } from "react-router-dom"
-import CostTableContainer from "../components/CostTable/CostTableContainer"
-import Sidebar from "../components/Sidebar/SideBar"
+import { useParams } from "react-router-dom";
+import Sidebar from "../components/Sidebar/SideBar";
+import TotalCostTable from "../components/TotalCostTable/TotalCostTable";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import PATH from "../paths";
 
+const CostTotal = () => {
+  const { id } = useParams();
 
-const CostTotal = ()=>{
+  console.log("commission " + id);
 
-    const {id} = useParams();
+  const buttonStyle = {
+    marginTop: "10px",
+    fontSize: "32px", 
+    fontFamily: "'Extra Bolt Italic', sans-serif"
+  };
 
-    console.log("commission " +id)
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
 
-    return (
-        <div style={{display: "flex"}}>
-            <Sidebar />
-            
-            <div>
-                <CostTableContainer costType='total' commissionId={id}/>
-           </div>
+      <div>
+        <Link to={`${PATH.DETAILS}/${id}`}>
+          <Button variant="light" style={buttonStyle}>
+            Back
+          </Button>
+        </Link>
+        <TotalCostTable costType="total" commissionId={id} filteredText="" />
+      </div>
+    </div>
+  );
+};
 
-        </div> 
-    )
-}
-
-export default CostTotal
+export default CostTotal;
