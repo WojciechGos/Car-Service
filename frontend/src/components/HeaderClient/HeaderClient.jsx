@@ -64,7 +64,7 @@ const HeaderClient = ({ onFilterChange, onEditClient, onSaveEdit, isEditingClien
       </Link>
       <Button variant="light" style={buttonStyleClient} onClick={handleToggleEdit}>
         {isEditingClient ? 'Cancel Edit' : 'Edit Client'}
-      </Button>{' '}
+      </Button>
 
       {isEditingClient && (
         <div>
