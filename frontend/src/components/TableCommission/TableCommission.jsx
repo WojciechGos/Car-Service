@@ -1,17 +1,19 @@
+
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-const TableCommission = () => {
+const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filterText,rerender,setrerender }) => {
   const [commissions, setCommissions] = useState([]);
-  const [selectedCommissionId, setSelectedCommissionId] = useState(null);
   const navigate = useNavigate();
 
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+
   useEffect(() => {
-    //symulacja dodawania total costu do commission o id 1
     addTotalCost();
     fetchCommissions();
-  }, []);
+  }, [rerender,sortColumn, sortOrder, filterText]);
 
   const addTotalCost = async () => {
     try {
@@ -27,7 +29,7 @@ const TableCommission = () => {
         },
         laborPrice: 100.00
       };
-  
+
       const response = await fetch("http://localhost:5001/api/v1/costs", {
         method: "POST",
         headers: {
@@ -36,11 +38,8 @@ const TableCommission = () => {
         },
         body: JSON.stringify(requestData),
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        
-      } else {
+
+      if (!response.ok) {
         console.error("Server error:", response.status);
       }
     } catch (error) {
@@ -57,8 +56,39 @@ const TableCommission = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setCommissions(data);
-        console.log(data);
+        
+        const filteredData = data.filter((commission) => {
+          const commissionFields = Object.keys(commission);
+          return commissionFields.some((field) =>
+            (field !== 'id' && field !== 'createDate' && field !== 'endDate' &&
+            field !== 'vehicle' && field !== 'client' &&
+            commission[field] && commission[field].toString().toLowerCase().includes(filterText.toLowerCase())) ||
+            (field === 'contractor' && commission[field] && commission[field].name.toLowerCase().includes(filterText.toLowerCase()))
+          );
+        });
+  
+
+        const sortedData = filteredData.sort((a, b) => {
+          const valueA = getNestedPropertyValue(a, sortColumn);
+          const valueB = getNestedPropertyValue(b, sortColumn);
+        
+          if (valueA === null || valueB === null) {
+            return 0; 
+          }
+        
+          if (typeof valueA === 'string') {
+            const lowerA = valueA.toLowerCase();
+            const lowerB = valueB.toLowerCase();
+            return sortOrder === 'asc' ? lowerA.localeCompare(lowerB) : lowerB.localeCompare(lowerA);
+          } else if (typeof valueA === 'number') {
+            return sortOrder === 'asc' ? valueA - valueB : valueB - valueA;
+          } else {
+            return sortOrder === 'asc' ? valueA.toString().localeCompare(valueB.toString()) : valueB.toString().localeCompare(valueA.toString());
+          }
+        });
+        
+
+        setCommissions(sortedData);
       } else {
         console.error("Failed to fetch commissions");
       }
@@ -75,18 +105,56 @@ const TableCommission = () => {
     }
   };
 
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+    } else {
+      setSortColumn(column);
+      setSortOrder("asc");
+    }
+  };
+
+  const renderHeaderCell = (label, column) => (
+    <th
+      key={column}
+      onClick={() => handleSort(column)}
+      style={{
+        cursor: "pointer",
+        textDecoration: sortColumn === column ? "underline" : "none",
+      }}
+    >
+      {label}
+      {sortColumn === column && (
+        <span style={{ marginLeft: "5px" }}>
+          {sortOrder === "asc" ? "▲" : "▼"}
+        </span>
+      )}
+    </th>
+  );
+
+  const getNestedPropertyValue = (object, propertyPath) => {
+    if (!object || !propertyPath) {
+      return null;
+    }
+  
+    const properties = propertyPath.split('.');
+  
+    return properties.reduce((obj, prop) => (obj && obj[prop] !== undefined ? obj[prop] : null), object);
+  };
+  
+
   return (
     <div className="table-container">
       <table className="custom-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Create date</th>
-            <th>End date</th>
-            <th>ID vehicle</th>
-            <th>ID client</th>
-            <th>Cost estimate</th>
-            <th>Contractor</th>
+            {renderHeaderCell("ID", "id")}
+            {renderHeaderCell("Create date", "createDate")}
+            {renderHeaderCell("End date", "endDate")}
+            {renderHeaderCell("ID vehicle", "vehicle.id")}
+            {renderHeaderCell("ID client", "client.id")}
+            {renderHeaderCell("Cost estimate", "costEstimate")}
+            {renderHeaderCell("Contractor", "contractor.name")}
           </tr>
         </thead>
         <tbody>

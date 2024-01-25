@@ -15,12 +15,6 @@ const HeaderWarehouse = ({ onFilterChange })=>{
         fontFamily: "'Extra Bolt Italic', sans-serif"
       };
 
-      const buttonStyleWarehouse = {
-        fontSize: "32px", 
-        marginLeft: "500px",
-        fontFamily: "'Extra Bolt Italic', sans-serif"
-      };
-
       const handleSearch = () => {
         onFilterChange(searchName);
       };
@@ -51,8 +45,6 @@ const HeaderWarehouse = ({ onFilterChange })=>{
             <Button variant="secondary" id="button-addon2" onClick={handleSearch}>Search</Button>
 
             </InputGroup>
-            
-            {/* <Button variant="secondary" style={buttonStyleWarehouse} onClick={handleSearch}>order</Button>{' '} */}
             </div>
 
         </div>

@@ -1,4 +1,3 @@
-import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from 'jwt-decode';
@@ -13,8 +12,6 @@ const TableWarehouse = ( {filterText} )=>{
   };
 
   const inputButtonStyle = {
-    //display: 'flex',
-    //alignItems: 'center',
     justifyContent: 'center'
   };
 
@@ -110,51 +107,54 @@ const TableWarehouse = ( {filterText} )=>{
   };
 
     return (
-
-        <Table className="grayTable" bordered hover variant="secondary" style={{ marginTop: "10px" }}>
-        <thead>
-          <tr>
-            <th>id</th>
-          <th>Name</th>
-          <th>Parameters</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th/>
-          </tr>
-        </thead>
-        <tbody>
-        {filteredSpareParts.map((sparePart) => (
-            <tr
-              key={sparePart.id}
-              style={{
-                cursor: "pointer",
-                backgroundColor: selectedSparePartId === sparePart.id ? "#f2f2f2" : "transparent",
-              }}
-            >
-              <td>{sparePart.id}</td>
-              <td>{sparePart.name}</td>
-              <td style={tdShort}>{sparePart.parameters}</td>
-              <td>{sparePart.quantity}</td>
-              <td>{sparePart.price} zł</td>
-              <td style={inputButtonStyle}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <label>
-                    Quantity:
-                    <input
-                      style={{ width: "85px"}}
-                      type="text"
-                      placeholder="Enter quantity..."
-                      value={quantities[sparePart.id] || ''}
-                      onChange={(e) => handleQuantityChange(e, sparePart.id)}
-                    />
-                  </label>
-                  <button onClick={() => handleAddToCart(sparePart.id, getUserInfoFromToken()?.sub)}>add</button>
-                </div>
-              </td>
+      <div className="table-container">
+        <div className="overflow-container4">
+        <table className="custom-table">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>Name</th>
+              <th>Parameters</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Quantity:</th>
+              <th/>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+          {filteredSpareParts.map((sparePart) => (
+              <tr
+                key={sparePart.id}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: selectedSparePartId === sparePart.id ? "#f2f2f2" : "transparent",
+                }}
+              >
+                <td>{sparePart.id}</td>
+                <td>{sparePart.name}</td>
+                <td style={tdShort}>{sparePart.parameters}</td>
+                <td>{sparePart.quantity}</td>
+                <td>{sparePart.price} zł</td>
+                <td style={inputButtonStyle}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <label>
+                      <input
+                        style={{ width: "85px"}}
+                        type="text"
+                        placeholder="Enter quantity..."
+                        value={quantities[sparePart.id] || ''}
+                        onChange={(e) => handleQuantityChange(e, sparePart.id)}
+                      />
+                    </label>
+                    <button onClick={() => handleAddToCart(sparePart.id, getUserInfoFromToken()?.sub)}>add</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
     )
  
 }

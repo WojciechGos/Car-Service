@@ -8,8 +8,6 @@ const TableCartWarehouse = ()=>{
     const [commissionId, setCommissionId] = useState('');
 
     const inputButtonStyle = {
-        //display: 'flex',
-        //alignItems: 'center',
         justifyContent: 'center'
       };
 

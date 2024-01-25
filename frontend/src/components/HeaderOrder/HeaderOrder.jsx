@@ -31,6 +31,19 @@ const HeaderOrder = ()=>{
              <Button variant="light" style={buttonStyle}>Cart</Button>
             </Link>
             <br/>
+
+            <div style={{display: "flex"}}>
+            <InputGroup className="inputSearch">
+
+                <Form.Control
+                placeholder="Enter name"
+                aria-label="Enter name"
+                aria-describedby="basic-addon2"
+             />
+            <Button variant="secondary" id="button-addon2">Search</Button>
+
+            </InputGroup>
+            </div>
             <div style={{height: "60px"}}/>
         </div>
     )

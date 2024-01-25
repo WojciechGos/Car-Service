@@ -12,7 +12,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/wholesaler")
+@RequestMapping("api/v1/wholesalers")
 public class WholesalerController {
     private final WholesalerAdapterIPARTS wholesalerAdapterIPARTS;
     private final WholesalerAdapterSTARTHURT wholesalerAdapterSTARTHURT;

@@ -1,19 +1,20 @@
-import Sidebar from "../components/Sidebar/SideBar"
-import HeaderCommission from "../components/HeaderCommission/HeaderCommission"
-import AddCommissionForm from "../components/TableCommission/AddCommissionForm"
+import React, { useState } from "react";
+import Sidebar from "../components/Sidebar/SideBar";
+import HeaderCommission from "../components/HeaderCommission/HeaderCommission";
+import AddCommissionForm from "../components/TableCommission/AddCommissionForm";
 
-const CommissionAdd = ()=>{
-    return (
-        <div style={{display: "flex"}}>
-            <Sidebar />
-            
-            <div>
-           <HeaderCommission />
-           <AddCommissionForm />
-           </div>
+const CommissionAdd = () => {
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
 
-        </div> 
-    )
-}
+      <div>
+        <HeaderCommission />
+       
+        <AddCommissionForm/>
+      </div>
+    </div>
+  );
+};
 
-export default CommissionAdd
+export default CommissionAdd;
