@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
-import "../../App.css";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../paths";
+import car from "./car.jpg";
+
 
 const CommissionDetails = () => {
   const [commissionDetails, setCommissionDetails] = useState({});
@@ -51,53 +51,34 @@ const CommissionDetails = () => {
     navigate(`/cost-total/${id}`);
   };
 
-
-
   return (
     <div className="commission-details">
-      <div className="IdCommission">
-        <p>
-          <b>ID Commission: {commissionDetails.id}</b>
-        </p>
-      </div>
       <div className="commission-details-row">
         <div>
-          <p>
-            <b>Commission status: {commissionDetails.commissionStatus}</b>
-          </p>
           <button className="commission-status mb-4">Finish Commission</button>
         </div>
-        <div>
-          <p>
-            <b>
-              Total cost:{" "}
-              {commissionDetails.totalCost
-                ? commissionDetails.totalCost.totalCost
-                : "-"}
-            </b>
-          </p>
-          <div className="d-flex flex-column">
-            <button
-              className="commission-status mb-4 "
-              onClick={() => handleShowCostTotal()}
-            >
-              Show total cost details
-            </button>
-            <button
-              className="commission-status mb-4 "
-              onClick={() => handleShowCostEstimate()}
-            >
-              Show cost estimate details
-            </button>
-          </div>
-        </div>
-        <p>
-          <b>Payment status: Paid</b>
-        </p>
+          <button
+            className="commission-status mb-4"
+            onClick={() => handleShowCostTotal()}
+          >
+            Show total cost details
+          </button>
+          <button
+            className="commission-status mb-4"
+            onClick={() => handleShowCostEstimate()}
+          >
+            Show cost estimate details
+          </button>
       </div>
 
       <div className="description">
-        <p>Description: {commissionDetails.description}</p>
+        <div className="description-content">
+          <b>ID Commission: {commissionDetails.id}</b>
+          <p>Description: {commissionDetails.description}</p>
+        </div>
+        <div className="image-container">
+          <img src={car} alt="car image" />
+        </div>
       </div>
 
       {commissionDetails.totalCost && (

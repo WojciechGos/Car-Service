@@ -34,13 +34,9 @@ console.log(sparePartList)
         <h2>Name: {costData.name} </h2>
       </div>
 
-      <Table
-        className="grayTable"
-        bordered
-        hover
-        variant="secondary"
-        style={{ marginTop: "10px" }}
-      >
+      <div className="table-container">
+      <div className="overflow-container5">
+        <table className="custom-table">
         <thead>
           <tr>
             <th>id</th>
@@ -56,7 +52,7 @@ console.log(sparePartList)
               <tr key={index}>
                 <td>{item.id}</td>
                 <td>{item.sparePart.name}</td>
-                <td>{item.sparePart.parameters}</td>
+                <td className="parametrsView2">{item.sparePart.parameters}</td>
                 <td>{item.quantity}</td>
                 <td>{(item.sparePart.price * item.quantity).toFixed(2)} zł</td>
               </tr>
@@ -65,7 +61,9 @@ console.log(sparePartList)
             <></>
           )}
         </tbody>
-      </Table>
+          </table>
+      </div>
+    </div>
       <div>
         <h4>Labor cost: {costData.laborPrice} zł</h4>
         <h3>Total cost: {costData.totalCost} zł</h3>
