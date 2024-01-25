@@ -50,4 +50,25 @@ public class WholesalerController {
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/ipart/{sparePartID}")
+    public ResponseEntity<HttpStatus> deleteItemFromOrderIPART(
+            @PathVariable("sparePartID") Long sparePartId,
+            @RequestParam(required = true) String email,
+            @RequestParam(required = true) Integer quantity
+
+    ){
+        externalOrderService.deleteSparePartFromLocalOrderIPART(sparePartId, email, quantity);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/starthurt/{sparePartID}")
+    public ResponseEntity<HttpStatus> deleteItemFromOrderSTARTHURT(
+            @PathVariable("sparePartID") Long sparePartId,
+            @RequestParam(required = true) String email,
+            @RequestParam(required = true) Integer quantity
+    ){
+        externalOrderService.deleteSparePartFromLocalOrderSTARTHURT(sparePartId, email, quantity);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
