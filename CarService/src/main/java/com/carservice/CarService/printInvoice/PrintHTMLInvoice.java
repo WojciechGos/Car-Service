@@ -5,12 +5,13 @@ import com.carservice.CarService.commission.Commission;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class PrintHTMLInvoice implements PrintInvoice {
     @Override
     public byte[] generateInvoice(Commission commission) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            String htmlContent = "<html><head><style>" +
+            StringBuilder htmlContent = new StringBuilder("<html><head><style>" +
                     "body { font-family: Arial, sans-serif; }" +
                     "h2 { color: #333; }" +
                     "p { margin: 10px 0; }" +
@@ -23,16 +24,17 @@ public class PrintHTMLInvoice implements PrintInvoice {
                     "<h3>Cost Details:</h3>" +
                     "<p>Labor Price: " + commission.getTotalCost().getLaborPrice() + " zł" + "</p>" +
                     "<p>Spare Parts:</p>" +
-                    "<ul>";
+                    "<ul>");
 
             for (OrderSparePart sparePart : commission.getTotalCost().getSpareParts()) {
-                htmlContent += "<li>" + sparePart.getSparePart().getName() + " - " + sparePart.getSparePart().getPrice() + " zł</li>";
+                BigDecimal totalCostValue = sparePart.getSparePart().getPrice().multiply(BigDecimal.valueOf(sparePart.getQuantity()));
+
+                htmlContent.append("<li>").append(sparePart.getSparePart().getName()).append(" - ").append("Quantity: ").append(sparePart.getQuantity()).append(" - ").append("Total cost: ").append(totalCostValue).append(" zł</li>");
             }
 
-            htmlContent += "</ul>" +
-                    "</body></html>";
+            htmlContent.append("</ul>" + "</body></html>");
 
-            outputStream.write(htmlContent.getBytes());
+            outputStream.write(htmlContent.toString().getBytes());
 
             return outputStream.toByteArray();
 
