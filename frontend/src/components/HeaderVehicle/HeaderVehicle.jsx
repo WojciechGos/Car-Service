@@ -78,8 +78,8 @@ const HeaderVehicle = ({ onFilterChange, onEditVehicle, onSaveEdit, isEditingVeh
       
       <Button variant="light" style={buttonStyleVehicle} onClick={handleToggleEdit}>
         {isEditingVehicle ? 'Cancel Edit' : 'Edit Vehicle'}
-      </Button>{' '}
-
+      </Button>
+      
     </div>
   );
 };

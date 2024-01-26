@@ -12,8 +12,8 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
     brand: "",
     model: "",
     vin: "",
-    licensePlate: "",
-    year: ""
+    registrationNumber: "",
+    registrationDate: ""
   });
 
   useEffect(() => {
@@ -53,18 +53,37 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
     }
   };
 
-  const handleSaveEdit = () => {
-    const updatedVehicles = vehicles.map((vehicle) => {
-      if (vehicle.id === editedVehicleId) {
-        return { ...vehicle, ...editedVehicle };
-      }
-      return vehicle;
-    });
+  const handleSaveEdit = async() => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/vehicles/${editedVehicleId}`, {
+        method: "PUT",
+        headers: {
+          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(editedVehicle),
+      });
 
-    setVehicles(updatedVehicles);
-    setEditedVehicleId(null);
-    onEditVehicle(false); 
-  };
+      if (response.ok) {
+        const updatedVehicles = vehicles.map((vehicle) => {
+          if (vehicle.id === editedVehicleId) {
+            return { ...vehicle, ...editedVehicle };
+          }
+          return vehicle;
+        });
+
+        setVehicles(updatedVehicles);
+        setEditedVehicleId(null);
+        onEditVehicle(false); 
+        } else {
+          console.error("Failed to save changes");
+        }
+      } catch (error) {
+        console.error("Error saving changes:", error);
+      }
+    };
+   
+  
 
   const handleEditVehicle = (vehicleId) => {
     const vehicleToEdit = vehicles.find((vehicle) => vehicle.id === vehicleId);
@@ -77,15 +96,15 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
     const brand = vehicle.brand ? vehicle.brand.toLowerCase() : "";
     const model = vehicle.model ? vehicle.model.toLowerCase() : "";
     const vin = vehicle.vin ? vehicle.vin.toLowerCase() : "";
-    const licensePlate = vehicle.licensePlate ? vehicle.licensePlate.toLowerCase() : "";
-    const year = vehicle.year ? vehicle.year.toString() : "";
+    const registrationNumber = vehicle.registrationNumber ? vehicle.registrationNumber.toLowerCase() : "";
+    const registrationDate = vehicle.registrationDate ? vehicle.registrationDate.toString() : "";
   
     return (
       brand.includes(filterText.toLowerCase()) ||
       model.includes(filterText.toLowerCase()) ||
       vin.includes(filterText.toLowerCase()) ||
-      licensePlate.includes(filterText.toLowerCase()) ||
-      year.includes(filterText)
+      registrationNumber.includes(filterText.toLowerCase()) ||
+      registrationDate.includes(filterText)
     );
   });
 
@@ -123,21 +142,21 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
                 />
               </Form.Group>
 
-              <Form.Group controlId="formLicensePlate">
+              <Form.Group controlId="formRegistrationNumber">
                 <Form.Label>New License Plate:</Form.Label>
                 <Form.Control
                   type="text"
-                  value={editedVehicle.licensePlate}
-                  onChange={(e) => setEditedVehicle({ ...editedVehicle, licensePlate: e.target.value })}
+                  value={editedVehicle.registrationNumber}
+                  onChange={(e) => setEditedVehicle({ ...editedVehicle, registrationNumber: e.target.value })}
                 />
               </Form.Group>
 
-              <Form.Group controlId="formYear">
+              <Form.Group controlId="formRegistrationDate">
                 <Form.Label>New Year:</Form.Label>
                 <Form.Control
                   type="text"
-                  value={editedVehicle.year}
-                  onChange={(e) => setEditedVehicle({ ...editedVehicle, year: e.target.value })}
+                  value={editedVehicle.registrationDate}
+                  onChange={(e) => setEditedVehicle({ ...editedVehicle, registrationDate: e.target.value })}
                 />
               </Form.Group>
 
