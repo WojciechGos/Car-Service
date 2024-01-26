@@ -23,10 +23,8 @@ import com.carservice.CarService.worker.WorkerRepository;
 import com.carservice.CarService.worker.WorkerRole;
 import com.carservice.CarService.localOrder.LocalOrder;
 import com.carservice.CarService.localOrder.LocalOrderRepository;
-import com.carservice.CarService.orderItem.OrderItem;
 import com.carservice.CarService.orderItem.OrderItemRepository;
 import com.carservice.CarService.externalOrder.ExternalOrderRepository;
-import com.carservice.CarService.externalOrder.ExternalOrder;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -55,9 +54,6 @@ public class CommandLineRunnerConfig {
             OrderItemRepository orderItemRepository,
             LocalOrderRepository localOrderRepository,
             ExternalOrderRepository externalOrderRepository
-
-
-
             ){
         return args -> {
             addClients(clientRepository);
@@ -68,20 +64,50 @@ public class CommandLineRunnerConfig {
             addCosts(costRepository, sparePartRepository, orderSparePartRepository);
             addCommissions(commissionRepository, vehicleRepository, clientRepository, workerRepository, costRepository);
             addPayments(paymentRepository, clientRepository);
-            addLocalOrder(workerRepository, localOrderRepository);
+            addLocalOrder(workerRepository, localOrderRepository, commissionRepository, sparePartRepository, orderSparePartRepository);
         };
     }
-    private void addLocalOrder(WorkerRepository workerRepository,LocalOrderRepository localOrderRepository)
+    private void addLocalOrder(
+            WorkerRepository workerRepository,
+            LocalOrderRepository localOrderRepository,
+            CommissionRepository commissionRepository,
+            SparePartRepository sparePartRepository,
+            OrderSparePartRepository orderSparePartRepository
+    )
     {
         List<Worker> worker = workerRepository.findAll();
         LocalDateTime createDate = LocalDateTime.now();
 
         LocalOrder localOrder1 = new LocalOrder(worker.get(0), createDate);
 
-        LocalOrder localOrder2 = new LocalOrder(worker.get(1), createDate);
+        LocalOrder localOrder2 = new LocalOrder(worker.get(3), createDate);
         localOrderRepository.saveAll(
             List.of(localOrder1, localOrder2)
         );
+
+        List<Commission> commissions = commissionRepository.findAll();
+
+        localOrder1.setCommission(commissions.get(0));
+
+        List<SparePart> sparePartList = sparePartRepository.findAll();
+        List<OrderSparePart> orderSparePartList = new ArrayList<>();
+        OrderSparePart orderSparePart1 = orderSparePartRepository.save(new OrderSparePart(
+                sparePartList.get(0),
+                5
+        ));
+        orderSparePartList.add(orderSparePart1);
+        localOrder1.setItems(orderSparePartList);
+
+        localOrder2.setCommission(commissions.get(1));
+        List<OrderSparePart> orderSparePartList2 = new ArrayList<>();
+        OrderSparePart orderSparePart2 = orderSparePartRepository.save(new OrderSparePart(
+                sparePartList.get(1),
+                2
+        ));
+        orderSparePartList2.add(orderSparePart2);
+        localOrder2.setItems(orderSparePartList2);
+
+        localOrderRepository.saveAll(List.of(localOrder1, localOrder2));
     }
 
 
@@ -106,9 +132,15 @@ public class CommandLineRunnerConfig {
     private void addVehicles(VehicleRepository vehicleRepository) {
         Vehicle vehicle1 = new Vehicle("opel", "astra", "123123", "TKI 5VF5","2001");
         Vehicle vehicle2 = new Vehicle("bmw", "idk", "1231234", "KLI 6039C", "2007");
+        Vehicle vehicle3 = new Vehicle("audi", "a3", "123456", "WRO 7890X", "2015");
+        Vehicle vehicle4 = new Vehicle("mercedes", "c-class", "789012", "GDA 1234Y", "2020");
+        Vehicle vehicle5 = new Vehicle("ford", "focus", "567890", "POZ 4321R", "2018");
+        Vehicle vehicle6 = new Vehicle("toyota", "corolla", "123789", "GDN 5678Z", "2019");
+        Vehicle vehicle7 = new Vehicle("honda", "civic", "456123", "WAW 8765K", "2016");
+        Vehicle vehicle8 = new Vehicle("volkswagen", "golf", "789456", "KRK 2345M", "2022");
 
         vehicleRepository.saveAll(
-                List.of(vehicle1, vehicle2)
+                List.of(vehicle1, vehicle2, vehicle3, vehicle4, vehicle5, vehicle6, vehicle7, vehicle8)
         );
     }
 
@@ -125,49 +157,47 @@ public class CommandLineRunnerConfig {
         Producer innovateSpare = new Producer(
                 "InnovateSpare"
         );
-Producer KNECHT = new Producer(
-                "KNECHT"
+        Producer KNECHT = new Producer(
+                        "KNECHT"
         );
-Producer BOSCH = new Producer(
-                "BOSCH"
+        Producer BOSCH = new Producer(
+                        "BOSCH"
         );
-Producer DENSO = new Producer(
-                "DENSO"
+        Producer DENSO = new Producer(
+                        "DENSO"
         );
-Producer MANNFILTER = new Producer(
-                "MANN-FILTER"
+        Producer MANNFILTER = new Producer(
+                        "MANN-FILTER"
         );
-Producer LUK = new Producer(
-                "LUK"
+        Producer LUK = new Producer(
+                        "LUK"
         );
-Producer VALEO = new Producer(
-                "VALEO"
+        Producer VALEO = new Producer(
+                        "VALEO"
         );
-
-Producer SACHS = new Producer(
-                "SACHS"
+        Producer SACHS = new Producer(
+                        "SACHS"
         );
-Producer AISIN = new Producer(
-                "AISIN"
+        Producer AISIN = new Producer(
+                        "AISIN"
         );
-Producer ATE = new Producer(
-                "ATE"
+        Producer ATE = new Producer(
+                        "ATE"
         );
-
-Producer EBCBrakes = new Producer(
-                "EBC Brakes"
+        Producer EBCBrakes = new Producer(
+                        "EBC Brakes"
         );
-Producer TRW = new Producer(
-                "TRW"
+        Producer TRW = new Producer(
+                        "TRW"
         );
-Producer Ferodo = new Producer(
-                "Ferodo"
+        Producer Ferodo = new Producer(
+                        "Ferodo"
         );
-Producer BEHR = new Producer(
-                "BEHR"
+        Producer BEHR = new Producer(
+                        "BEHR"
         );
-Producer NRF = new Producer(
-                "NRF"
+        Producer NRF = new Producer(
+                        "NRF"
         );
 
         producerRepository.saveAll(
@@ -354,28 +384,54 @@ Producer NRF = new Producer(
         List<Worker> workers = workerRepository.findAll();
         List<Cost> costs = costRepository.findAll();
 
-//        System.out.println(costs.get(0).toString());
-//        System.out.println(costs.get(0));
-
         Commission commission1 = CommissionBuilder.getBase()
                 .buildVehicle(vehicles.get(0))
                 .buildClient(clients.get(0))
-                .buildWorker(workers.get(0))
-                .buildDescription("Commission 1")
+                .buildWorker(workers.get(2))
+                .buildDescription("Przegląd techniczny i wymiana oleju. Zlecenie obejmuje kompleksowy przegląd techniczny pojazdu. W ramach usługi planowana jest również wymiana oleju silnikowego oraz sprawdzenie ogólnej kondycji pojazdu.")
                 .build();
-
-
 
         Commission commission2 = CommissionBuilder.getBase()
                 .buildVehicle(vehicles.get(1))
                 .buildClient(clients.get(1))
-                .buildWorker(workers.get(1))
-                .buildDescription("Commission 2")
+                .buildWorker(workers.get(2))
+                .buildDescription("Naprawa układu hamulcowego. "
+                        + "Klient zgłosił problem z układem hamulcowym w swoim samochodzie. Zlecenie obejmuje kompleksową diagnostykę i naprawę układu hamulcowego, w tym wymianę zużytych elementów.")
                 .build();
 
+        Commission commission3 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(2))
+                .buildClient(clients.get(2))
+                .buildWorker(workers.get(2))
+                .buildDescription("Wymiana rozrządu i płynu chłodzącego. "
+                        + "Zlecenie obejmuje kompleksową wymianę rozrządu oraz płynu chłodzącego w samochodzie. Ponadto, planowana jest wymiana płynu chłodzącego dla utrzymania optymalnej temperatury pracy silnika.")
+                .build();
 
-//        commissionRepository.saveAll(List.of(commission1, commission2));
-        commissionRepository.saveAll(List.of(commission1, commission2));
+        Commission commission4 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(3))
+                .buildClient(clients.get(3))
+                .buildWorker(workers.get(2))
+                .buildDescription("Diagnostyka i naprawa systemu elektrycznego. "
+                        + "Klient zgłosił problemy z systemem elektrycznym w swoim samochodzie. Zlecenie obejmuje kompleksową diagnostykę usterki oraz naprawę systemu elektrycznego.")
+                .build();
+
+        Commission commission5 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(4))
+                .buildClient(clients.get(4))
+                .buildWorker(workers.get(2))
+                .buildDescription("Wymiana sprzęgła. "
+                        + "Zlecenie obejmuje wymianę sprzęgła w samochodzie.")
+                .build();
+
+        Commission commission6 = CommissionBuilder.getBase()
+                .buildVehicle(vehicles.get(5))
+                .buildClient(clients.get(5))
+                .buildWorker(workers.get(2))
+                .buildDescription("Serwis klimatyzacji. "
+                        + "Klient zdecydował się na przegląd i serwis klimatyzacji w swoim samochodzie marki Toyota Corolla z 2019 roku. Zlecenie obejmuje sprawdzenie wydajności klimatyzacji, ewentualne doładowanie czynnika chłodzącego oraz przegląd filtrów.")
+                .build();
+
+        commissionRepository.saveAll(List.of(commission1, commission2, commission3, commission4, commission5, commission6));
         commission1.setTotalCost(costs.get(0));
         commission1.setCostEstimate(costs.get(1));
         commissionRepository.saveAll(List.of(commission1));
