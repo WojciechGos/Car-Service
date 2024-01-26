@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import CostEstimateContext from '../../context/CostEstimateContext';
+import estimate from "./estimation.png";
 
 
 
@@ -14,18 +15,11 @@ const CostEstimateCreator = ( {filterText} )=>{
 
 
   const tdShort = {
-    width: "222px", 
+    width: "700px", 
   };
 
   const inputButtonStyle = {
-    //display: 'flex',
-    //alignItems: 'center',
     justifyContent: 'center'
-  };
-  const buttonStyle = {
-    marginTop: "10px",
-    fontSize: "32px",
-    fontFamily: "'Extra Bolt Italic', sans-serif",
   };
 
   useEffect(() => {
@@ -45,8 +39,6 @@ const CostEstimateCreator = ( {filterText} )=>{
           ...sparePart,
           price: sparePart.price.toFixed(2),
         }));
-
-        // console.log(formattedSpareParts.parameters);
   
         setSpareParts(formattedSpareParts);
       } else {
@@ -70,11 +62,12 @@ const CostEstimateCreator = ( {filterText} )=>{
   };
 
     return (
-
-        <Table className="grayTable" bordered hover variant="secondary" style={{ marginTop: "10px" }}>
+      <div className="table-container">
+      <div className="overflow-container6">
+        <table className="custom-table">
         <thead>
           <tr>
-            <th>id</th>
+          <th>id</th>
           <th>Name</th>
           <th>Parameters</th>
           <th>Quantity</th>
@@ -97,24 +90,30 @@ const CostEstimateCreator = ( {filterText} )=>{
               <td>{sparePart.quantity}</td>
               <td>{sparePart.price} zł</td>
               <td style={inputButtonStyle}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <label>
-                    Quantity:
                     <input
-                      style={{ width: "85px"}}
+                      style={{ width: "120px",marginRight:"10px"}}
                       type="text"
                       placeholder="Enter quantity..."
                       value={quantities[sparePart.id] || ''}
                       onChange={(e) => handleQuantityChange(e, sparePart.id)}
                     />
                   </label>
-                  <button onClick={() =>{addSparePart(sparePart, quantities)}}>add</button>
+                  {/* <button onClick={() =>{addSparePart(sparePart, quantities)}}>add</button> */}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                    <button style={{border:'none', backgroundColor: 'transparent'}} onClick={() =>{addSparePart(sparePart, quantities)}}>
+                      <img src={estimate} alt="estimate" style={{ width: '40px', height: '40px' }} />
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
-      </Table>
+          </table>
+      </div>
+    </div>
     )
  
 }

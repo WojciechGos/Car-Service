@@ -12,8 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SaleInvoiceServiceTest {
-
-
     @Test
     void getAllSaleInvoices() {
         SaleInvoiceRepository saleInvoiceRepository = Mockito.mock(SaleInvoiceRepository.class);

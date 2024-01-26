@@ -48,13 +48,9 @@ const TotalCostTable = ({ costType, commissionId }) => {
         <h2>Name: {costData.name} </h2>
       </div>
 
-      <Table
-        className="grayTable"
-        bordered
-        hover
-        variant="secondary"
-        style={{ marginTop: "10px" }}
-      >
+      <div className="table-container">
+      <div className="overflow-container5">
+        <table className="custom-table">
         <thead>
           <tr>
             <th>id</th>
@@ -79,7 +75,9 @@ const TotalCostTable = ({ costType, commissionId }) => {
             <></>
           )}
         </tbody>
-      </Table>
+          </table>
+      </div>
+    </div>
       <div>
         <h2>Labor cost: {costData.laborPrice} zł</h2>
         <h2>Total cost: {costData.totalCost} zł</h2>

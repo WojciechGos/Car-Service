@@ -107,9 +107,7 @@ class VehicleServiceTest {
 
         Long vehicleId = 1L;
 
-
         vehicleService.deleteVehicle(vehicleId);
-
 
         verify(vehicleRepository, times(1)).deleteById(vehicleId);
     }
@@ -121,9 +119,7 @@ class VehicleServiceTest {
         Vehicle vehicle = new Vehicle("opel", "astra", "123123", "TKI 5VF5", "2001");
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.of(vehicle));
 
-
         Vehicle result = vehicleService.getVehicleEntityById(vehicleId);
-
 
         verify(vehicleRepository, times(1)).findById(vehicleId);
         assertEquals(vehicle, result);
@@ -134,7 +130,6 @@ class VehicleServiceTest {
 
         Long vehicleId = 1L;
         when(vehicleRepository.findById(vehicleId)).thenReturn(Optional.empty());
-
 
         assertThrows(ResourceNotFoundException.class, () -> vehicleService.getVehicleEntityById(vehicleId));
         verify(vehicleRepository, times(1)).findById(vehicleId);
