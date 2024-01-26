@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
@@ -6,7 +6,6 @@ import PATH from "../../paths";
 import Cookies from "js-cookie";
 
 const TableAddVehicle = () => {
-  const [vehicles, setVehicles] = useState([]);
   const [newVehicle, setnewVehicle] = useState({
     brand: "",
     model: "",
@@ -22,29 +21,6 @@ const TableAddVehicle = () => {
       [name]: value
     });
   };
-  const fetchVehicles = async () => {
-    try {
-      const response = await fetch("http://localhost:5001/api/v1/vehicles", {
-        headers: {
-          'Authorization': `Bearer ${Cookies.get("jwt")}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const sortedVehicles = data.sort((a, b) => a.id - b.id);
-        setVehicles(sortedVehicles);
-      } else {
-        console.error("Failed to fetch vehicles");
-      }
-    } catch (error) {
-      console.error("Error fetching vehicles:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchVehicles();
-  }, []);
 
   const handleAddVehicle = async () => {
     try {
@@ -64,7 +40,6 @@ const TableAddVehicle = () => {
       });
   
       if (response.ok) {
-        fetchVehicles();
         setnewVehicle({
           brand: "",
           model: "",

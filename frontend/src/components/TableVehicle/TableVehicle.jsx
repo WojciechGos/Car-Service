@@ -29,7 +29,7 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
       });
       if (response.ok) {
         const data = await response.json();
-        const sortedVehicles = data.sort((a, b) => a.id - b.id);
+        const sorted = data.sort((a, b) => a.id - b.id);
         setVehicles(data);
       } else {
         console.error("Failed to fetch vehicles");
