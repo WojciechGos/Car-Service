@@ -125,9 +125,53 @@ public class CommandLineRunnerConfig {
         Producer innovateSpare = new Producer(
                 "InnovateSpare"
         );
+Producer KNECHT = new Producer(
+                "KNECHT"
+        );
+Producer BOSCH = new Producer(
+                "BOSCH"
+        );
+Producer DENSO = new Producer(
+                "DENSO"
+        );
+Producer MANNFILTER = new Producer(
+                "MANN-FILTER"
+        );
+Producer LUK = new Producer(
+                "LUK"
+        );
+Producer VALEO = new Producer(
+                "VALEO"
+        );
+
+Producer SACHS = new Producer(
+                "SACHS"
+        );
+Producer AISIN = new Producer(
+                "AISIN"
+        );
+Producer ATE = new Producer(
+                "ATE"
+        );
+
+Producer EBCBrakes = new Producer(
+                "EBC Brakes"
+        );
+Producer TRW = new Producer(
+                "TRW"
+        );
+Producer Ferodo = new Producer(
+                "Ferodo"
+        );
+Producer BEHR = new Producer(
+                "BEHR"
+        );
+Producer NRF = new Producer(
+                "NRF"
+        );
 
         producerRepository.saveAll(
-                List.of(spareGenius, smartFix, techSolve, innovateSpare)
+                List.of(spareGenius, smartFix, techSolve, innovateSpare, KNECHT, BOSCH,DENSO, MANNFILTER, LUK, VALEO,SACHS,AISIN,ATE,EBCBrakes,TRW,Ferodo,BEHR,NRF)
         );
     }
 

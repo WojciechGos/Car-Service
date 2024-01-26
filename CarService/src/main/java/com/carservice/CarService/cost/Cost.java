@@ -27,7 +27,6 @@ public class Cost {
             generator = "cost_sequence"
     )
     private Long id;
-    @NotBlank
     private String name;
     private LocalDateTime createDate;
     @OneToMany

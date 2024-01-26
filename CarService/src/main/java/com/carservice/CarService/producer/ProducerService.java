@@ -25,6 +25,11 @@ public class ProducerService {
     }
 
     public Optional<Producer> getProducerByName(String name){
-        return producerRepository.findProducerByName(name);
+        System.out.println("name: " + name + " mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+        Optional<Producer> producer = producerRepository.findByName(name);
+
+//        System.out.println("getProducerByName: " + producer.get().getName() );
+
+        return producer;
     }
 }
