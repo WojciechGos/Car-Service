@@ -48,6 +48,7 @@ public class CommissionService {
                 .buildVehicle(vehicle)
                 .buildClient(client)
                 .buildWorker(worker)
+                .buildDescription(createCommissionRequest.description())
                 .build();
 
         System.out.println("zapisuje");
@@ -84,6 +85,8 @@ public class CommissionService {
 
         if(updateCommissionRequest.commissionStatus() != null) {
             updatedCommission.setCommissionStatus(updateCommissionRequest.commissionStatus());
+            if(updateCommissionRequest.commissionStatus() == CommissionStatus.COMPLETED)
+                updatedCommission.setEndDate(LocalDateTime.now());
         }
 
         commissionRepository.save(updatedCommission);

@@ -6,7 +6,7 @@ import car from "./car.jpg";
 
 
 const CommissionDetails = () => {
-  const [commissionDetails, setCommissionDetails] = useState({});
+  const [commissionDetails, setCommissionDetails] = useState({client:{}, contractor:{}, vehicle:{}});
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -51,11 +51,40 @@ const CommissionDetails = () => {
     navigate(`/cost-total/${id}`);
   };
 
+  const finishCommission = async ()=>{
+    const bodyObject = {
+      commissionStatus:'COMPLETED'
+    }
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/commissions/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
+        },
+        body: JSON.stringify(bodyObject),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        if (data !== null) {
+        } else {
+          console.warn("Received null data from the server");
+        }
+      } else {
+        console.error("Failed to update commission", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error.message);
+    }
+  }
+
   return (
     <div className="commission-details">
       <div className="commission-details-row">
         <div>
-          <button className="commission-status mb-4">Finish Commission</button>
+          <button className="commission-status mb-4" onClick={()=> finishCommission()}>Finish Commission</button>
         </div>
           <button
             className="commission-status mb-4"
@@ -75,6 +104,18 @@ const CommissionDetails = () => {
         <div className="description-content">
           <b>ID Commission: {commissionDetails.id}</b>
           <p>Description: {commissionDetails.description}</p>
+          <div>
+          <h2>Client:</h2><p> {commissionDetails.client.name} {commissionDetails.client.surname} </p>
+          </div>
+          <div>
+          <h2>Vehicle:</h2><p>{commissionDetails.vehicle.id}  {commissionDetails.vehicle.brand} {commissionDetails.vehicle.model} </p>
+          </div>
+          <div>
+          <h2>Contractor:</h2><p> {commissionDetails.contractor.name} {commissionDetails.contractor.surname} </p>
+          </div>
+          <div>
+          <h2>Create date:</h2><p> {new Date(commissionDetails.createDate).toLocaleString()} </p>
+          </div>
         </div>
         <div className="image-container">
           <img src={car} alt="car image" />
