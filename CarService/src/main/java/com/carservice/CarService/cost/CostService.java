@@ -22,6 +22,7 @@ public class CostService {
     private final OrderSparePartRepository orderSparePartRepository;
     private final CommissionService commissionService;
 
+
     public List<Cost> getAllCosts() {
         return costRepository.findAll();
     }
@@ -52,15 +53,26 @@ public class CostService {
                 spareParts,
                 costRequest.laborPrice()
         );
+        Cost totalCost = new Cost(
+                "Total Cost",
+                new ArrayList<>(),
+                costRequest.laborPrice()
+        );
 
         Cost createdCost = costRepository.save(cost);
 
         Commission commission = commissionService.getCommissionById(costRequest.commissionId());
         if(costRequest.costType().equals("estimate")){
             commission.setCostEstimate(createdCost);
+            commission.setTotalCost(totalCost);
 
         }else if(costRequest.costType().equals("total")){
             commission.setTotalCost(createdCost);
+            Cost tmp = commission.getTotalCost();
+            tmp.setLaborPrice(commission.getCostEstimate().getLaborPrice());
+
+            costRepository.save(tmp);
+            commission.setTotalCost(tmp);
         }
         commissionService.saveCommission(commission);
         return createdCost.getId();

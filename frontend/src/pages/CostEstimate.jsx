@@ -29,9 +29,9 @@ const CostEstimate = () => {
 
         if (response.ok) {
           const data = await response.json();
+          console.log("GET COMMISSION: CostEstimate.jsx ")
+          console.log(data)
           setCost(data.costEstimate)
-          // console.log("getCostByCommissionId: ");
-          // console.log(data.costEstimate);
 
           if (data !== null) {
           } else {

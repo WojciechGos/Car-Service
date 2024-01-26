@@ -5,6 +5,11 @@ const CostEstimateContext = createContext();
 export function CostEstimateContextProvider({ children }) {
   const [costData, setCostData] = useState({ name: "" });
   const [sparePartList, setSparePartList] = useState([]);
+  const [laborCost, setLaborCost] = useState(0);
+
+
+  const onlaborCostChange = ({ target: { value } }) => setLaborCost(value)
+
 
   const addSparePart = (item, quantities) => {
     const keys = Object.keys(quantities);
@@ -45,28 +50,16 @@ export function CostEstimateContextProvider({ children }) {
     console.log("delete");
   };
 
-  const acceptCostEstimate = async (commissionId) => {
-    const sparePartIdQuantity = sparePartList.reduce((map, obj) => {
-      map[obj.id] = obj.quantity;
-      return map;
-    }, {});
-
+  const updateCommissionStatus = async (commissionId) => {
     const bodyObject = {
-      costType: "estimate",
-      name: costData.name,
-      sparePartQuantities: sparePartIdQuantity,
-      commissionId: commissionId,
-      laborPrice: 100.0,
-    };
-    console.log("bodyObject");
-    console.log(bodyObject);
-
+      commissionStatus:'IN_PROGRESS'
+    }
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/costs`, {
-        method: "POST",
+      const response = await fetch(`http://localhost:5001/api/v1/commissions/${commissionId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "Application/json",
-          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
         },
         body: JSON.stringify(bodyObject),
       });
@@ -79,31 +72,75 @@ export function CostEstimateContextProvider({ children }) {
           console.warn("Received null data from the server");
         }
       } else {
+        console.error("Failed to update commission", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error:", error.message);
+    }
+  };
+
+  const acceptCostEstimate = async (commissionId) => {
+    const sparePartIdQuantity = sparePartList.reduce((map, obj) => {
+      map[obj.id] = obj.quantity;
+      return map;
+    }, {});
+
+    const bodyObject = {
+      costType: "estimate",
+      name: "Cost Estimate",
+      sparePartQuantities: sparePartIdQuantity,
+      commissionId: commissionId,
+      laborPrice: laborCost,
+    };
+    console.log("bodyObject");
+    console.log(bodyObject);
+
+    try {
+      const response = await fetch(`http://localhost:5001/api/v1/costs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: `Bearer ${Cookies.get("jwt")}`,
+        },
+        body: JSON.stringify(bodyObject),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        await updateCommissionStatus(commissionId)
+        if (data !== null) {
+        } else {
+          console.warn("Received null data from the server");
+        }
+      } else {
         console.error("Failed to create cost", response.statusText);
       }
     } catch (error) {
       console.error("Network error:", error.message);
     }
   };
- 
-  const getSpareParts = async (id)=>{
+
+  const getSpareParts = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/commissions/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "Application/json",
-          'Authorization': `Bearer ${Cookies.get("jwt")}`,
+      const response = await fetch(
+        `http://localhost:5001/api/v1/commissions/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "Application/json",
+            Authorization: `Bearer ${Cookies.get("jwt")}`,
+          },
         }
-      });
+      );
 
       if (response.ok) {
         const data = await response.json();
-        
+
         if (data !== null) {
-          console.log("getSpareParts")
-          console.log(data)
-          if(data.costEstimate)
-            setSparePartList(data.costEstimate.spareParts)
+          console.log("getSpareParts");
+          console.log(data);
+          setCostData(data.costEstimate)
+          if (data.costEstimate) setSparePartList(data.costEstimate.spareParts);
           // setSparePartList(data.costEstimate.spareParts)
         } else {
           console.warn("Received null data from the server");
@@ -114,8 +151,7 @@ export function CostEstimateContextProvider({ children }) {
     } catch (error) {
       console.error("Network error:", error.message);
     }
-  }
-  
+  };
 
   return (
     <CostEstimateContext.Provider
@@ -127,7 +163,9 @@ export function CostEstimateContextProvider({ children }) {
         addSparePart,
         deleteSparePart,
         acceptCostEstimate,
-        getSpareParts
+        getSpareParts,
+        laborCost,
+        onlaborCostChange,
       }}
     >
       {children}
