@@ -29,7 +29,6 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
       });
       if (response.ok) {
         const data = await response.json();
-        const sorted = data.sort((a, b) => a.id - b.id);
         setVehicles(data);
         console.log(data);
       } else {
@@ -45,14 +44,6 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
       onFilterChange(filterText);
     }
   }, [filterText, onFilterChange]);
-
-  const handleSelectVehicle = (vehicleId) => {
-    if (!isEditingVehicle) {
-      setSelectedVehicleId((prevSelectedVehicleId) =>
-        prevSelectedVehicleId === vehicleId ? null : vehicleId
-      );
-    }
-  };
 
   const handleSaveEdit = async() => {
     try {
