@@ -42,14 +42,18 @@ public class OrderItemMapper {
 
         Optional<Producer> producer = producerService.getProducerByName(requestItemDTO.producerName());
 
+//        System.out.println("jestem jtaosuihda "+ producer.get().getName());
+        System.out.println("jestem jtaosuihda "+ requestItemDTO.producerName());
+
         Long producerId;
         String producerName;
         if(producer.isPresent()){
+            System.out.println("zwracam mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
             producerId = producer.get().getId();
             producerName = producer.get().getName();
         }else {
-            producerId = null;
-            producerName = null;
+            producerId = 1L;
+            producerName = "VALEO";
         }
 
         return new OrderItemDTO(

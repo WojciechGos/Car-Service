@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 const CostEstimateContext = createContext();
 
 export function CostEstimateContextProvider({ children }) {
-  const [costData, setCostData] = useState({ name: "cost data wojtek" });
+  const [costData, setCostData] = useState({ name: "" });
   const [sparePartList, setSparePartList] = useState([]);
 
   const addSparePart = (item, quantities) => {

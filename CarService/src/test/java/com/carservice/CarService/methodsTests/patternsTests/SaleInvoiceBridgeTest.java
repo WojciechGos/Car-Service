@@ -66,5 +66,4 @@ class SaleInvoiceBridgeTest {
         // Assert
         assertEquals(expectedSaleInvoices, result);
     }
-
 }

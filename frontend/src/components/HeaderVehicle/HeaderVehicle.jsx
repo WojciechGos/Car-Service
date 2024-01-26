@@ -48,7 +48,6 @@ const HeaderVehicle = ({ onFilterChange, onEditVehicle, onSaveEdit, isEditingVeh
       <Link to={PATH.VEHICLEADD}>
         <Button variant="light" style={buttonStyle}>Add vehicle</Button>
       </Link>
-
     </div>
   );
 };

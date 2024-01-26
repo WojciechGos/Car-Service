@@ -52,7 +52,9 @@ console.log(sparePartList)
               <tr key={index}>
                 <td>{item.id}</td>
                 <td>{item.sparePart.name}</td>
+
                 <td className="parametrsView2">{item.sparePart.parameters}</td>
+
                 <td>{item.quantity}</td>
                 <td>{(item.sparePart.price * item.quantity).toFixed(2)} zł</td>
               </tr>

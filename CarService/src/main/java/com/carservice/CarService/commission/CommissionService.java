@@ -38,17 +38,21 @@ public class CommissionService {
     }
 
     public Long createCommission(CreateCommissionRequest createCommissionRequest){
+        System.out.println(" wyszukuje ");
         Vehicle vehicle = vehicleService.getVehicleEntityById(createCommissionRequest.vehicleId());
         Client client = clientService.getClientEntityById(createCommissionRequest.clientId());
         Worker worker = workerService.getWorkerEntityById(createCommissionRequest.workerId());
 
+        System.out.println("tworze");
         Commission commission = CommissionBuilder.getBase()
                 .buildVehicle(vehicle)
                 .buildClient(client)
                 .buildWorker(worker)
                 .build();
 
+        System.out.println("zapisuje");
         Commission savedCommission = commissionRepository.save(commission);
+        System.out.println("koncze");
 
         return savedCommission.getId();
     }
