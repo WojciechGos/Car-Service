@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
+const TableClient = ({ filterText }) => {
   const [clients, setClients] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState(null);
+  const [isEditingClient, setIsEditingClient] = useState(false);
   const [editedClientId, setEditedClientId] = useState(null);
   const [editedClient, setEditedClient] = useState({
     id: null,
@@ -29,7 +29,7 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
       if (response.ok) {
         const data = await response.json();
         const sortedClients = data.sort((a, b) => a.id - b.id);
-        setClients(data);
+        setClients(sortedClients);
       } else {
         console.error("Failed to fetch clients");
       }
@@ -37,16 +37,7 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
       console.error("Error fetching clients:", error);
     }
   };
-
-  const handleSelectClient = (clientId) => {
-    if (!isEditingClient) {
-      setSelectedClientId((prevSelectedClientId) =>
-        prevSelectedClientId === clientId ? null : clientId
-      );
-    }
-  };
-
-  const handleSaveEdit = async() => {
+  const handleSaveEdit = async () => {
     try {
       const response = await fetch(`http://localhost:5001/api/v1/clients/${editedClientId}`, {
         method: "PUT",
@@ -67,32 +58,44 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
 
         setClients(updatedClients);
         setEditedClientId(null);
-        onEditClient(false); 
-        } else {
-          console.error("Failed to save changes");
-        }
-      } catch (error) {
-        console.error("Error saving changes:", error);
+        setIsEditingClient(false);
+      } else {
+        console.error("Failed to save changes");
       }
-    };
+    } catch (error) {
+      console.error("Error saving changes:", error);
+    }
+  };
 
-    const handleEditClient = (clientId) => {
-      const clientToEdit = clients.find((client) => client.id === clientId);
-      setEditedClientId(clientId);
-      setEditedClient(clientToEdit);
-      onEditClient(true); 
-    };
-  
-    const filteredClients = clients.filter((client) =>
-      client.name.toLowerCase().includes(filterText.toLowerCase()) ||
-      client.surname.toLowerCase().includes(filterText.toLowerCase()) ||
-      client.email.toLowerCase().includes(filterText.toLowerCase()) ||
-      client.phoneNumber.includes(filterText)
-    );
+  const handleEditClient = (clientId) => {
+    const clientToEdit = clients.find((client) => client.id === clientId);
+    setEditedClientId(clientId);
+    setEditedClient(clientToEdit);
+    setIsEditingClient(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditedClientId(null);
+    setEditedClient({
+      id: null,
+      name: "",
+      surname: "",
+      email: "",
+      phoneNumber: ""
+    });
+    setIsEditingClient(false);
+  };
+
+  const filteredClients = clients.filter((client) =>
+    client.name.toLowerCase().includes(filterText.toLowerCase()) ||
+    client.surname.toLowerCase().includes(filterText.toLowerCase()) ||
+    client.email.toLowerCase().includes(filterText.toLowerCase()) ||
+    client.phoneNumber.includes(filterText)
+  );
 
   return (
     <div className="table-container">
-      <div className="overflow-container">
+      <div className="overflow-container8">
         {isEditingClient ? (
           <div>
             <p>Editing Client: {editedClientId}</p>
@@ -105,7 +108,6 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
                   onChange={(e) => setEditedClient({ ...editedClient, name: e.target.value })}
                 />
               </Form.Group>
-
               <Form.Group controlId="formSurname">
                 <Form.Label>New Surname:</Form.Label>
                 <Form.Control
@@ -114,7 +116,6 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
                   onChange={(e) => setEditedClient({ ...editedClient, surname: e.target.value })}
                 />
               </Form.Group>
-
               <Form.Group controlId="formEmail">
                 <Form.Label>New Email:</Form.Label>
                 <Form.Control
@@ -123,7 +124,6 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
                   onChange={(e) => setEditedClient({ ...editedClient, email: e.target.value })}
                 />
               </Form.Group>
-
               <Form.Group controlId="formPhoneNumber">
                 <Form.Label>New Phone Number:</Form.Label>
                 <Form.Control
@@ -132,9 +132,11 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
                   onChange={(e) => setEditedClient({ ...editedClient, phoneNumber: e.target.value })}
                 />
               </Form.Group>
-
-              <Button type="button" onClick={handleSaveEdit}>
+              <Button type="button" variant="danger" onClick={handleSaveEdit} style={{ marginTop: "10px", fontSize: "16px" }}>
                 Save Changes
+              </Button>
+              <Button type="button" variant="secondary" onClick={handleCancelEdit} style={{ marginTop: "10px", fontSize: "16px" ,marginLeft:"5px"}}>
+                Cancel
               </Button>
             </Form>
           </div>
@@ -147,14 +149,13 @@ const TableClient = ({ filterText, isEditingClient, onEditClient }) => {
                 <th>Surname</th>
                 <th>E-mail</th>
                 <th>Phone</th>
+                <th/>
               </tr>
             </thead>
             <tbody>
               {filteredClients.map((client) => (
                 <tr
                   key={client.id}
-                  onClick={() => handleSelectClient(client.id)}
-                  className={selectedClientId === client.id ? "selected-row" : ""}
                 >
                   <td>{client.id}</td>
                   <td>{client.name}</td>

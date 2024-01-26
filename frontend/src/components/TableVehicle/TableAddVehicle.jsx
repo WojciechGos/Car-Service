@@ -92,7 +92,7 @@ const TableAddVehicle = () => {
             </Form.Group>
 
             <Form.Group controlId="formLicensePlate">
-            <Form.Label>license plate</Form.Label>
+            <Form.Label>License plate</Form.Label>
             <Form.Control
                 type="text"
                 placeholder="Enter license plate"
@@ -103,7 +103,7 @@ const TableAddVehicle = () => {
             </Form.Group>
 
             <Form.Group controlId="formYear">
-            <Form.Label>year</Form.Label>
+            <Form.Label>Year</Form.Label>
             <Form.Control
                 type="text"
                 placeholder="Enter year"
@@ -114,8 +114,11 @@ const TableAddVehicle = () => {
             </Form.Group>
 
         <Link to={PATH.VEHICLE}>
-        <Button variant="primary" onClick={handleAddVehicle} style={{ marginTop: "10px", fontSize: "16px" }}>
+        <Button variant="danger" onClick={handleAddVehicle} style={{marginTop: "10px", fontSize: "16px" }}>
           Add vehicle
+        </Button>
+        <Button type="button" variant="secondary" style={{ marginTop: "10px", fontSize: "16px" ,marginLeft:"5px"}}>
+                Cancel
         </Button>
 
         </Link>
