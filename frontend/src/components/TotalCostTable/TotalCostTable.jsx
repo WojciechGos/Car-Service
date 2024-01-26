@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 const TotalCostTable = ({ costType, commissionId }) => {
+  const [laborCost, setLaborCost] = useState(0)
   const [costData, setCostData] = useState({ spareParts: [], name: "" });
 
   const getCostEstimate = async () => {
@@ -21,6 +22,7 @@ const TotalCostTable = ({ costType, commissionId }) => {
       console.log(data);
 
       if (costType === "total") {
+        setLaborCost(data.costEstimate.laborPrice)
         if (data.totalCost === null) return;
         setCostData(data.totalCost);
       } else if (costType === "estimate") {
@@ -79,7 +81,7 @@ const TotalCostTable = ({ costType, commissionId }) => {
       </div>
     </div>
       <div>
-        <h2>Labor cost: {costData.laborPrice} zł</h2>
+        <h2>Labor cost: {laborCost} zł</h2>
         <h2>Total cost: {costData.totalCost} zł</h2>
       </div>
     </div>

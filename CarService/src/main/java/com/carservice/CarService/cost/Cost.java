@@ -57,6 +57,11 @@ public class Cost {
         this.laborPrice = laborPrice;
     }
 
+    public Cost(String name, BigDecimal laborPrice) {
+        this.name = name;
+        this.laborPrice = laborPrice;
+    }
+
     public BigDecimal getTotalCost() {
         BigDecimal sparePartsCost = BigDecimal.valueOf(0);
 
