@@ -14,12 +14,6 @@ const HeaderClient = ({ onFilterChange, onEditClient, onSaveEdit, isEditingClien
     onFilterChange(searchName);
   };
 
-  const handleToggleEdit = () => {
-    onEditClient(!isEditingClient); 
-    setEditedClientId(null);
-    setEditedClientName("");
-  };
-
   const handleSaveEdit = () => {
     onSaveEdit(editedClientId, editedClientName);
     setEditedClientId(null);
@@ -29,13 +23,6 @@ const HeaderClient = ({ onFilterChange, onEditClient, onSaveEdit, isEditingClien
   const buttonStyle = {
     marginTop: "10px",
     fontSize: "32px", 
-    fontFamily: "'Extra Bolt Italic', sans-serif"
-  };
-
-  const buttonStyleClient = {
-    fontSize: "32px", 
-    marginTop: "10px",
-    marginLeft:"700px",
     fontFamily: "'Extra Bolt Italic', sans-serif"
   };
 
@@ -62,9 +49,6 @@ const HeaderClient = ({ onFilterChange, onEditClient, onSaveEdit, isEditingClien
       <Link to={PATH.CLIENTADD}>
         <Button variant="light" style={buttonStyle}>Add client</Button>
       </Link>
-      <Button variant="light" style={buttonStyleClient} onClick={handleToggleEdit}>
-        {isEditingClient ? 'Cancel Edit' : 'Edit Client'}
-      </Button>
 
       {isEditingClient && (
         <div>
