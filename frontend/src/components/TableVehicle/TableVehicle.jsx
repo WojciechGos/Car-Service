@@ -15,10 +15,11 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
     registrationNumber: "",
     registrationDate: ""
   });
-
+ 
   useEffect(() => {
     fetchVehicles();
-  }, []);
+  },  []);
+
 
   const fetchVehicles = async () => {
     try {
@@ -76,6 +77,7 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
         setVehicles(updatedVehicles);
         setEditedVehicleId(null);
         onEditVehicle(false); 
+        
         } else {
           console.error("Failed to save changes");
         }

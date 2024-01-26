@@ -98,6 +98,7 @@ const AddCommissionForm = () => {
         <Button variant="primary" onClick={handleAddCommission} style={{ marginTop: "10px", fontSize: "16px" }}>
           Add Commission
         </Button>
+     
       </Form>
       <TableWorker/>
     </div>
