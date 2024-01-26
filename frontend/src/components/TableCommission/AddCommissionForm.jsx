@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Cookies from "js-cookie";
 import TableWorker from "../TableWorker/TableWorker";
+import { Link } from "react-router-dom";
+import PATH from "../../paths";
+
 
 const AddCommissionForm = () => {
   const [newCommission, setNewCommission] = useState({
@@ -94,10 +97,11 @@ const AddCommissionForm = () => {
 
 
         {/* Add more Form.Group elements for other fields as needed */}
-        
+        <Link to={PATH.COMMISSION}>
         <Button variant="primary" onClick={handleAddCommission} style={{ marginTop: "10px", fontSize: "16px" }}>
           Add Commission
         </Button>
+        </Link>
       </Form>
       <TableWorker/>
     </div>

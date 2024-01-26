@@ -1,11 +1,11 @@
+import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Cookies from "js-cookie";
 
 const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterChange }) => {
   const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [editedVehicleId, setEditedVehicleId] = useState(null);
   const [editedVehicle, setEditedVehicle] = useState({
     id: null,
@@ -15,10 +15,11 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
     registrationNumber: "",
     registrationDate: ""
   });
-
+ 
   useEffect(() => {
     fetchVehicles();
-  }, []);
+  },  []);
+
 
   const fetchVehicles = async () => {
     try {
@@ -29,8 +30,8 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
       });
       if (response.ok) {
         const data = await response.json();
-        const sorted = data.sort((a, b) => a.id - b.id);
         setVehicles(data);
+        console.log(data);
       } else {
         console.error("Failed to fetch vehicles");
       }
@@ -40,19 +41,10 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
   };
 
   useEffect(() => {
-    // Jeśli zmienia się filterText, wykonaj odpowiednie działania
     if (onFilterChange) {
       onFilterChange(filterText);
     }
   }, [filterText, onFilterChange]);
-
-  const handleSelectVehicle = (vehicleId) => {
-    if (!isEditingVehicle) {
-      setSelectedVehicleId((prevSelectedVehicleId) =>
-        prevSelectedVehicleId === vehicleId ? null : vehicleId
-      );
-    }
-  };
 
   const handleSaveEdit = async() => {
     try {
@@ -76,6 +68,7 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
         setVehicles(updatedVehicles);
         setEditedVehicleId(null);
         onEditVehicle(false); 
+        
         } else {
           console.error("Failed to save changes");
         }
@@ -84,13 +77,26 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
       }
     };
    
-  
-
   const handleEditVehicle = (vehicleId) => {
     const vehicleToEdit = vehicles.find((vehicle) => vehicle.id === vehicleId);
     setEditedVehicleId(vehicleId);
     setEditedVehicle(vehicleToEdit);
+    setIsEditing(true);
     onEditVehicle(true); 
+  };
+
+  const handleCancelEdit = () => {
+    setEditedVehicleId(null);
+    setEditedVehicle({
+      id: null,
+      brand: "",
+      model: "",
+      vin: "",
+      licensePlate: "",
+      year: ""
+    });
+    setIsEditing(false);
+    onEditVehicle(false);
   };
 
   const filteredVehicles = vehicles.filter((vehicle) => {
@@ -111,8 +117,8 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
 
   return (
     <div className="table-container">
-      <div className="overflow-container2">
-        {isEditingVehicle ? (
+      <div className="overflow-container8">
+        {isEditing ? (
           <div>
             <p>Editing Vehicle: {editedVehicleId}</p>
             <Form>
@@ -161,8 +167,11 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
                 />
               </Form.Group>
 
-              <Button type="button" onClick={handleSaveEdit}>
+              <Button type="button" variant="danger" onClick={handleSaveEdit} style={{ marginTop: "10px", fontSize: "16px" }}>
                 Save Changes
+              </Button>
+              <Button type="button" variant="secondary" onClick={handleCancelEdit} style={{ marginTop: "10px", fontSize: "16px" ,marginLeft:"5px"}}>
+                Cancel
               </Button>
             </Form>
           </div>
@@ -182,8 +191,6 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
               {filteredVehicles.map((vehicle) => (
                 <tr
                   key={vehicle.id}
-                  onClick={() => handleSelectVehicle(vehicle.id)}
-                  className={selectedVehicleId === vehicle.id ? "selected-row" : ""}
                 >
                   <td>{vehicle.id}</td>
                   <td>{vehicle.brand}</td>

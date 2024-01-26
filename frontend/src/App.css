@@ -106,6 +106,11 @@ border-radius: 10px;
   overflow-y: auto;
   width: 1180px;
 }
+.overflow-container8 {
+  max-height: 455px; 
+  overflow-y: auto;
+  width: 1257px;
+}
 
 .overflow-container6 {
   max-height: 613px; 

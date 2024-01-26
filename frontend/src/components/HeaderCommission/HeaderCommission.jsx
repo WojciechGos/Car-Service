@@ -64,8 +64,8 @@ const HeaderCommission = ({ selectedCommissionId, onFilterChange,rerender,setrer
       <Link to={PATH.COMMISSIONADD}>
         <Button variant="light" style={buttonStyle} >Add commission</Button>
       </Link>
-      <Button variant="light" style={{ fontSize: "32px", marginLeft: "150px", marginRight: "150px", fontFamily: "'Extra Bolt Italic', sans-serif" }}>Edit commission</Button>{' '}
-      <Button variant="light" style={buttonStyle} onClick={handleDeleteClick}>
+     
+      <Button variant="light" style={{ fontSize: "32px", marginLeft: "600px", fontFamily: "'Extra Bolt Italic', sans-serif" }}onClick={handleDeleteClick}>
         Delete commission
       </Button>{' '}
     </div>

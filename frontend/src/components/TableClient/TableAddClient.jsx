@@ -100,8 +100,11 @@ const TableClient = () => {
             </Form.Group>
 
         <Link to={PATH.CLIENT}>
-        <Button variant="primary" onClick={handleAddClient} style={{ marginTop: "10px", fontSize: "16px" }}>
+        <Button variant="danger" onClick={handleAddClient} style={{ marginTop: "10px", fontSize: "16px" }}>
           Add Client
+        </Button>
+        <Button type="button" variant="secondary" style={{ marginTop: "10px", fontSize: "16px" ,marginLeft:"5px"}}>
+                Cancel
         </Button>
 
         </Link>
