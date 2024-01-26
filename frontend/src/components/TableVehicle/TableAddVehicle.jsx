@@ -10,8 +10,8 @@ const TableAddVehicle = () => {
     brand: "",
     model: "",
     vin: "",
-    licensePlate: "",
-    year: ""
+    registrationNumber: "",
+    registrationDate: ""
   });
 
   const handleInputChange = (e) => {
@@ -34,8 +34,8 @@ const TableAddVehicle = () => {
           brand: newVehicle.brand,
           model: newVehicle.model,
           vin: newVehicle.vin,
-          registrationNumber: newVehicle.licensePlate,
-          registrationDate: newVehicle.year
+          registrationNumber: newVehicle.registrationNumber,
+          registrationDate: newVehicle.registrationDate
         })
       });
   
@@ -44,8 +44,8 @@ const TableAddVehicle = () => {
           brand: "",
           model: "",
           vin: "",
-          licensePlate: "",
-          year: ""
+          registrationNumber: "",
+          registrationDate: ""
         });
       } else {
         console.error("Failed to add vehicle");
@@ -91,7 +91,7 @@ const TableAddVehicle = () => {
             />
             </Form.Group>
 
-            <Form.Group controlId="formLicensePlate">
+            <Form.Group controlId="formRegistrationNumber">
             <Form.Label>license plate</Form.Label>
             <Form.Control
                 type="text"
@@ -102,7 +102,7 @@ const TableAddVehicle = () => {
             />
             </Form.Group>
 
-            <Form.Group controlId="formYear">
+            <Form.Group controlId="formRegistrationDate">
             <Form.Label>year</Form.Label>
             <Form.Control
                 type="text"
