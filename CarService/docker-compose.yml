@@ -7,13 +7,14 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_PASSWORD=abc
       - POSTGRES_DB=car_service
     ports:
       - '5432:5432'
 
   car-service:
     container_name: car_service_app
+    pull_policy: always
     build:
       context: .
       dockerfile: Dockerfile
@@ -22,7 +23,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://psql-db:5432/car_service
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_PASSWORD=abc
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     depends_on:
       - psql-db
