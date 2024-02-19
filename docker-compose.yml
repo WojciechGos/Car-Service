@@ -11,14 +11,14 @@ services:
       - POSTGRES_DB=car_service
     ports:
       - '5432:5432'
-
   car-service:
     container_name: car_service_app
+    pull_policy: always
     build:
-      context: .
+      context: CarService
       dockerfile: Dockerfile
     ports:
-      - '5000:5000'
+      - '5001:5001'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://psql-db:5432/car_service
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -26,3 +26,13 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     depends_on:
       - psql-db
+  frontend:
+    container_name: frontend_app
+    image: frontend:latest
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - car-service

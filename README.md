@@ -12,9 +12,22 @@ This is a fullstack application built using Spring Boot for the backend and Reac
 ## Table of Contents
 
 - [Design Patterns Used](#design-patterns-used)
+- [How to run](#how-to-run)
 - [Security](#security)
 - [Technologies Used](#technologies-used)
 - [UML Diagram](#uml-diagram)
+
+
+## How to run 
+
+
+1. install mvn
+
+2. Type in parent directory:
+
+```bash
+mvn -f CarService/pom.xml package -DskipTests && docker compose up
+```
 
 
 ## Design Patterns Used:
