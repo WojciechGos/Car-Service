@@ -5,6 +5,7 @@ import com.carservice.CarService.requestItem.RequestItemDTO;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,12 +28,11 @@ public class WholesalerSTARTHURT {
     private List<RequestItemDTO> loadItemsFromXml() {
         List<RequestItemDTO> items = new ArrayList<>();
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File xmlFile = new File(Objects.requireNonNull(classLoader.getResource("STARTHURT.xml")).getFile());
+            InputStream is = getClass().getClassLoader().getResourceAsStream("STARTHURT.xml");
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+            Document doc = dBuilder.parse(is);
 
             doc.getDocumentElement().normalize();
 
