@@ -24,6 +24,10 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_FORMAT_SQL=true
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - SERVER_PORT=5001
     depends_on:
       - psql-db
   frontend:

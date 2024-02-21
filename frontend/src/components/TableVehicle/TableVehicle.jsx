@@ -23,7 +23,7 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
 
   const fetchVehicles = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/vehicles", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/vehicles`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
@@ -48,7 +48,7 @@ const TableVehicle = ({ onEditVehicle, isEditingVehicle, filterText, onFilterCha
 
   const handleSaveEdit = async() => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/vehicles/${editedVehicleId}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/vehicles/${editedVehicleId}`, {
         method: "PUT",
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,

@@ -23,7 +23,7 @@ const TableClient = () => {
 
   const handleAddClient = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/clients", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/clients`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,

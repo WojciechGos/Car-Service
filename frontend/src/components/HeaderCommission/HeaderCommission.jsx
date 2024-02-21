@@ -19,7 +19,7 @@ const HeaderCommission = ({ selectedCommissionId, onFilterChange,rerender,setrer
   const handleDeleteClick = async () => {
     try {
       if (selectedCommissionId !== null) {
-        const response = await fetch(`http://localhost:5001/api/v1/commissions/${selectedCommissionId}`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/commissions/${selectedCommissionId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

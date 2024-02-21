@@ -28,7 +28,7 @@ const CostEstimateCreator = ( {filterText} )=>{
 
   const fetchSpareParts = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/spareParts", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/spareParts`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },

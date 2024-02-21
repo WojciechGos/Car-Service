@@ -11,7 +11,7 @@ const TableSalersOrders = ()=>{
 
   const fetchExternalOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/order/external", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/external`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
@@ -46,7 +46,7 @@ const TableSalersOrders = ()=>{
 
   const handleOrderStatusChange = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/order/external/${orderId}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/external/${orderId}`, {
         method: "PUT",
         headers: {
           'Content-Type': 'application/json',

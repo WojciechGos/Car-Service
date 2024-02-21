@@ -26,7 +26,7 @@ This is a fullstack application built using Spring Boot for the backend and Reac
 2. Type in parent directory:
 
 ```bash
-mvn -f CarService/pom.xml package -DskipTests && docker compose up
+    docker compose up
 ```
 
 

@@ -19,7 +19,7 @@ const TableCommission = ({ selectedCommissionId, setSelectedCommissionId, filter
 
   const fetchCommissions = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/commissions", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/commissions`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
