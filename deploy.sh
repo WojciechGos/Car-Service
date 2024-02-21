@@ -14,12 +14,12 @@ ibmcloud ce registry create -n "${DOCKERHUB_NAME}-dockerhub" -u $DOCKERHUB_NAME 
 
 
 # Car service
-ibmcloud ce build create -n car-service-build -i ${DOCKERHUB_NAME}/car-service:latest --src https://github.com/WojciechGos/Car-Service --rs "${DOCKERHUB_NAME}-dockerhub" --cdr CarService --sz small
-ibmcloud ce buildrun submit -b car-service-build -n car-service-buildrun -w
-ibmcloud ce app create -n car-service -i ${DOCKERHUB_NAME}/car-service:latest --cl -p 5001 --min 1 --cpu 0.25 -m 0.5G -e LOG_LEVEL=info
+# ibmcloud ce build create -n car-service-build -i ${DOCKERHUB_NAME}/car-service:latest --src https://github.com/WojciechGos/Car-Service --rs "${DOCKERHUB_NAME}-dockerhub" --cdr CarService --sz small
+# ibmcloud ce buildrun submit -b car-service-build -n car-service-buildrun -w
+# ibmcloud ce app create -n car-service -i ${DOCKERHUB_NAME}/car-service:latest --cl -p 5001 --min 1 --cpu 0.25 -m 0.5G -e LOG_LEVEL=info
 
 
 #frontend
-ibmcloud ce build create -n ui-build -i ${DOCKERHUB_NAME}/ui:latest --src https://github.com/WojciechGos/Car-Service --rs "${DOCKERHUB_NAME}-dockerhub" --cdr frontend --sz small
-ibmcloud ce buildrun submit -b ui-build -n ui-buildrun -w
+ibmcloud ce build create -n frontend-build -i ${DOCKERHUB_NAME}/frontend:latest --src https://github.com/WojciechGos/Car-Service --rs "${DOCKERHUB_NAME}-dockerhub" --cdr frontend --sz small
+ibmcloud ce buildrun submit -b frontend-build -n frontend-buildrun -w
 ibmcloud ce app create -n frontend -i ${DOCKERHUB_NAME}/frontend:latest -p 3000 --min 1 --cpu 0.25 -m 0.5G -e NODE_ENV=production -e CAR_SERVICE_URL=http://carservice.${id}.svc.cluster.local
