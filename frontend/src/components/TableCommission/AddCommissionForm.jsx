@@ -29,7 +29,7 @@ const AddCommissionForm = () => {
       console.log("newCommission")
       console.log(newCommission)
 
-      const response = await fetch("http://localhost:5001/api/v1/commissions", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/commissions`, {
         method: "POST",
         headers: {
           "Content-Type": "Application/json",

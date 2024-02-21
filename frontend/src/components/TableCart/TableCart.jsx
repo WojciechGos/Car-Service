@@ -21,7 +21,7 @@ const TableCart = () => {
 
   const fetchExternalOrderByWorkerEmail = async (workerEmail) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/order/external/${workerEmail}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/external/${workerEmail}`, {
         method: 'GET',  
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
@@ -59,9 +59,9 @@ const TableCart = () => {
     try {
       let apiUrl;
       if (wholesaler === 'IPART') {
-        apiUrl = `http://localhost:5001/api/v1/wholesalers/ipart/${itemId}?email=${userEmail}&quantity=${quantity}`;
+        apiUrl = `${process.env.REACT_APP_URL}/api/v1/wholesalers/ipart/${itemId}?email=${userEmail}&quantity=${quantity}`;
       } else if (wholesaler === 'STARTHURT') {
-        apiUrl = `http://localhost:5001/api/v1/wholesalers/starthurt/${itemId}?email=${userEmail}&quantity=${quantity}`;
+        apiUrl = `${process.env.REACT_APP_URL}/api/v1/wholesalers/starthurt/${itemId}?email=${userEmail}&quantity=${quantity}`;
       } else {
         console.error('Invalid wholesaler:', wholesaler);
         return;
@@ -96,7 +96,7 @@ const TableCart = () => {
         return;
       }
   
-      const response = await fetch(`http://localhost:5001/api/v1/order/external/${externalOrderId}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/external/${externalOrderId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

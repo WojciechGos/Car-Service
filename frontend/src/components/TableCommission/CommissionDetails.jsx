@@ -17,7 +17,7 @@ const CommissionDetails = () => {
   const fetchCommissionDetails = async (commissionId) => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/v1/commissions/${commissionId}`,
+        `${process.env.REACT_APP_URL}/api/v1/commissions/${commissionId}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("jwt")}`,
@@ -56,7 +56,7 @@ const CommissionDetails = () => {
       commissionStatus:'COMPLETED'
     }
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/commissions/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/commissions/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "Application/json",

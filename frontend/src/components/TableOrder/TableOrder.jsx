@@ -12,7 +12,7 @@ const TableOrder = ({filterText} )=>{
 
   const fetchLocalOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/order/local", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/local`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
@@ -49,7 +49,7 @@ const TableOrder = ({filterText} )=>{
 
     const handleOrderStatusChange = async (orderId, newStatus) => {
       try {
-        const response = await fetch(`http://localhost:5001/api/v1/order/local/${orderId}`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/local/${orderId}`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',

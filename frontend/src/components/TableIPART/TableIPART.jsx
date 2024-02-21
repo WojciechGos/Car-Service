@@ -17,7 +17,7 @@ const TableIPART = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/wholesalers/ipart", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/wholesalers/ipart`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
@@ -65,7 +65,7 @@ const TableIPART = () => {
       alert('Please enter a quantity before placing the order.');
     } else {
       try {
-        const response = await fetch(`http://localhost:5001/api/v1/wholesalers/ipart/${sparePartId}`, {
+        const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/wholesalers/ipart/${sparePartId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

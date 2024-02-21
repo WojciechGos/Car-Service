@@ -13,7 +13,7 @@ const TableWorker = () => {
 
   const fetchWorkers = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/workers", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/workers`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },

@@ -38,7 +38,7 @@ const TableCartWarehouse = ()=>{
 
       const fetchLocalOrderByWorkerEmail = async (workerEmail) => {
         try {
-          const response = await fetch(`http://localhost:5001/api/v1/order/local/${workerEmail}`, {
+          const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/local/${workerEmail}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${Cookies.get("jwt")}`,
@@ -67,7 +67,7 @@ const TableCartWarehouse = ()=>{
 
       const deleteFromOrder = async (cartSparePartId, sparePartId, userEmail) => {
           try {
-            const response = await fetch(`http://localhost:5001/api/v1/order/local/item/${sparePartId}?email=${userEmail}`, {
+            const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/local/item/${sparePartId}?email=${userEmail}`, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const TableCartWarehouse = ()=>{
             return;
           }
       
-          const response = await fetch(`http://localhost:5001/api/v1/order/local/${localOrderId}`, {
+          const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/order/local/${localOrderId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

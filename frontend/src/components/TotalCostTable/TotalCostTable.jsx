@@ -10,7 +10,7 @@ const TotalCostTable = ({ costType, commissionId }) => {
   const getCostEstimate = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/v1/commissions/${commissionId}`,
+        `${process.env.REACT_APP_URL}/api/v1/commissions/${commissionId}`,
         {
           method: "GET",
           headers: {

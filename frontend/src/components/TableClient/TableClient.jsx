@@ -21,7 +21,7 @@ const TableClient = ({ filterText }) => {
 
   const fetchClients = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/v1/clients", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/clients`, {
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
         },
@@ -39,7 +39,7 @@ const TableClient = ({ filterText }) => {
   };
   const handleSaveEdit = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/v1/clients/${editedClientId}`, {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/v1/clients/${editedClientId}`, {
         method: "PUT",
         headers: {
           'Authorization': `Bearer ${Cookies.get("jwt")}`,
