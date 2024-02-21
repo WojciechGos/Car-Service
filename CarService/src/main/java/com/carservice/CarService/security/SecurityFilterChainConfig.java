@@ -3,6 +3,7 @@ package com.carservice.CarService.security;
 import com.carservice.CarService.jwt.JWTAuthenticationEntryPoint;
 import com.carservice.CarService.jwt.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,7 +26,7 @@ public class SecurityFilterChainConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
     private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
+    private String allowedOrigins = System.getenv("ALLOWED_ORIGIN");
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -33,7 +34,7 @@ public class SecurityFilterChainConfig {
                 .cors(cors -> cors
                         .configurationSource(request -> {
                             CorsConfiguration corsConfig = new CorsConfiguration();
-                            corsConfig.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                            corsConfig.setAllowedOrigins(Arrays.asList(allowedOrigins));
                             corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             corsConfig.setAllowedHeaders(Arrays.asList("*"));
                             corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));

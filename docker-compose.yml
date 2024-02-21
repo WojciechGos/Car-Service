@@ -28,6 +28,7 @@ services:
       - SPRING_JPA_FORMAT_SQL=true
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
       - SERVER_PORT=5001
+      - ALLOWED_ORIGIN=http://localhost:7777
     depends_on:
       - psql-db
   frontend:
